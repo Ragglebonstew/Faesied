@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import com.raggle.faesied.common.registry.FaeBlockRegistry;
 import com.raggle.faesied.common.registry.FaeComponentRegistry;
 import com.raggle.faesied.common.registry.FaeEntityRegistry;
+import com.raggle.faesied.common.registry.FaeEventRegistry;
 import com.raggle.faesied.common.registry.FaeItemRegistry;
 import com.raggle.faesied.common.registry.FaeTagRegistry;
 import com.raggle.faesied.networking.FaeMessaging;

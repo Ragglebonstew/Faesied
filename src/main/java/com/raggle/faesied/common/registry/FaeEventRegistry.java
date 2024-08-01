@@ -1,4 +1,4 @@
-package com.raggle.faesied;
+package com.raggle.faesied.common.registry;
 
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
@@ -8,7 +8,6 @@ import com.raggle.faesied.api.DreamPlayer;
 import com.raggle.faesied.api.DreamServerPlayer;
 import com.raggle.faesied.common.FaeUtil;
 import com.raggle.faesied.common.block.DreamBlock;
-import com.raggle.faesied.common.registry.FaeItemRegistry;
 
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
