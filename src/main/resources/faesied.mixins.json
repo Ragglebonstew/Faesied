@@ -3,9 +3,28 @@
 	"minVersion": "0.8",
 	"package": "com.raggle.faesied.mixin",
 	"compatibilityLevel": "JAVA_17",
-	"mixins": [],
+	"mixins": [
+		"AbstractBlockStateMixin",
+		"BrewingRecipeRegistryMixin",
+		"EntityMixin",
+		"ItemEntityMixin",
+		"LandPathNodeMakerMixin",
+		"LivingEntityMixin",
+		"MobEntityAccessor",
+		"MobEntityMixin",
+		"PlayerEntityMixin",
+		"ServerPlayerEntityMixin",
+		"SkeletonHorseEntityMixin",
+		"TrunkPlacerTypeMixin",
+		"WorldMixin"
+	],
 	"client": [
-		"WorldRendererAccessor"
+		"BackgroundRendererMixin",
+		"ChunkRenderRegionMixin",
+		"ClientPlayerEntityMixin",
+		"EntityRendererMixin",
+		"WorldRendererAccessor",
+		"WorldRendererMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

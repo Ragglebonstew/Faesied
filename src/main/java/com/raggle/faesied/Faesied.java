@@ -6,19 +6,30 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.raggle.faesied.common.registry.FaeBlockRegistry;
+import com.raggle.faesied.common.registry.FaeComponentRegistry;
+import com.raggle.faesied.common.registry.FaeEntityRegistry;
+import com.raggle.faesied.common.registry.FaeItemRegistry;
+import com.raggle.faesied.common.registry.FaeTagRegistry;
+import com.raggle.faesied.networking.FaeMessaging;
 
 public class Faesied implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod name as the logger's name.
 	// That way, it's clear which mod wrote info, warnings, and errors.
-	public static final Logger LOGGER = LoggerFactory.getLogger("Half Dream");
+	public static final Logger LOGGER = LoggerFactory.getLogger("Faesied");
 	
-	public static final String MOD_ID = "half_dream";
+	public static final String MOD_ID = "faesied";
 
 	@Override
 	public void onInitialize(ModContainer mod) {
 		
 		FaeBlockRegistry.init();
+		FaeComponentRegistry.init();
+		FaeEntityRegistry.init();
+		FaeEventRegistry.init();
+		FaeItemRegistry.init();
+		FaeMessaging.registerC2SPackets();
+		FaeTagRegistry.init();
 		
 	}
 }

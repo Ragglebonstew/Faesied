@@ -12,14 +12,16 @@
 			},
 			"contact": {
 				"homepage": "https://example.com/",
-				"issues": "https://github.com/QuiltMC/quilt-template-mod/issues",
-				"sources": "https://github.com/QuiltMC/quilt-template-mod"
+				"issues": "https://github.com/Ragglebonstew/Faesied/issues",
+				"sources": "https://github.com/Ragglebonstew/Faesied"
 			},
 			"icon": "assets/example_mod/icon.png"
 		},
 		"intermediate_mappings": "net.fabricmc:intermediary",
 		"entrypoints": {
-			"init": "com.raggle.faesied.Faesied"
+			"init": "com.raggle.faesied.Faesied",
+			"client_init": "com.raggle.faesied.client.FaesiedClient",
+			"cardinal-components": "com.raggle.faesied.common.registry.FaeComponentRegistry"
 		},
 		"depends": [
 			{
@@ -36,5 +38,15 @@
 			}
 		]
 	},
-	"mixin": "faesied.mixins.json"
+	"mixin": "faesied.mixins.json",
+	"cardinal-components": [
+        "faesied:dreamless",
+        "faesied:dream_player"
+    ],
+    "custom": {
+        "cardinal-components": [
+            "faesied:dreamless",
+        	"faesied:dream_player"
+        ]
+    }
 }
