@@ -25,8 +25,8 @@ public class DreamResin extends Item {
 		BlockPos pos = context.getBlockPos().offset(context.getSide());
 		if(!world.isClient() && FaeUtil.setDreamless(pos, false, world)) {
 			context.getStack().decrement(1);
-			world.playSound(null, pos, SoundEvents.ENTITY_ENDER_EYE_DEATH, SoundCategory.BLOCKS, 0, 0);
-			world.playSound(null, pos, SoundEvents.BLOCK_AMETHYST_CLUSTER_BREAK, SoundCategory.BLOCKS, 0, 0);
+			world.playSound(null, pos, SoundEvents.ENTITY_ENDER_EYE_DEATH, SoundCategory.BLOCKS, 1, 1);
+			world.playSound(null, pos, SoundEvents.BLOCK_AMETHYST_CLUSTER_BREAK, SoundCategory.BLOCKS, 1, 1);
 		}
 		return ActionResult.success(world.isClient());
 	}
