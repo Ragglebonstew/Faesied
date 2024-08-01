@@ -48,7 +48,7 @@ public abstract class ServerPlayerEntityMixin implements DreamServerPlayer {
 	
 	@Override
 	public void setDream(boolean b) {
-		getPersistantData().putBoolean("faesied", b);
+		getPersistantData().putBoolean(FaeComponentRegistry.DREAM_KEY, b);
 		syncDream();
 	}
 	

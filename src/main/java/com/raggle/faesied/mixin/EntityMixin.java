@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.faesied.api.DreamEntityComponent;
 import com.raggle.faesied.api.DreamHorse;
+import com.raggle.faesied.common.registry.FaeComponentRegistry;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,12 +23,12 @@ public abstract class EntityMixin implements DreamEntityComponent{
 	
 	@Override
 	public boolean isDream() {
-		return getPersistantData().getBoolean("faesied");
+		return getPersistantData().getBoolean(FaeComponentRegistry.DREAM_KEY);
 	}
 
 	@Override
 	public void setDream(boolean b) {
-		getPersistantData().putBoolean("faesied", b);
+		getPersistantData().putBoolean(FaeComponentRegistry.DREAM_KEY, b);
 		getPersistantData().putByte("level", b ? 0 : (byte)1);
 	}
 	@Override

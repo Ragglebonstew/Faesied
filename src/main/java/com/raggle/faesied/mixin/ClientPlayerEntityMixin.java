@@ -4,6 +4,7 @@ import org.spongepowered.asm.mixin.Mixin;
 
 import com.raggle.faesied.api.DreamClientPlayer;
 import com.raggle.faesied.client.sequence.SequenceManager;
+import com.raggle.faesied.common.registry.FaeComponentRegistry;
 
 import net.minecraft.client.network.ClientPlayerEntity;
 
@@ -15,7 +16,7 @@ public abstract class ClientPlayerEntityMixin implements DreamClientPlayer {
 	@Override
 	public boolean isDream() {
 		
-		return SequenceManager.isCurrentSequenceImportant() ? SequenceManager.getSequence().getDreamState() : this.getPersistantData().getBoolean("faesied");
+		return SequenceManager.isCurrentSequenceImportant() ? SequenceManager.getSequence().getDreamState() : this.getPersistantData().getBoolean(FaeComponentRegistry.DREAM_KEY);
 	}
 	
 	@Override

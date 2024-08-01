@@ -20,6 +20,8 @@ public class FaeComponentRegistry implements ChunkComponentInitializer, EntityCo
 	public static final ComponentKey<DreamlessComponent> DREAMLESS = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dreamless"), DreamlessComponent.class);
 	public static final ComponentKey<DreamEntityComponent> DREAM_ENTITY = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dream_player"), DreamEntityComponent.class);
 
+	public static final String DREAM_KEY = "faesied";
+	
 	public static void init() {
 		
 	}
