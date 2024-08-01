@@ -1,10 +1,11 @@
 {
+	"name": "faesied:interloper_portal",
 	"fallback": "minecraft:empty",
 	"elements": [{
 		"weight": 1,
 		"element": {
 			"element_type": "minecraft:single_pool_element",
-			"location": "faesied:stone_tall_tower",
+			"location": "faesied:interloper_portal",
 			"projection": "rigid",
 			"processors": "minecraft:empty"
 		}
