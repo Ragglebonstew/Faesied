@@ -2,6 +2,14 @@ package com.raggle.faesied.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.raggle.faesied.Faesied;
+import com.raggle.faesied.common.FaeUtil;
+
+import org.spongepowered.asm.mixin.injection.At;
+
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffect;
 
@@ -17,4 +25,12 @@ public abstract class LivingEntityMixin {
 			player.syncDream();
 		}
 	}*/
+	
+	@Inject(method = "canTarget(Lnet/minecraft/entity/LivingEntity;)Z", at = @At("INVOKE"), cancellable = true)
+	public void canTarget(LivingEntity target, CallbackInfoReturnable<Boolean> ci) {
+		//Faesied.LOGGER.info("attempting to target: "+target.getEntityName());
+		if(!FaeUtil.canInteract(target, (LivingEntity)(Object)this)) {
+			ci.setReturnValue(false);
+		}
+	}
 }

@@ -29,15 +29,15 @@ public abstract class EntityMixin implements DreamEntityComponent{
 	@Override
 	public void setDream(boolean b) {
 		getPersistantData().putBoolean(FaeComponentRegistry.DREAM_KEY, b);
-		getPersistantData().putByte("level", b ? 0 : (byte)1);
+		getPersistantData().putByte(FaeComponentRegistry.DREAMSTATE_KEY, b ? (byte)1 : 0);
 	}
 	@Override
 	public byte getDream() {
-		return getPersistantData().getByte("level");
+		return getPersistantData().getByte(FaeComponentRegistry.DREAMSTATE_KEY);
 	}
 	@Override
 	public void setDream(byte b) {
-		getPersistantData().putByte("level", b);
+		getPersistantData().putByte(FaeComponentRegistry.DREAMSTATE_KEY, b);
 	}
 	@Override
 	public NbtCompound getPersistantData() {

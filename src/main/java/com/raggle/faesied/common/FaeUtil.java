@@ -4,7 +4,9 @@ import java.util.Optional;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
+import com.raggle.faesied.Faesied;
 import com.raggle.faesied.api.DreamClientPlayer;
+import com.raggle.faesied.api.DreamEntityComponent;
 import com.raggle.faesied.api.DreamlessComponent;
 import com.raggle.faesied.common.block.DreamBlock;
 import com.raggle.faesied.common.registry.FaeComponentRegistry;
@@ -63,6 +65,15 @@ public class FaeUtil {
 				else
 					return op.get().removePosFromList(pos);
 			}
+		}
+		return false;
+	}
+	public static boolean canInteract(Entity e1, Entity e2) {
+		if(e1 instanceof DreamEntityComponent d1 && e2 instanceof DreamEntityComponent d2) {
+			byte s1 = d1.getDream();
+			byte s2 = d2.getDream();
+			if(s1 == 2 || s2 == 2 || s1 == s2)
+				return true;
 		}
 		return false;
 	}
