@@ -5,7 +5,6 @@ import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.faesied.Faesied;
 import com.raggle.faesied.common.FaeUtil;
 
 import org.spongepowered.asm.mixin.injection.At;

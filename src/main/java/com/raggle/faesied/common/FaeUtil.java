@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import com.raggle.faesied.Faesied;
 import com.raggle.faesied.api.DreamClientPlayer;
 import com.raggle.faesied.api.DreamEntityComponent;
 import com.raggle.faesied.api.DreamlessComponent;
