@@ -60,10 +60,7 @@ public class DreamlessChunkComponent implements DreamlessComponent, AutoSyncedCo
 
 	@Override
 	public boolean isDreamless(BlockPos pos) {
-		if(this.dreamlessPosList.isEmpty()) {
-			return false;
-		}
-		return dreamlessPosList.contains(pos.asLong());
+		return !this.dreamlessPosList.isEmpty() && dreamlessPosList.contains(pos.asLong());
 	}
 
 	@Override
