@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.raggle.faesied.common.FaeUtil;
 import com.raggle.faesied.common.block.DreamBlock;
 
 import net.minecraft.block.BlockState;
@@ -28,6 +29,21 @@ public abstract class WorldMixin {
                     break;
                 }
         	}
+        }
+    }
+	
+
+    @Inject(method = "getRainGradient", at = @At("HEAD"), cancellable = true)
+    public void getRainGradient(float delta, CallbackInfoReturnable<Float> cir) {
+        if (FaeUtil.isPlayerDream()) {
+        	cir.setReturnValue(0F);
+        }
+    }
+
+    @Inject(method = "getThunderGradient", at = @At("HEAD"), cancellable = true)
+    public void getThunderGradient(float delta, CallbackInfoReturnable<Float> cir) {
+        if (FaeUtil.isPlayerDream()) {
+        	cir.setReturnValue(0F);
         }
     }
 }

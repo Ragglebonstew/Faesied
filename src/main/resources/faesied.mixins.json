@@ -19,6 +19,7 @@
 		"WorldMixin"
 	],
 	"client": [
+		"AbstractSoundInstanceMixin",
 		"BackgroundRendererMixin",
 		"ChunkRenderRegionMixin",
 		"ClientPlayerEntityMixin",
