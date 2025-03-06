@@ -43,12 +43,7 @@ bug list (things that are broke)
 - can attack entities despite dream state
 - entities can push player in dream state, and probably the other way around
 - skybox renders w/ sodium
-- rain renders in dream state
 - dropped items in dream are not dream
-
-bug list (low/no priority)
-- entities make sounds despite dream state
-
 
 check list (things that may/may not be broke anymore)
 - empty!

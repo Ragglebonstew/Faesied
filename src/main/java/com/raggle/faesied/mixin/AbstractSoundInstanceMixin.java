@@ -29,11 +29,17 @@ public abstract class AbstractSoundInstanceMixin {
    
     @Inject(method = "getVolume()F", at = @At("HEAD"), cancellable = true)
 	private void getVolume(CallbackInfoReturnable<Float> cir) {
+        Faesied.LOGGER.info("Disabling the sound: {}", id);
 
-        if (category == SoundCategory.WEATHER && FaeUtil.isPlayerDream()) {
+        if(!FaeUtil.isPlayerDream())
+        	return;
+        if (category == SoundCategory.WEATHER) {
             Faesied.LOGGER.debug("Disabling the sound: {}", id);
             cir.setReturnValue(0.0F);
-            cir.cancel();
+        }
+        else if (id.getNamespace() != "faesied" && (category == SoundCategory.NEUTRAL || category == SoundCategory.HOSTILE)) {
+            Faesied.LOGGER.debug("Disabling the sound: {}", id);
+            cir.setReturnValue(0.0F);
         }
 
     }
