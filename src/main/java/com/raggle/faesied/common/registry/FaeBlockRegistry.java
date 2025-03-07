@@ -20,7 +20,12 @@ public class FaeBlockRegistry {
 	public static final DreamBlock STRIPPED_DREAM_WOOD = new DreamBlock();
 	public static final DreamBlock DREAM_LEAVES = new DreamBlock();
 	public static final InterloperPortalBlock INTERLOPER_PORTAL_BLOCK = new InterloperPortalBlock();
-	
+
+	public static final BlockEntityType<InterloperBlockEntity> INTERLOPER_PORTAL_BLOCK_ENTITY = register(
+			"interloper_portal_block_entity",
+			QuiltBlockEntityTypeBuilder.create(InterloperBlockEntity::new, INTERLOPER_PORTAL_BLOCK).build()
+			);
+	  
 	public static void init() {
 		
 		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "dream_block"), DREAM_BLOCK);
@@ -37,13 +42,9 @@ public class FaeBlockRegistry {
 		//block entities
 	}
 
-	  public static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
-	    return Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Faesied.MOD_ID, path), blockEntityType);
-	  }
+	private static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
+		return Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Faesied.MOD_ID, path), blockEntityType);
+	}
 	 
-	  public static final BlockEntityType<InterloperBlockEntity> INTERLOPER_PORTAL_BLOCK_ENTITY = register(
-	      "interloper_portal_block_entity",
-	      QuiltBlockEntityTypeBuilder.create(InterloperBlockEntity::new, INTERLOPER_PORTAL_BLOCK).build()
-	  );
 
 }

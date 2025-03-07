@@ -1,5 +1,7 @@
 package com.raggle.faesied.common.block.block_entity;
 
+import com.raggle.faesied.common.registry.FaeBlockRegistry;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -13,7 +15,7 @@ public class InterloperBlockEntity extends BlockEntity {
 		super(blockEntityType, blockPos, blockState);
 	}
 	public InterloperBlockEntity(BlockPos pos, BlockState state) {
-		this(BlockEntityType.END_PORTAL, pos, state);
+		this(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, pos, state);
 	}
 
 	public boolean shouldDrawSide(Direction direction) {
