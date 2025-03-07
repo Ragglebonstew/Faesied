@@ -29,6 +29,8 @@ public class FaeItemRegistry {
 		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "stripped_dream_wood"), new BlockItem(FaeBlockRegistry.STRIPPED_DREAM_WOOD, new QuiltItemSettings()));
 		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "dream_leaves"), DREAM_LEAVES);
 		
+		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), new BlockItem(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK, new QuiltItemSettings()));
+		
 		
 	}
 }

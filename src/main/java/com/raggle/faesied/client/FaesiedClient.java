@@ -5,19 +5,19 @@ import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
+import com.raggle.faesied.client.entity.InterloperPortalEntityRenderer;
 import com.raggle.faesied.client.sequence.SequenceManager;
 import com.raggle.faesied.common.registry.FaeBlockRegistry;
 import com.raggle.faesied.common.registry.FaeEntityRegistry;
 import com.raggle.faesied.networking.FaeMessaging;
-
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.StrayEntityRenderer;
 
 public class FaesiedClient implements ClientModInitializer {
 	
-    
 	@Override
 	public void onInitializeClient(ModContainer mod) {
 			
@@ -30,6 +30,7 @@ public class FaesiedClient implements ClientModInitializer {
 		ClientTickEvents.START.register(SequenceManager::tick);
 		HudRenderCallback.EVENT.register(SequenceManager::render);
         
+		BlockEntityRendererFactories.register(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalEntityRenderer::new);
 	}
 	
 }
