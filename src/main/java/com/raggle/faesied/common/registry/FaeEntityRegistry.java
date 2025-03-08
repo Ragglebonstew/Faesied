@@ -6,13 +6,14 @@ import com.raggle.faesied.common.entity.FaeSkeleton;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class FaeEntityRegistry {
 
     public static final EntityType<FaeSkeleton> HDSKELETON = Registry.register(
-    		Registry.ENTITY_TYPE,
+    		Registries.ENTITY_TYPE,
             new Identifier(Faesied.MOD_ID, "hdskeleton"),
             QuiltEntityTypeBuilder.create(SpawnGroup.CREATURE, FaeSkeleton::new).build()
     );

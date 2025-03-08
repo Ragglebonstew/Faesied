@@ -9,8 +9,8 @@ import com.raggle.faesied.client.sequence.SequenceManager;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
-import net.minecraft.tag.BiomeTags;
-import net.minecraft.util.Holder;
+import net.minecraft.registry.Holder;
+import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -42,7 +42,7 @@ public class CrossRiverGoal extends Goal{
 			return false;
 		}
 		if(this.failed) {
-			if(!holder.isIn(BiomeTags.IS_RIVER)) {
+			if(!holder.isIn(BiomeTags.RIVER)) {
 				this.failed = false;
 				Faesied.LOGGER.info("reset failure");
 			}
@@ -51,7 +51,7 @@ public class CrossRiverGoal extends Goal{
 			}
 		}
 		
-		return holder.isIn(BiomeTags.IS_RIVER) && this.overWater();
+		return holder.isIn(BiomeTags.RIVER) && this.overWater();
 	}
 	@Override
 	public boolean shouldContinue() {
@@ -59,7 +59,7 @@ public class CrossRiverGoal extends Goal{
 			return false;
 		}
 		Holder<Biome> holder = world.getBiome(horse.getBlockPos());
-		return holder.isIn(BiomeTags.IS_RIVER);
+		return holder.isIn(BiomeTags.RIVER);
 	}
 	@Override
 	public void start() {
@@ -75,7 +75,7 @@ public class CrossRiverGoal extends Goal{
 		int x = dPos.getX() * this.startFacing.getVector().getX();
 		int z = dPos.getZ() * this.startFacing.getVector().getZ();
 		if(
-				!holder.isIn(BiomeTags.IS_RIVER)
+				!holder.isIn(BiomeTags.RIVER)
 				&& startFacing == horse.getHorizontalFacing()
 				&& (x > 0 || z > 0)//checks if the change in position is in the same direction as initial facing
 				&& !this.failed

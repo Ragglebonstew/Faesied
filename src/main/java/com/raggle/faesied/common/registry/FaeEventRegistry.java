@@ -2,7 +2,7 @@ package com.raggle.faesied.common.registry;
 
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
-import org.quiltmc.qsl.entity_events.api.ServerPlayerEntityCopyCallback;
+import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
 import com.raggle.faesied.api.DreamPlayer;
 import com.raggle.faesied.api.DreamServerPlayer;

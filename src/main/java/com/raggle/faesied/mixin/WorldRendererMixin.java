@@ -19,7 +19,7 @@ import net.minecraft.world.BlockRenderView;
 @Mixin(WorldRenderer.class)
 public abstract class WorldRendererMixin {
 	
-	@Inject(method = "method_43788", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "hasSkyBlockingEffect", at = @At("HEAD"), cancellable = true)
 	private void hasSkyBlockingEffect(Camera camera, CallbackInfoReturnable<Boolean> cir) {
 		if(FaeUtil.isPlayerDream()) {
 			cir.setReturnValue(true);

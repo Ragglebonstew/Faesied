@@ -8,8 +8,9 @@ import com.raggle.faesied.common.block.InterloperPortalBlock;
 import com.raggle.faesied.common.block.block_entity.InterloperBlockEntity;
 
 import net.minecraft.block.entity.BlockEntityType;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
-import net.minecraft.util.registry.Registry;
 
 public class FaeBlockRegistry {
 	
@@ -28,22 +29,22 @@ public class FaeBlockRegistry {
 	  
 	public static void init() {
 		
-		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "dream_block"), DREAM_BLOCK);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_block"), DREAM_BLOCK);
 		
 		//dream wood stuff
-		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "dream_log"), DREAM_LOG);
-		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "dream_wood"), DREAM_WOOD);
-		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "stripped_dream_log"), STRIPPED_DREAM_LOG);
-		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "stripped_dream_wood"), STRIPPED_DREAM_WOOD);
-		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "dream_leaves"), DREAM_LEAVES);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_log"), DREAM_LOG);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_wood"), DREAM_WOOD);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "stripped_dream_log"), STRIPPED_DREAM_LOG);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "stripped_dream_wood"), STRIPPED_DREAM_WOOD);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_leaves"), DREAM_LEAVES);
 
-		Registry.register(Registry.BLOCK, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), INTERLOPER_PORTAL_BLOCK);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), INTERLOPER_PORTAL_BLOCK);
 		
 		//block entities
 	}
 
 	private static <T extends BlockEntityType<?>> T register(String path, T blockEntityType) {
-		return Registry.register(Registry.BLOCK_ENTITY_TYPE, new Identifier(Faesied.MOD_ID, path), blockEntityType);
+		return Registry.register(Registries.BLOCK_ENTITY_TYPE, new Identifier(Faesied.MOD_ID, path), blockEntityType);
 	}
 	 
 

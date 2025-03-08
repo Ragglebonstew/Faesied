@@ -11,6 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.MapColor;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.pathing.NavigationType;
@@ -37,7 +38,7 @@ public class DreamBlock extends Block implements Waterloggable {
 				//.replaceable()
 				.nonOpaque()
 				.suffocates(DreamBlock::never)
-				.mapColor(null)
+				.mapColor(MapColor.NONE)
 				.strength(0.2F)
 				//.ticksRandomly()
 				//.sounds(soundGroup)

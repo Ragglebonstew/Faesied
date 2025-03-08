@@ -39,7 +39,7 @@ public abstract class ServerPlayerEntityMixin implements DreamServerPlayer {
 
 		}
 		*/
-		for(ServerPlayerEntity p : PlayerLookup.world(player.getWorld())) {
+		for(ServerPlayerEntity p : PlayerLookup.world(player.getServerWorld())) {
 			FaeComponentRegistry.DREAM_ENTITY.sync(p);
 		}
 		//play sound effect

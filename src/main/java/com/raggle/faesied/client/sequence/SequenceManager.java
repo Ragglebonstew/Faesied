@@ -3,7 +3,7 @@ package com.raggle.faesied.client.sequence;
 import com.raggle.faesied.api.DreamClientPlayer;
 
 import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.client.gui.GuiGraphics;
 
 public class SequenceManager {
 
@@ -36,7 +36,7 @@ public class SequenceManager {
 			}
 		}
 	}
-	public static void render(MatrixStack fd, float tickDelta) {
+	public static void render(GuiGraphics g, float tickDelta) {
 		if(hasSequence())
 			dreamSequence.render(tickDelta);
 	}

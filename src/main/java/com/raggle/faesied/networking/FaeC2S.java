@@ -1,15 +1,11 @@
 package com.raggle.faesied.networking;
 
 import org.quiltmc.qsl.networking.api.PacketSender;
-import org.quiltmc.qsl.worldgen.dimension.api.QuiltDimensions;
-
 import com.raggle.faesied.api.DreamServerPlayer;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.world.TeleportTarget;
 
 public class FaeC2S {
 

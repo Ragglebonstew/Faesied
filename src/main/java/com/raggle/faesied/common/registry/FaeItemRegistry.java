@@ -6,7 +6,8 @@ import com.raggle.faesied.common.item.DreamResin;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.registry.Registries;
+import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class FaeItemRegistry {
@@ -18,18 +19,18 @@ public class FaeItemRegistry {
 	
 	public static void init() {
 		
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "sheep_laurel"), SHEEP_LAUREL);
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "dream_block"), new BlockItem(FaeBlockRegistry.DREAM_BLOCK, new QuiltItemSettings()));
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "dream_resin"), DREAM_RESIN);
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "sheep_laurel"), SHEEP_LAUREL);
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "dream_block"), new BlockItem(FaeBlockRegistry.DREAM_BLOCK, new QuiltItemSettings()));
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "dream_resin"), DREAM_RESIN);
 		
 		//dream wood stuff
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "dream_log"), DREAM_LOG);
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "dream_wood"), new BlockItem(FaeBlockRegistry.DREAM_WOOD, new QuiltItemSettings()));
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "stripped_dream_log"), new BlockItem(FaeBlockRegistry.STRIPPED_DREAM_LOG, new QuiltItemSettings()));
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "stripped_dream_wood"), new BlockItem(FaeBlockRegistry.STRIPPED_DREAM_WOOD, new QuiltItemSettings()));
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "dream_leaves"), DREAM_LEAVES);
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "dream_log"), DREAM_LOG);
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "dream_wood"), new BlockItem(FaeBlockRegistry.DREAM_WOOD, new QuiltItemSettings()));
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "stripped_dream_log"), new BlockItem(FaeBlockRegistry.STRIPPED_DREAM_LOG, new QuiltItemSettings()));
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "stripped_dream_wood"), new BlockItem(FaeBlockRegistry.STRIPPED_DREAM_WOOD, new QuiltItemSettings()));
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "dream_leaves"), DREAM_LEAVES);
 		
-		Registry.register(Registry.ITEM, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), new BlockItem(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK, new QuiltItemSettings()));
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), new BlockItem(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK, new QuiltItemSettings()));
 		
 		
 	}

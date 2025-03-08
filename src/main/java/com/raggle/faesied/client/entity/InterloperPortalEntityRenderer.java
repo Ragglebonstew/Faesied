@@ -1,5 +1,6 @@
 package com.raggle.faesied.client.entity;
 
+import org.joml.Matrix4f;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
@@ -12,7 +13,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Matrix4f;
 
 @ClientOnly
 public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> implements BlockEntityRenderer<T> {
