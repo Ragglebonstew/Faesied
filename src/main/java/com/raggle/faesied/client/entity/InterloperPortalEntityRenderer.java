@@ -1,8 +1,11 @@
 package com.raggle.faesied.client.entity;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.raggle.faesied.common.block.block_entity.InterloperBlockEntity;
 
+import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -11,12 +14,19 @@ import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.Matrix4f;
 
+@ClientOnly
 public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> implements BlockEntityRenderer<T> {
 
 	public InterloperPortalEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 
 	@Override
 	public void render(T endPortalBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
+		
+		MinecraftClient mc = MinecraftClient.getInstance();
+		if (mc != null && !mc.world.isNight()) {
+			return;
+		}
+		
 		Matrix4f matrix4f = matrixStack.peek().getModel();
 		this.renderSides(endPortalBlockEntity, matrix4f, vertexConsumerProvider.getBuffer(this.getLayer()));
 	}
