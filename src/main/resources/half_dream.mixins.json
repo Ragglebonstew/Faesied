@@ -1,0 +1,34 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.raggle.half_dream.mixin",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [
+		"AbstractBlockStateMixin",
+		"BrewingRecipeRegistryMixin",
+		"EntityMixin",
+		"ItemEntityMixin",
+		"LandPathNodeMakerMixin",
+		"LivingEntityMixin",
+		"MobEntityAccessor",
+		"MobEntityMixin",
+		"PlayerEntityMixin",
+		"ServerPlayerEntityMixin",
+		"SkeletonHorseEntityMixin",
+		"TrunkPlacerTypeMixin",
+		"WorldMixin"
+	],
+	"client": [
+		"AbstractSoundInstanceMixin",
+		"BackgroundRendererMixin",
+		"ChunkRenderRegionMixin",
+		"ClientPlayerEntityMixin",
+		"EntityRendererMixin",
+		"WorldRendererAccessor",
+		"WorldRendererMixin",
+		"WorldSliceMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}
