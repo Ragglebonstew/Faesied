@@ -6,6 +6,11 @@ quilt_loader = "0.28.1-beta.1"
 
 quilted_fabric_api = "7.7.0+0.92.2-1.20.1"
 
+sodium_version="mc1.20.1-0.5.3-fabric"
+veil_version="1.0.0.9"
+cca = "5.2.3"
+trinkets_version="3.7.2"
+
 [libraries]
 minecraft = { module = "com.mojang:minecraft", version.ref = "minecraft" }
 quilt_mappings = { module = "org.quiltmc:quilt-mappings", version.ref = "quilt_mappings" }
@@ -13,6 +18,14 @@ quilt_loader = { module = "org.quiltmc:quilt-loader", version.ref = "quilt_loade
 
 quilted_fabric_api = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api", version.ref = "quilted_fabric_api" }
 quilted_fabric_api_deprecated = { module = "org.quiltmc.quilted-fabric-api:quilted-fabric-api-deprecated", version.ref = "quilted_fabric_api" }
+
+cardinal_components_base = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-base", version.ref = "cca" }
+cardinal_components_entity = { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-entity", version.ref = "cca" }
+cardinal_components_chunk= { module = "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk", version.ref = "cca" }
+trinkets = { module = "dev.emi:trinkets", version.ref = "trinkets_version" }
+veil = { module = "foundry.veil:Veil-fabric-1.20.1", version.ref = "veil_version" }
+
+sodium={ module = "maven.modrinth:sodium", version.ref = "sodium_version" }
 
 # If you have multiple similar dependencies, you can declare a dependency bundle and reference it on the build script with "libs.bundles.example".
 [bundles]
