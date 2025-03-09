@@ -1,4 +1,4 @@
-package com.raggle.half_dream.client.entity;
+package com.raggle.half_dream.client.block;
 
 import org.joml.Matrix4f;
 import org.quiltmc.loader.api.minecraft.ClientOnly;

@@ -3,6 +3,7 @@ import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.item.DreamResin;
+import com.raggle.half_dream.common.item.FlameSpawner;
 
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
@@ -16,6 +17,7 @@ public class FaeItemRegistry {
 	public static final BlockItem DREAM_LOG = new BlockItem(FaeBlockRegistry.DREAM_LOG, new QuiltItemSettings());
 	public static final BlockItem DREAM_LEAVES = new BlockItem(FaeBlockRegistry.DREAM_LEAVES, new QuiltItemSettings());
 	public static final DreamResin DREAM_RESIN = new DreamResin();
+	public static final Item FLAME_SPAWNER = new FlameSpawner();
 	
 	public static void init() {
 		
@@ -32,6 +34,7 @@ public class FaeItemRegistry {
 		
 		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), new BlockItem(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK, new QuiltItemSettings()));
 		
-		
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "flame_spawner"), FLAME_SPAWNER);
+
 	}
 }

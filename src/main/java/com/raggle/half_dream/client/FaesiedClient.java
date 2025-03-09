@@ -5,15 +5,17 @@ import org.quiltmc.qsl.base.api.entrypoint.client.ClientModInitializer;
 import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
-import com.raggle.half_dream.client.entity.InterloperPortalEntityRenderer;
+import com.raggle.half_dream.client.block.InterloperPortalEntityRenderer;
 import com.raggle.half_dream.client.sequence.SequenceManager;
+import com.raggle.half_dream.common.particles.FaeParticles;
 import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.common.registry.FaeEntityRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
-import foundry.veil.VeilClient;
+import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
+import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.StrayEntityRenderer;
@@ -22,8 +24,6 @@ public class FaesiedClient implements ClientModInitializer {
 	
 	@Override
 	public void onInitializeClient(ModContainer mod) {
-			
-		VeilClient.init();
 		
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), FaeBlockRegistry.DREAM_LEAVES);
 		
@@ -35,6 +35,8 @@ public class FaesiedClient implements ClientModInitializer {
 		HudRenderCallback.EVENT.register(SequenceManager::render);
         
 		BlockEntityRendererFactories.register(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalEntityRenderer::new);
+
+        ParticleFactoryRegistry.getInstance().register(FaeParticles.GREEN_FLAME, FlameParticle.Factory::new);
 	}
 	
 }
