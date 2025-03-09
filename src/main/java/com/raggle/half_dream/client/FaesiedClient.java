@@ -11,6 +11,7 @@ import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.common.registry.FaeEntityRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
+import foundry.veil.VeilClient;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.render.RenderLayer;
@@ -22,6 +23,8 @@ public class FaesiedClient implements ClientModInitializer {
 	@Override
 	public void onInitializeClient(ModContainer mod) {
 			
+		VeilClient.init();
+		
 		BlockRenderLayerMap.put(RenderLayer.getCutout(), FaeBlockRegistry.DREAM_LEAVES);
 		
         EntityRendererRegistry.register(FaeEntityRegistry.HDSKELETON, StrayEntityRenderer::new);

@@ -13,6 +13,8 @@ import com.raggle.half_dream.common.registry.FaeItemRegistry;
 import com.raggle.half_dream.common.registry.FaeTagRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
+import foundry.veil.Veil;
+
 public class Faesied implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod name as the logger's name.
@@ -31,6 +33,7 @@ public class Faesied implements ModInitializer {
 		FaeItemRegistry.init();
 		FaeMessaging.registerC2SPackets();
 		FaeTagRegistry.init();
+		Veil.init();
 		
 	}
 }

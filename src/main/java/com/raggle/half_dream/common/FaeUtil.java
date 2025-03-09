@@ -11,12 +11,17 @@ import com.raggle.half_dream.common.block.DreamBlock;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import com.raggle.half_dream.mixin.WorldRendererAccessor;
 
+import foundry.veil.api.client.render.VeilRenderSystem;
+import foundry.veil.api.quasar.particle.ParticleEmitter;
+import foundry.veil.api.quasar.particle.ParticleSystemManager;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -106,6 +111,30 @@ public class FaeUtil {
 			//mc.worldRenderer.scheduleBlockRender(x, y, z);
 			((WorldRendererAccessor)mc.worldRenderer).invokeScheduleChunkRender(x, y, z, true);;
 		}
+	}
+	
+	
+	//quasar
+	
+	public static void spawnParticle(Entity entity, Identifier id){
+	    try {
+	        ParticleSystemManager manager = VeilRenderSystem.renderer().getParticleManager();
+	        ParticleEmitter emitter = manager.createEmitter(id);
+	        emitter.setAttachedEntity(entity);
+	        manager.addParticleSystem(emitter);
+	    } catch (Exception ignored) {
+
+	    }
+	}
+	public static void spawnParticle(Vec3d position, Identifier id){
+	    try {
+	        ParticleSystemManager manager = VeilRenderSystem.renderer().getParticleManager();
+	        ParticleEmitter emitter = manager.createEmitter(id);
+	        emitter.setPosition(position);
+	        manager.addParticleSystem(emitter);
+	    } catch (Exception ignored) {
+
+	    }
 	}
 	
 }
