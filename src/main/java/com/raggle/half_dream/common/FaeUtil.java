@@ -14,6 +14,7 @@ import com.raggle.half_dream.mixin.WorldRendererAccessor;
 import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
@@ -146,12 +147,23 @@ public class FaeUtil {
 		return mc.player;
 	}
 	@ClientOnly
+	public static ClientWorld getClientWorld() {
+		MinecraftClient mc = MinecraftClient.getInstance();
+		if(mc == null)
+			return null;
+		return mc.world;
+	}
+	@ClientOnly
 	public static boolean hasClientPlayer() {
 		return getClientPlayer() != null;
 	}
 	@ClientOnly
 	public static boolean isPlayerDream() {
 		return getClientPlayer() instanceof DreamClientPlayer dcp && dcp.isDream();
+	}
+	@ClientOnly
+	public static boolean canPlayerInteract(BlockPos pos) {
+		return canInteract(getClientPlayer(), pos, getClientWorld());
 	}
 	@ClientOnly
 	public static void scheduleChunkRenderAt(BlockPos pos) {

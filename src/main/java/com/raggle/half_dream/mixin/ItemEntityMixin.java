@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.raggle.half_dream.api.DreamItemEntity;
 import com.raggle.half_dream.api.DreamServerPlayer;
+import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.registry.FaeTagRegistry;
 
 import net.minecraft.entity.ItemEntity;
@@ -21,7 +22,7 @@ public abstract class ItemEntityMixin implements DreamItemEntity{
 
 	@Inject(method = "onPlayerCollision", at = @At("HEAD"), cancellable = true)
 	private void onPlayerCollision(PlayerEntity player, CallbackInfo ci) {
-		if(player instanceof DreamServerPlayer dsp && dsp.isDream() != this.isDream()) {
+		if(FaeUtil.isDream(player) != this.isDream()) {
 			ci.cancel();
 		}
 	}

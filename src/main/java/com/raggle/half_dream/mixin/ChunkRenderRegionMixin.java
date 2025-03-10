@@ -19,7 +19,7 @@ public abstract class ChunkRenderRegionMixin {
 
 	@Inject(method = "getBlockState", at = @At("HEAD"), cancellable = true)
 	private void getBlockState(BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
-		if(FaeUtil.isDreamAir(pos) && FaeUtil.isPlayerDream()){
+		if(!FaeUtil.canPlayerInteract(pos)){
 			cir.setReturnValue(Blocks.AIR.getDefaultState());
 		}
 	}

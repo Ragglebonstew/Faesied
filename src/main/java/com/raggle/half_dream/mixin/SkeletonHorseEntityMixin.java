@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.raggle.half_dream.api.DreamHorse;
 import com.raggle.half_dream.api.DreamPlayer;
+import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.entity.ai.goal.CrossRiverGoal;
 
 import net.minecraft.entity.EntityType;
@@ -32,7 +33,7 @@ public abstract class SkeletonHorseEntityMixin extends HorseBaseEntity implement
 	}
 	@Override
 	public boolean isDream() {
-		return mountedPlayer instanceof DreamPlayer dp && dp.isDream();
+		return FaeUtil.isDream(this.mountedPlayer);
 	}
 	@Override
 	public byte getDream() {
