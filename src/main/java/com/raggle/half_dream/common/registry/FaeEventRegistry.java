@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
+import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.particles.FaeParticles;
 
@@ -17,6 +18,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -32,13 +34,25 @@ public class FaeEventRegistry {
 		PlayerBlockBreakEvents.BEFORE.register(FaeEventRegistry::beforeBlockBreak);
 		UseBlockCallback.EVENT.register(FaeEventRegistry::onBlockUse);
 		
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(CommandManager.literal("dreamstate").executes(context -> {
-			if(context.getSource().getEntity() instanceof ServerPlayerEntity spe) {
-				FaeUtil.toggleDream(spe);
-			}
-	     
-			return 1;
-		})));
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
+				CommandManager
+				.literal("dreamstate")
+				.requires(source -> source.hasPermissionLevel(2))
+				.then(CommandManager.argument("value", IntegerArgumentType.integer())
+						.executes(context -> 
+				{
+					if(context.getSource().getEntity() instanceof ServerPlayerEntity spe) {
+						byte dream = (byte)IntegerArgumentType.getInteger(context, "value");
+						if(dream >= 0 && dream <= 2) {
+							FaeUtil.setDream(spe, dream);
+							context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(dream)), false);
+						}
+						else {
+							context.getSource().sendFeedback(() -> Text.literal("Value must be between 0 and 2"), false);
+						}
+					}
+					return 1;
+		}))));
 	}
 	
 	private static void afterRespawn(ServerPlayerEntity copy, ServerPlayerEntity original, boolean wasDeath) {
