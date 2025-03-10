@@ -39,6 +39,5 @@ public class FaeComponentRegistry implements ChunkComponentInitializer, EntityCo
 	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
 		registry.registerFor(ItemEntity.class, DREAM_ENTITY, DreamEntityComponentImpl::new);
 		registry.registerFor(LivingEntity.class, DREAM_ENTITY, DreamEntityComponentImpl::new);
-		registry.registerFor(PlayerEntity.class, DREAM_ENTITY, DreamEntityComponentImpl::new);
 	}
 }

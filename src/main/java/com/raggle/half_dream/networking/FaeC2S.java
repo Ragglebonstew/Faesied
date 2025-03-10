@@ -2,6 +2,7 @@ package com.raggle.half_dream.networking;
 
 import org.quiltmc.qsl.networking.api.PacketSender;
 
+import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.network.PacketByteBuf;
@@ -18,6 +19,7 @@ public class FaeC2S {
 	}
 	public static void onLoadClient(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
 		if(FaeUtil.getDream(player) != 0) {
+			Faesied.LOGGER.info("Player is not dream 0");
 			//server.execute(() -> dp.syncDream());
 		}
 	}
