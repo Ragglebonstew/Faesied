@@ -1,9 +1,12 @@
 package com.raggle.half_dream.common.registry;
 
 import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
+import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 import com.raggle.half_dream.Faesied;
-import com.raggle.half_dream.common.block.DreamBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+
 import com.raggle.half_dream.common.block.InterloperPortalBlock;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 
@@ -14,12 +17,12 @@ import net.minecraft.util.Identifier;
 
 public class FaeBlockRegistry {
 	
-	public static final DreamBlock DREAM_BLOCK = new DreamBlock();
-	public static final DreamBlock DREAM_LOG = new DreamBlock();
-	public static final DreamBlock DREAM_WOOD = new DreamBlock();
-	public static final DreamBlock STRIPPED_DREAM_LOG = new DreamBlock();
-	public static final DreamBlock STRIPPED_DREAM_WOOD = new DreamBlock();
-	public static final DreamBlock DREAM_LEAVES = new DreamBlock();
+	public static final Block DREAM_BLOCK = new Block(QuiltBlockSettings.copyOf(Blocks.STONE));
+	public static final Block DREAM_LOG = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
+	public static final Block DREAM_WOOD = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
+	public static final Block STRIPPED_DREAM_LOG = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
+	public static final Block STRIPPED_DREAM_WOOD = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
+	public static final Block DREAM_LEAVES = new Block(QuiltBlockSettings.copyOf(Blocks.BIRCH_LEAVES));
 	public static final InterloperPortalBlock INTERLOPER_PORTAL_BLOCK = new InterloperPortalBlock();
 
 	public static final BlockEntityType<InterloperBlockEntity> INTERLOPER_PORTAL_BLOCK_ENTITY = register(

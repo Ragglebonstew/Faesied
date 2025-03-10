@@ -7,8 +7,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.half_dream.common.FaeUtil;
-import com.raggle.half_dream.common.block.DreamBlock;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
@@ -23,8 +21,9 @@ public abstract class WorldMixin {
     private void getTopY(Heightmap.Type heightmap, int x, int z, CallbackInfoReturnable<Integer> cir) {
         if (heightmap == Heightmap.Type.MOTION_BLOCKING) {
         	for(int i = cir.getReturnValueI()-1; i > -65; i--) {
-        		BlockState state = getBlockState(new BlockPos(x, i, z));
-                if ((state.isOpaque() || !state.getFluidState().isEmpty()) && !(state.getBlock() instanceof DreamBlock)) {
+        		BlockPos pos = new BlockPos(x, i, z);
+        		BlockState state = getBlockState(pos);
+                if ((state.isOpaque() || !state.getFluidState().isEmpty()) && !FaeUtil.isDreamBlock(pos, (World)(Object)this)) {
                     cir.setReturnValue(i+1);
                     break;
                 }

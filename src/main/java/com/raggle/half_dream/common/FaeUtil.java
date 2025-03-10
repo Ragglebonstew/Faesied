@@ -7,11 +7,9 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 import com.raggle.half_dream.api.DreamClientPlayer;
 import com.raggle.half_dream.api.DreamEntityComponent;
 import com.raggle.half_dream.api.DreamlessComponent;
-import com.raggle.half_dream.common.block.DreamBlock;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import com.raggle.half_dream.mixin.WorldRendererAccessor;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
@@ -63,7 +61,7 @@ public class FaeUtil {
 		if(world != null) {
 			Chunk chunk = world.getChunk(pos);
 			
-			if(chunk == null || chunk.getBlockState(pos).getBlock() instanceof DreamBlock)
+			if(chunk == null)
 				return false;
 			else {
 				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
@@ -81,7 +79,7 @@ public class FaeUtil {
 		if(world != null) {
 			Chunk chunk = world.getChunk(pos);
 			
-			if(chunk == null || chunk.getBlockState(pos).getBlock() instanceof DreamBlock)
+			if(chunk == null)
 				return false;
 			else {
 				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
@@ -98,31 +96,19 @@ public class FaeUtil {
 
 	public static boolean isDreamAir(BlockPos pos, World world) {
 		if(world != null) {
-			Chunk chunk = world.getChunk(pos);
-			Block block = chunk.getBlockState(pos).getBlock();
-			if(block instanceof DreamBlock)
+			Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(world.getChunk(pos));
+			if(op.isEmpty())
 				return false;
-			if(chunk != null) {
-				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
-				if(op.isEmpty())
-					return false;
-				return op.get().contains(pos);
-			}
+			return op.get().contains(pos);
 		}
 		return false;
 	}
 	public static boolean isDreamBlock(BlockPos pos, World world) {
 		if(world != null) {
-			Chunk chunk = world.getChunk(pos);
-			Block block = chunk.getBlockState(pos).getBlock();
-			if(block instanceof DreamBlock)
+			Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(world.getChunk(pos));
+			if(op.isEmpty())
 				return false;
-			if(chunk != null) {
-				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
-				if(op.isEmpty())
-					return false;
-				return op.get().contains(pos);
-			}
+			return op.get().contains(pos);
 		}
 		return false;
 	}
