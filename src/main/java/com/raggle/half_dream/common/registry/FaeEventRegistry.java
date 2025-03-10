@@ -52,7 +52,9 @@ public class FaeEventRegistry {
 			}
 			else {
 				FaeUtil.setDreamAir(pos, true, world);
-				world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN)));
+				ItemEntity dream_resin = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN));
+				world.spawnEntity(dream_resin);
+				FaeUtil.setDream(dream_resin, (byte)1);
 				return false;
 			}
 		}

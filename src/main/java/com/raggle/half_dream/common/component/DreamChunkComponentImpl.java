@@ -2,7 +2,7 @@ package com.raggle.half_dream.common.component;
 
 import java.util.ArrayList;
 
-import com.raggle.half_dream.api.DreamlessComponent;
+import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 
@@ -13,13 +13,13 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.chunk.Chunk;
 
-public class DreamlessChunkComponent implements DreamlessComponent, AutoSyncedComponent {
+public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedComponent {
 
 	private final Chunk provider;
 	private ArrayList<Long> posList;
 	private long renderPos;
 	
-	public DreamlessChunkComponent(Chunk chunk) {
+	public DreamChunkComponentImpl(Chunk chunk) {
 		this.provider = chunk;
 		this.posList = new ArrayList<Long>();
 	}

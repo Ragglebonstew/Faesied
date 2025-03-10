@@ -21,8 +21,8 @@ public class DreamResin extends Item {
 	@Override
 	public ActionResult useOnBlock(ItemUsageContext context) {
 		World world = context.getWorld();
-		
 		BlockPos pos = context.getBlockPos().offset(context.getSide());
+		
 		if(!world.isClient() && FaeUtil.setDreamAir(pos, false, world)) {
 			context.getStack().decrement(1);
 			world.playSound(null, pos, SoundEvents.ENTITY_ENDER_EYE_DEATH, SoundCategory.BLOCKS, 1, 1);
