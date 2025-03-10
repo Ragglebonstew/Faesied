@@ -12,7 +12,6 @@
 		"LivingEntityMixin",
 		"MobEntityAccessor",
 		"MobEntityMixin",
-		"PlayerEntityMixin",
 		"ServerPlayerEntityMixin",
 		"SkeletonHorseEntityMixin",
 		"TrunkPlacerTypeMixin",

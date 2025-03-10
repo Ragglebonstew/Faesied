@@ -59,7 +59,7 @@ public class DreamlessChunkComponent implements DreamlessComponent, AutoSyncedCo
     }
 
 	@Override
-	public boolean exists(BlockPos pos) {
+	public boolean contains(BlockPos pos) {
 		return !this.posList.isEmpty() && posList.contains(pos.asLong());
 	}
 

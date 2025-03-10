@@ -2,9 +2,9 @@ package com.raggle.half_dream.common.component;
 
 import com.raggle.half_dream.api.DreamClientPlayer;
 import com.raggle.half_dream.api.DreamEntityComponent;
-import com.raggle.half_dream.api.DreamPlayer;
 import com.raggle.half_dream.client.sequence.FallingHalfAsleepSequence;
 import com.raggle.half_dream.client.sequence.SequenceManager;
+import com.raggle.half_dream.common.FaeUtil;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.entity.player.PlayerEntity;
@@ -13,50 +13,50 @@ import net.minecraft.network.PacketByteBuf;
 
 public class DreamEntityComponentP implements DreamEntityComponent, AutoSyncedComponent {
 	
-	private final DreamPlayer dreamPlayer;
+	private final PlayerEntity player;
 	
 	public DreamEntityComponentP(PlayerEntity player) {
-		this.dreamPlayer = (DreamPlayer)player;
+		this.player = player;
 	}
 	@Override
 	public void setDream(boolean b) {
-		this.dreamPlayer.setDream(b);
+		FaeUtil.setDream(this.player, b ? (byte) 1 : (byte) 0);
 	}
 	@Override
 	public boolean isDream() {
-		return this.dreamPlayer.isDream();
+		return FaeUtil.isDream(player);
 	}
 	@Override
 	public void applySyncPacket(PacketByteBuf buf) {
 		NbtCompound tag = buf.readNbt();
         if (tag != null) {
-    		SequenceManager.start(new FallingHalfAsleepSequence((DreamClientPlayer) dreamPlayer, dreamPlayer.isDream(), tag.getBoolean("dream")));
+    		SequenceManager.start(new FallingHalfAsleepSequence((DreamClientPlayer)this.player, FaeUtil.isPlayerDream(), tag.getBoolean("dream")));
             this.readFromNbt(tag);
         }
 	}
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {
-		this.dreamPlayer.setDream(tag.getBoolean("dream"));
-		this.dreamPlayer.setDream(tag.getByte("dream_level"));
+		FaeUtil.setDream(player, tag.getBoolean("dream") ? (byte) 1 : (byte) 0);
+		FaeUtil.setDream(player, tag.getByte("dream_level"));
 	}
 
 	@Override
 	public void writeToNbt(NbtCompound tag) {
-		tag.putBoolean("dream", this.dreamPlayer.isDream());
-		tag.putByte("dream_level", this.dreamPlayer.getDream());
+		tag.putBoolean("dream", FaeUtil.isDream(player));
+		tag.putByte("dream_level", FaeUtil.getDream(player));
 	}
 	@Override
 	public byte getDream() {
-		return this.dreamPlayer.getDream();
+		return FaeUtil.getDream(player);
 	}
 	@Override
 	public void setDream(byte b) {
-		this.dreamPlayer.setDream(b);
+		FaeUtil.setDream(player, b);
 	}
 	@Override
 	public NbtCompound getPersistantData() {
-		return this.dreamPlayer.getPersistantData();
+		return ((DreamEntityComponent)this.player).getPersistantData();
 	}
 
 }

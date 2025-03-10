@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.raggle.half_dream.common.entity.FaeSkeleton;
 
-public interface DreamServerPlayer extends DreamPlayer{
+public interface DreamServerPlayer extends DreamEntityComponent{
 
 	void syncDream();
 	

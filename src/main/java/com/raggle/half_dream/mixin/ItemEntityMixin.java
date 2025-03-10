@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.raggle.half_dream.api.DreamItemEntity;
-import com.raggle.half_dream.api.DreamServerPlayer;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.registry.FaeTagRegistry;
 

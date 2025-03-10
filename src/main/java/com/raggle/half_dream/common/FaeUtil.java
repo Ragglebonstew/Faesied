@@ -35,6 +35,12 @@ public class FaeUtil {
 			return -1;
 		return op.get().getDream();
 	}
+	public static void setDream(Entity e, byte b) {
+		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
+		if(op.isEmpty())
+			return;
+		op.get().setDream(b);
+	}
 
 	@ClientOnly
 	public static boolean isDreamAir(BlockPos pos) {
@@ -100,7 +106,7 @@ public class FaeUtil {
 				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
 				if(op.isEmpty())
 					return false;
-				return op.get().exists(pos);
+				return op.get().contains(pos);
 			}
 		}
 		return false;
@@ -115,7 +121,7 @@ public class FaeUtil {
 				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
 				if(op.isEmpty())
 					return false;
-				return op.get().exists(pos);
+				return op.get().contains(pos);
 			}
 		}
 		return false;

@@ -2,9 +2,9 @@ package com.raggle.half_dream.common.entity.ai.goal;
 
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamHorse;
-import com.raggle.half_dream.api.DreamPlayer;
 import com.raggle.half_dream.client.sequence.BridgeFogEffect;
 import com.raggle.half_dream.client.sequence.SequenceManager;
+import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
@@ -65,8 +65,8 @@ public class CrossRiverGoal extends Goal{
 	public void start() {
 		this.startFacing = horse.getHorizontalFacing();
 		this.startPos = horse.getBlockPos();
-		if(horse instanceof DreamHorse dh && dh.getPlayer() instanceof DreamPlayer dp)
-			SequenceManager.setFogEffect(new BridgeFogEffect(this.startPos, this.startFacing, dp.isDream()));
+		if(horse instanceof DreamHorse dh)
+			SequenceManager.setFogEffect(new BridgeFogEffect(this.startPos, this.startFacing, FaeUtil.isDream(dh.getPlayer())));
 	}
 	@Override
 	public void stop() {
@@ -80,9 +80,14 @@ public class CrossRiverGoal extends Goal{
 				&& (x > 0 || z > 0)//checks if the change in position is in the same direction as initial facing
 				&& !this.failed
 				&& horse instanceof DreamHorse dh
-				&& dh.getPlayer() instanceof DreamPlayer dp
 		) {
-			dp.setDream(!dp.isDream());
+			byte player_dream = FaeUtil.getDream(dh.getPlayer());
+			if(player_dream == 0) {
+				FaeUtil.setDream(dh.getPlayer(), (byte) 1);
+			}
+			else if(player_dream == 1) {
+				FaeUtil.setDream(dh.getPlayer(), (byte) 0);
+			}
 		}
 		else if(SequenceManager.hasFogEffect()){
 			SequenceManager.getFogEffect().cancel();

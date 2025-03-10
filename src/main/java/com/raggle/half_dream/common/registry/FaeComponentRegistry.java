@@ -19,8 +19,6 @@ public class FaeComponentRegistry implements ChunkComponentInitializer, EntityCo
 
 	public static final ComponentKey<DreamlessComponent> DREAM_AIR = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dream_air"), DreamlessComponent.class);
 	public static final ComponentKey<DreamlessComponent> DREAM_BLOCKS = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dream_blocks"), DreamlessComponent.class);
-
-	public static final ComponentKey<DreamlessComponent> DREAMLESS = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dreamless"), DreamlessComponent.class);
 	public static final ComponentKey<DreamEntityComponent> DREAM_ENTITY = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dream_player"), DreamEntityComponent.class);
 
 	public static final String DREAM_KEY = "half_dream";
@@ -38,6 +36,5 @@ public class FaeComponentRegistry implements ChunkComponentInitializer, EntityCo
 	@Override
 	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
 		registry.registerFor(PlayerEntity.class, DREAM_ENTITY, DreamEntityComponentP::new);
-		//registry.registerForPlayers(DREAM_ENTITY, DreamEntityComponentP::new);
 	}
 }

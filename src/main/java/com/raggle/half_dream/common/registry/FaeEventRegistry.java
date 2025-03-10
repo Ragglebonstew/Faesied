@@ -4,11 +4,8 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
-import com.raggle.half_dream.api.DreamPlayer;
 import com.raggle.half_dream.api.DreamServerPlayer;
 import com.raggle.half_dream.common.FaeUtil;
-import com.raggle.half_dream.common.block.DreamBlock;
-
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -37,22 +34,23 @@ public class FaeEventRegistry {
 	}
 	
 	private static void afterRespawn(ServerPlayerEntity copy, ServerPlayerEntity original, boolean wasDeath) {
-		if(original instanceof DreamPlayer doriginal && copy instanceof DreamPlayer dcopy) {
-			dcopy.setDream(doriginal.isDream());
-		}
+		FaeUtil.setDream(copy, FaeUtil.getDream(original));
 	}
 	private static boolean beforeBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity){
-		if(!(state.getBlock() instanceof DreamBlock)) {
-			if(FaeUtil.isDream(player)) {
+		
+		if(FaeUtil.isDream(player)) {
+			if(FaeUtil.isDreamBlock(pos, world)) {
+				FaeUtil.setDreamBlock(pos, false, world);
+			}
+			else {
 				FaeUtil.setDreamAir(pos, true, world);
 				world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN)));
 				return false;
 			}
-			else {
-				FaeUtil.setDreamAir(pos, false, world);
-			}
 		}
-
+		else {
+			FaeUtil.setDreamAir(pos, false, world);
+		}
 		return true;
 	}
 	/*static BlockPos lastPlayerPos;

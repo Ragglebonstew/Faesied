@@ -40,12 +40,14 @@
 	},
 	"mixin": "half_dream.mixins.json",
 	"cardinal-components": [
-        "half_dream:dreamless",
+        "half_dream:dream_air",
+        "half_dream:dream_blocks",
         "half_dream:dream_player"
     ],
     "custom": {
         "cardinal-components": [
-            "half_dream:dreamless",
+        	"half_dream:dream_air",
+        	"half_dream:dream_blocks",
         	"half_dream:dream_player"
         ]
     }
