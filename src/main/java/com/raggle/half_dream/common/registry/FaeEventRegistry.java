@@ -5,6 +5,8 @@ import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
 import com.raggle.half_dream.common.FaeUtil;
+import com.raggle.half_dream.common.particles.FaeParticles;
+
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
@@ -66,13 +68,14 @@ public class FaeEventRegistry {
 	}
 	
 	private static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
+
+		BlockPos pos = hitResult.getBlockPos().offset(hitResult.getSide());
+		Iterable<ItemStack> stacks = player.getItemsHand();
 		
-		if(hitResult.getType()== null && FaeUtil.getDream(player) == 1) {
-			BlockPos pos = hitResult.getBlockPos().offset(hitResult.getSide());
-			Iterable<ItemStack> stacks = player.getItemsHand();
+		if(FaeUtil.getDream(player) == 1) {
 			for(ItemStack itemStack : stacks) {
 				if(Item.BLOCK_ITEMS.containsValue(itemStack.getItem())) {
-					FaeUtil.setDreamAir(pos, true, world);
+					FaeUtil.setDreamBlock(pos, true, world);
 					break;
 				}
 			}

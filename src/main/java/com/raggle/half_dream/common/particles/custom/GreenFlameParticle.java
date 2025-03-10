@@ -23,7 +23,7 @@ public class GreenFlameParticle extends SpriteBillboardParticle {
 		this.velocityY = yd;
 		this.velocityZ = zd;
 
-		this.scale *= 10f + world.random.nextFloat() * 5f;
+		this.scale *= 40f + world.random.nextFloat() * 0.5f;
 		this.maxAge = 300;
 		
 		this.colorRed = 1.0F;
