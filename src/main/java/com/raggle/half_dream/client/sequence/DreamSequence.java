@@ -17,9 +17,6 @@ public class DreamSequence {
 	public boolean isSequenceImportant() {
 		return false;
 	}
-	public boolean getDreamState() {
-		return false;
-	}
 	public void start() {}
 	public void stop() {}
 	public void cancel() {

@@ -7,16 +7,17 @@ import com.mojang.blaze3d.vertex.Tessellator;
 import com.mojang.blaze3d.vertex.VertexFormats;
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamClientPlayer;
+import com.raggle.half_dream.common.FaeUtil;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.render.GameRenderer;
 
 public class FallingHalfAsleepSequence extends DreamSequence {
 
-	private boolean toDream;
-	private boolean startDream;
+	private byte toDream;
+	private byte startDream;
 
-	public FallingHalfAsleepSequence(DreamClientPlayer player, boolean startDream, boolean toDream) {
+	public FallingHalfAsleepSequence(DreamClientPlayer player, byte startDream, byte toDream) {
 		this.startDream = startDream;
 		this.toDream = toDream;
 		ticks = 0;
@@ -32,23 +33,19 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 	public boolean isSequenceImportant() {
 		return true;
 	}
-	@Override
-	public boolean getDreamState() {
-		return hasTransitioned() ? toDream : startDream;
-	}
 	public boolean hasTransitioned() {
 		return ticks >= totalLength/3;
 	}
-	public void setStartDream(boolean startDream) {
+	public void setStartDream(byte startDream) {
 		this.startDream = startDream;
 	}
-	public void setEndDream(boolean endDream) {
+	public void setEndDream(byte endDream) {
 		this.toDream = endDream;
 	}
-	public boolean getStartDream() {
+	public byte getStartDream() {
 		return startDream;
 	}
-	public boolean getEndDream() {
+	public byte getEndDream() {
 		return toDream;
 	}
 	@Override
@@ -56,7 +53,8 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 		ticks++;
 		
 		if(ticks == totalLength/3) {
-			client.worldRenderer.reload();
+			//switch dream state
+			FaeUtil.setDream(FaeUtil.getClientPlayer(), toDream);
 		}
 		else if (ticks >= totalLength - 1) {
 			finished = true;

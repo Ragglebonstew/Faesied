@@ -55,7 +55,7 @@ public class SequenceManager {
 					oldFhas.setEndDream(newFhas.getEndDream());
 				}
 				else {
-					newFhas.setStartDream(oldFhas.getDreamState());
+					newFhas.setStartDream(FaeUtil.getPlayerDream());
 					dreamSequence = newSequence;
 				}
 			}
