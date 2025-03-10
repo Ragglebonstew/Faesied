@@ -17,6 +17,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -36,7 +38,7 @@ public abstract class AbstractBlockStateMixin {
             Entity entity = esc.getEntity();
             if(entity instanceof DreamEntityComponent de) {
             	if(de.isDream()){
-            		if(world instanceof World w && FaeUtil.isDreamless(pos, w)) {
+            		if(world instanceof World w && FaeUtil.isDreamAir(pos, w)) {
             			cir.setReturnValue(VoxelShapes.empty());
             		}
             	}
@@ -54,7 +56,7 @@ public abstract class AbstractBlockStateMixin {
 			Entity entity = esc.getEntity();
 			if(entity != null && entity instanceof DreamEntityComponent de) {
 				if(de.isDream()) {
-					if(FaeUtil.isDreamless(pos, aw))
+					if(FaeUtil.isDreamAir(pos, aw))
 						cir.setReturnValue(VoxelShapes.empty());
 				}
 				else if(this.getBlock() instanceof DreamBlock)
@@ -62,45 +64,39 @@ public abstract class AbstractBlockStateMixin {
 			}
 		}
 	}
+
+	@Inject(method = "canReplace", at = @At("HEAD"), cancellable = true)
+	public void canReplace(ItemPlacementContext context, CallbackInfoReturnable<Boolean> cir) {
+		PlayerEntity player = context.getPlayer();
+		if(!FaeUtil.isDream(player)) {
+			if(FaeUtil.isDreamAir(context.getBlockPos(), context.getWorld()))
+				cir.setReturnValue(true);
+		}
+		//return this.getBlock().canReplace(this.asBlockState(), context);
+	}
 	
 	@ClientOnly
 	@Inject(method = "getCameraCollisionShape", at = @At("HEAD"), cancellable = true)
 	private void getCameraCollisionShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
 
-		if(context instanceof EntityShapeContext esc) {
+		if(context instanceof EntityShapeContext esc && world instanceof World aw) {
 			Entity entity = esc.getEntity();
-			if(entity instanceof DreamEntityComponent de) {
-				if(de.isDream()) {
-					if(world instanceof World aw && FaeUtil.isDreamless(pos, aw)) {
-						cir.setReturnValue(VoxelShapes.empty());	
-					}
-				}
-				else if(this.getBlock() instanceof DreamBlock) {
-					cir.setReturnValue(VoxelShapes.empty());
-				}
-			}
+			if(!FaeUtil.canInteract(entity, pos, aw))
+				cir.setReturnValue(VoxelShapes.empty());
 		}
 		
 	}
 	
 	@Inject(method = "onEntityCollision", at = @At("HEAD"), cancellable = true)
     private void onEntityCollision(World world, BlockPos pos, Entity entity, CallbackInfo ci) {
-		if(entity instanceof DreamEntityComponent de) {
-			if(de.isDream()) {
-				if(FaeUtil.isDreamless(pos, world)) {
-					ci.cancel();
-				}
-			}
-			else if(this.getBlock() instanceof DreamBlock) {
-				ci.cancel();
-			}
-		}
+		if(FaeUtil.canInteract(entity, pos, world))
+			ci.cancel();
     }
 	@Inject(method = "shouldBlockVision", at = @At("HEAD"), cancellable = true)
 	private void shouldBlockVision(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 		if(FaeUtil.hasClientPlayer()) {
 			if(FaeUtil.isPlayerDream()) {
-				if(world instanceof World aw && FaeUtil.isDreamless(pos, aw)) 
+				if(FaeUtil.isDreamAir(pos)) 
 					cir.setReturnValue(false);
 			}
 			else {

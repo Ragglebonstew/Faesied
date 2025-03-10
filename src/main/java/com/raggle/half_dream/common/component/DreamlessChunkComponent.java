@@ -16,17 +16,17 @@ import net.minecraft.world.chunk.Chunk;
 public class DreamlessChunkComponent implements DreamlessComponent, AutoSyncedComponent {
 
 	private final Chunk provider;
-	private ArrayList<Long> dreamlessPosList;
+	private ArrayList<Long> posList;
 	private long renderPos;
 	
 	public DreamlessChunkComponent(Chunk chunk) {
 		this.provider = chunk;
-		this.dreamlessPosList = new ArrayList<Long>();
+		this.posList = new ArrayList<Long>();
 	}
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {
-		this.dreamlessPosList.clear();
+		this.posList.clear();
 		for(long entry : tag.getLongArray("dreampos")) {
 			this.addPosToList(BlockPos.fromLong(entry));
 		}
@@ -34,9 +34,9 @@ public class DreamlessChunkComponent implements DreamlessComponent, AutoSyncedCo
 
 	@Override
 	public void writeToNbt(NbtCompound tag) {
-		long[] posList = new long[this.dreamlessPosList.size()];
+		long[] posList = new long[this.posList.size()];
 		for(int i = 0; i < posList.length; i++) {
-			posList[i] = this.dreamlessPosList.get(i);
+			posList[i] = this.posList.get(i);
 		}
 		tag.putLongArray("dreampos", posList);
 	}
@@ -59,16 +59,16 @@ public class DreamlessChunkComponent implements DreamlessComponent, AutoSyncedCo
     }
 
 	@Override
-	public boolean isDreamless(BlockPos pos) {
-		return !this.dreamlessPosList.isEmpty() && dreamlessPosList.contains(pos.asLong());
+	public boolean exists(BlockPos pos) {
+		return !this.posList.isEmpty() && posList.contains(pos.asLong());
 	}
 
 	@Override
 	public boolean addPosToList(BlockPos pos) {
-		if(!dreamlessPosList.contains(pos.asLong())) {
-			this.dreamlessPosList.add(pos.asLong());
+		if(!posList.contains(pos.asLong())) {
+			this.posList.add(pos.asLong());
 			this.renderPos = pos.asLong();
-			FaeComponentRegistry.DREAMLESS.sync(provider);
+			this.sync();
 			return true;
 		}
 		return false;
@@ -76,11 +76,16 @@ public class DreamlessChunkComponent implements DreamlessComponent, AutoSyncedCo
 
 	@Override
 	public boolean removePosFromList(BlockPos pos) {
-		if(this.dreamlessPosList.remove(pos.asLong())) {
+		if(this.posList.remove(pos.asLong())) {
 			this.renderPos = pos.asLong();
-			FaeComponentRegistry.DREAMLESS.sync(provider);
+			this.sync();
 			return true;
 		}
 		return false;
+	}
+	
+	private void sync() {
+		FaeComponentRegistry.DREAM_AIR.sync(provider);
+		FaeComponentRegistry.DREAM_BLOCKS.sync(provider);
 	}
 }

@@ -43,13 +43,13 @@ public class FaeEventRegistry {
 	}
 	private static boolean beforeBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity){
 		if(!(state.getBlock() instanceof DreamBlock)) {
-			if(player instanceof DreamServerPlayer dsp && dsp.isDream()) {
-				FaeUtil.setDreamless(pos, true, world);
+			if(FaeUtil.isDream(player)) {
+				FaeUtil.setDreamAir(pos, true, world);
 				world.spawnEntity(new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN)));
 				return false;
 			}
 			else {
-				FaeUtil.setDreamless(pos, false, world);
+				FaeUtil.setDreamAir(pos, false, world);
 			}
 		}
 

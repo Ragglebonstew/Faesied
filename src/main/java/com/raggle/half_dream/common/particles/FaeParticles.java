@@ -9,7 +9,7 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class FaeParticles {
-	public final static Identifier FLAME_1 = new Identifier(Faesied.MOD_ID, "flame1");
+	
     public static final DefaultParticleType GREEN_FLAME = FabricParticleTypes.simple();
 
 	public static void init() {

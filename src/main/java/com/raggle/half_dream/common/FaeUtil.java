@@ -23,40 +23,43 @@ import net.minecraft.world.chunk.Chunk;
 public class FaeUtil {
 	
 	public static boolean isDream(Entity e) {
-		return FaeComponentRegistry.DREAM_ENTITY.get(e).isDream();
+		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
+		if(op.isEmpty())
+			return false;
+		return op.get().isDream();
+	}
+	public static byte getDream(Entity e) {
+		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
+		if(op.isEmpty())
+			return -1;
+		return op.get().getDream();
 	}
 
 	@ClientOnly
-	public static boolean isDreamless(BlockPos pos) {
+	public static boolean isDreamAir(BlockPos pos) {
 		MinecraftClient mc = MinecraftClient.getInstance();
 		if(mc != null && mc.world != null) {
-			return isDreamless(pos, mc.world);
+			return isDreamAir(pos, mc.world);
 		}
 		return false;
 	}
-	public static boolean isDreamless(BlockPos pos, World world) {
-		if(world != null) {
-			Chunk chunk = world.getChunk(pos);
-			Block block = chunk.getBlockState(pos).getBlock();
-			if(block instanceof DreamBlock)
-				return false;
-			if(chunk != null) {
-				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAMLESS.maybeGet(chunk);
-				if(op.isEmpty())
-					return false;
-				return op.get().isDreamless(pos);
-			}
+	@ClientOnly
+	public static boolean isDreamBlock(BlockPos pos) {
+		MinecraftClient mc = MinecraftClient.getInstance();
+		if(mc != null && mc.world != null) {
+			return isDreamBlock(pos, mc.world);
 		}
 		return false;
 	}
-	public static boolean setDreamless(BlockPos pos, boolean dreamless, World world) {
+	
+	public static boolean setDreamAir(BlockPos pos, boolean dreamless, World world) {
 		if(world != null) {
 			Chunk chunk = world.getChunk(pos);
 			
 			if(chunk == null || chunk.getBlockState(pos).getBlock() instanceof DreamBlock)
 				return false;
 			else {
-				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAMLESS.maybeGet(chunk);
+				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
 				if(op.isEmpty())
 					return false;
 				if(dreamless)
@@ -67,6 +70,56 @@ public class FaeUtil {
 		}
 		return false;
 	}
+	public static boolean setDreamBlock(BlockPos pos, boolean dreamless, World world) {
+		if(world != null) {
+			Chunk chunk = world.getChunk(pos);
+			
+			if(chunk == null || chunk.getBlockState(pos).getBlock() instanceof DreamBlock)
+				return false;
+			else {
+				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
+				if(op.isEmpty())
+					return false;
+				if(dreamless)
+					return op.get().addPosToList(pos);
+				else
+					return op.get().removePosFromList(pos);
+			}
+		}
+		return false;
+	}
+
+	public static boolean isDreamAir(BlockPos pos, World world) {
+		if(world != null) {
+			Chunk chunk = world.getChunk(pos);
+			Block block = chunk.getBlockState(pos).getBlock();
+			if(block instanceof DreamBlock)
+				return false;
+			if(chunk != null) {
+				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
+				if(op.isEmpty())
+					return false;
+				return op.get().exists(pos);
+			}
+		}
+		return false;
+	}
+	public static boolean isDreamBlock(BlockPos pos, World world) {
+		if(world != null) {
+			Chunk chunk = world.getChunk(pos);
+			Block block = chunk.getBlockState(pos).getBlock();
+			if(block instanceof DreamBlock)
+				return false;
+			if(chunk != null) {
+				Optional<DreamlessComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
+				if(op.isEmpty())
+					return false;
+				return op.get().exists(pos);
+			}
+		}
+		return false;
+	}
+	
 	public static boolean canInteract(Entity e1, Entity e2) {
 		if(e1 instanceof DreamEntityComponent d1 && e2 instanceof DreamEntityComponent d2) {
 			byte s1 = d1.getDream();
@@ -76,6 +129,15 @@ public class FaeUtil {
 		}
 		return false;
 	}
+	public static boolean canInteract(Entity entity, BlockPos pos, World world) {
+		if(isDream(entity)) {
+			return !isDreamAir(pos, world);
+		}
+		else {
+			return !isDreamBlock(pos, world);
+		}
+	}
+	
 	@ClientOnly
 	public static ClientPlayerEntity getClientPlayer() {
 		MinecraftClient mc = MinecraftClient.getInstance();

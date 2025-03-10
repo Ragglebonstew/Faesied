@@ -8,6 +8,7 @@ import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 import com.raggle.half_dream.client.block.InterloperPortalEntityRenderer;
 import com.raggle.half_dream.client.sequence.SequenceManager;
 import com.raggle.half_dream.common.particles.FaeParticles;
+import com.raggle.half_dream.common.particles.custom.GreenFlameParticle;
 import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.common.registry.FaeEntityRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
@@ -15,7 +16,6 @@ import com.raggle.half_dream.networking.FaeMessaging;
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.EntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
-import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
 import net.minecraft.client.render.entity.StrayEntityRenderer;
@@ -36,7 +36,7 @@ public class FaesiedClient implements ClientModInitializer {
         
 		BlockEntityRendererFactories.register(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalEntityRenderer::new);
 
-        ParticleFactoryRegistry.getInstance().register(FaeParticles.GREEN_FLAME, FlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FaeParticles.GREEN_FLAME, GreenFlameParticle.Factory::new);
 	}
 	
 }

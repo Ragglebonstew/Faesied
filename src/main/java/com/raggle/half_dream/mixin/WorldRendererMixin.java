@@ -32,7 +32,7 @@ public abstract class WorldRendererMixin {
 			
 			int lightmap = cir.getReturnValue();
 			int blockLight = LightmapTextureManager.getBlockLightCoordinates(lightmap);
-			if(FaeUtil.isDreamless(pos)) {
+			if(FaeUtil.isDreamAir(pos)) {
 				blockLight = 4;
 			}
 			else {

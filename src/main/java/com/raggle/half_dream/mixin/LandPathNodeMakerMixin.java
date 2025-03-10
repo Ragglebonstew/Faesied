@@ -33,7 +33,7 @@ public abstract class LandPathNodeMakerMixin extends PathNodeMaker{
 	@Inject(method = "adjustNodeType", at = @At("HEAD"), cancellable = true)
 	private void adjustNodeType(BlockView world, BlockPos pos, PathNodeType type, CallbackInfoReturnable<PathNodeType> cir) {
 		if(this.entity instanceof DreamEntityComponent de && de.isDream()) {
-			if(world instanceof World && FaeUtil.isDreamless(pos, (World)world)) {
+			if(world instanceof World && FaeUtil.isDreamAir(pos, (World)world)) {
 				cir.setReturnValue(PathNodeType.OPEN);
 			}
 		}

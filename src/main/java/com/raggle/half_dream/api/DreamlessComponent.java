@@ -5,7 +5,7 @@ import net.minecraft.util.math.BlockPos;
 
 public interface DreamlessComponent extends ComponentV3 {
 	
-	public boolean isDreamless(BlockPos pos);
+	public boolean exists(BlockPos pos);
 
 	public boolean addPosToList(BlockPos pos);
 	

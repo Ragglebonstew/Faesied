@@ -17,7 +17,7 @@ public class WorldSliceMixin {
 
 	@Inject(at = @At("HEAD"), method = "getBlockState(III)Lnet/minecraft/block/BlockState;", cancellable = true)
 	private void getBlockState(int a, int b, int c, CallbackInfoReturnable<BlockState> cir){
-		if(FaeUtil.isPlayerDream() && FaeUtil.isDreamless(new BlockPos(a,b,c))){
+		if(FaeUtil.isPlayerDream() && FaeUtil.isDreamAir(new BlockPos(a,b,c))){
 			cir.setReturnValue(Blocks.AIR.getDefaultState());
 		}
 	}

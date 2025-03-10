@@ -5,6 +5,7 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
+import com.raggle.half_dream.common.particles.FaeParticles;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
@@ -12,23 +13,36 @@ import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 
 @ClientOnly
 public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> implements BlockEntityRenderer<T> {
+	
+	private int count = 0;
 
 	public InterloperPortalEntityRenderer(BlockEntityRendererFactory.Context ctx) {}
 
 	@Override
-	public void render(T endPortalBlockEntity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
+	public void render(T entity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
 		
 		MinecraftClient mc = MinecraftClient.getInstance();
-		if (mc != null && !mc.world.isNight()) {
-			return;
+		if (mc == null) {
+			//return;
 		}
 		
+		if(count < 20) {
+			count += 1;
+		}
+		else {
+			BlockPos pos = entity.getPos();
+			mc.world.addParticle(FaeParticles.GREEN_FLAME, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0, 0F, 0);
+			count = 0;
+		}
+		
+		
 		Matrix4f matrix4f = matrixStack.peek().getModel();
-		this.renderSides(endPortalBlockEntity, matrix4f, vertexConsumerProvider.getBuffer(this.getLayer()));
+		//this.renderSides(entity, matrix4f, vertexConsumerProvider.getBuffer(this.getLayer()));
 	}
 
 	private void renderSides(T entity, Matrix4f matrix, VertexConsumer vertexConsumer) {

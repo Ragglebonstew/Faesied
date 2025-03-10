@@ -17,6 +17,9 @@ import net.minecraft.util.Identifier;
 
 public class FaeComponentRegistry implements ChunkComponentInitializer, EntityComponentInitializer {
 
+	public static final ComponentKey<DreamlessComponent> DREAM_AIR = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dream_air"), DreamlessComponent.class);
+	public static final ComponentKey<DreamlessComponent> DREAM_BLOCKS = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dream_blocks"), DreamlessComponent.class);
+
 	public static final ComponentKey<DreamlessComponent> DREAMLESS = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dreamless"), DreamlessComponent.class);
 	public static final ComponentKey<DreamEntityComponent> DREAM_ENTITY = ComponentRegistryV3.INSTANCE.getOrCreate(new Identifier(Faesied.MOD_ID, "dream_player"), DreamEntityComponent.class);
 
@@ -29,7 +32,8 @@ public class FaeComponentRegistry implements ChunkComponentInitializer, EntityCo
 
 	@Override
 	public void registerChunkComponentFactories(ChunkComponentFactoryRegistry registry) {
-		registry.register(DREAMLESS, DreamlessChunkComponent::new);
+		registry.register(DREAM_AIR, DreamlessChunkComponent::new);
+		registry.register(DREAM_BLOCKS, DreamlessChunkComponent::new);
 	}
 	@Override
 	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {

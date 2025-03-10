@@ -36,7 +36,7 @@ public class EntityRendererMixin<T extends Entity> {
 
 	@Inject(method = "getBlockLight", at = @At("HEAD"), cancellable = true)
 	private void getBlockLight(T entity, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtil.isPlayerDream() && FaeUtil.isDreamless(pos))
+		if(FaeUtil.isPlayerDream() && FaeUtil.isDreamAir(pos))
 			cir.setReturnValue(4);
 	}
 }
