@@ -14,12 +14,9 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
 	private byte dream;
 	
 	public DreamEntityComponentImpl(Entity entity) {
-		this.entity = entity;}
-	
-	@Override
-	public boolean isDream() {
-		return this.dream != 0;
+		this.entity = entity;
 	}
+	
 	@Override
 	public void applySyncPacket(PacketByteBuf buf) {
 		NbtCompound tag = buf.readNbt();

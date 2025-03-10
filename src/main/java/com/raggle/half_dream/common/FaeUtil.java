@@ -20,13 +20,6 @@ import net.minecraft.world.chunk.Chunk;
 
 public class FaeUtil {
 	
-	@Deprecated
-	public static boolean isDream(Entity e) {
-		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
-		if(op.isEmpty())
-			return false;
-		return op.get().isDream();
-	}
 	public static byte getDream(Entity e) {
 		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
 		if(op.isEmpty())
