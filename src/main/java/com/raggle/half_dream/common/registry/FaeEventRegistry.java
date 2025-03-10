@@ -11,6 +11,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -65,9 +66,16 @@ public class FaeEventRegistry {
 	}
 	
 	private static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
-
-		if(FaeUtil.getDream(player) == 1) {
-			FaeUtil.setDreamAir(hitResult.getBlockPos(), true, world);
+		
+		if(hitResult.getType()== null && FaeUtil.getDream(player) == 1) {
+			BlockPos pos = hitResult.getBlockPos().offset(hitResult.getSide());
+			Iterable<ItemStack> stacks = player.getItemsHand();
+			for(ItemStack itemStack : stacks) {
+				if(Item.BLOCK_ITEMS.containsValue(itemStack.getItem())) {
+					FaeUtil.setDreamAir(pos, true, world);
+					break;
+				}
+			}
 		}
 		
 		return ActionResult.PASS;

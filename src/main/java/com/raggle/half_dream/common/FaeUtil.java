@@ -61,7 +61,7 @@ public class FaeUtil {
 		if(world != null) {
 			Chunk chunk = world.getChunk(pos);
 			
-			if(chunk == null)
+			if(chunk == null || chunk.getBlockState(pos).isAir())
 				return false;
 			else {
 				Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
