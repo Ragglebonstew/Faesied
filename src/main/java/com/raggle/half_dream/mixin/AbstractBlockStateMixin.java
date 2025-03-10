@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.half_dream.api.DreamEntityComponent;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.block.DreamBlock;
 
@@ -34,18 +33,10 @@ public abstract class AbstractBlockStateMixin {
 	@Inject(at = @At("HEAD"), method = "getCollisionShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;", cancellable = true)
     private void getCollisionShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
         
-        if(context instanceof EntityShapeContext esc) {
+        if(context instanceof EntityShapeContext esc && world instanceof World aw) {
             Entity entity = esc.getEntity();
-            if(entity instanceof DreamEntityComponent de) {
-            	if(de.isDream()){
-            		if(world instanceof World w && FaeUtil.isDreamAir(pos, w)) {
-            			cir.setReturnValue(VoxelShapes.empty());
-            		}
-            	}
-            	else if(this.getBlock() instanceof DreamBlock) {
-            		cir.setReturnValue(VoxelShapes.empty());
-            	}
-            }
+			if(entity != null && !FaeUtil.canInteract(entity, pos, aw))
+				cir.setReturnValue(VoxelShapes.empty());
         }
         
     }
@@ -54,14 +45,8 @@ public abstract class AbstractBlockStateMixin {
 	private void getOutlineShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
 		if(context instanceof EntityShapeContext esc && world instanceof World aw) {
 			Entity entity = esc.getEntity();
-			if(entity != null && entity instanceof DreamEntityComponent de) {
-				if(de.isDream()) {
-					if(FaeUtil.isDreamAir(pos, aw))
-						cir.setReturnValue(VoxelShapes.empty());
-				}
-				else if(this.getBlock() instanceof DreamBlock)
-					cir.setReturnValue(VoxelShapes.empty());
-			}
+			if(entity != null && !FaeUtil.canInteract(entity, pos, aw))
+				cir.setReturnValue(VoxelShapes.empty());
 		}
 	}
 
@@ -69,10 +54,9 @@ public abstract class AbstractBlockStateMixin {
 	public void canReplace(ItemPlacementContext context, CallbackInfoReturnable<Boolean> cir) {
 		PlayerEntity player = context.getPlayer();
 		if(!FaeUtil.isDream(player)) {
-			if(FaeUtil.isDreamAir(context.getBlockPos(), context.getWorld()))
+			if(FaeUtil.isDreamBlock(context.getBlockPos(), context.getWorld()))
 				cir.setReturnValue(true);
 		}
-		//return this.getBlock().canReplace(this.asBlockState(), context);
 	}
 	
 	@ClientOnly
