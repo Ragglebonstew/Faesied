@@ -4,7 +4,6 @@ import java.util.Optional;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import com.raggle.half_dream.api.DreamClientPlayer;
 import com.raggle.half_dream.api.DreamEntityComponent;
 import com.raggle.half_dream.api.DreamlessComponent;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
@@ -21,6 +20,7 @@ import net.minecraft.world.chunk.Chunk;
 
 public class FaeUtil {
 	
+	@Deprecated
 	public static boolean isDream(Entity e) {
 		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
 		if(op.isEmpty())
@@ -38,6 +38,13 @@ public class FaeUtil {
 		if(op.isEmpty())
 			return;
 		op.get().setDream(b);
+	}
+	public static void toggleDream(Entity e) {
+		byte dream = FaeUtil.getDream(e);
+		if(dream == 0)
+			FaeUtil.setDream(e, (byte)1);
+		else if(dream == 1)
+			FaeUtil.setDream(e, (byte)0);
 	}
 
 	@ClientOnly
@@ -123,12 +130,14 @@ public class FaeUtil {
 		return false;
 	}
 	public static boolean canInteract(Entity entity, BlockPos pos, World world) {
-		if(isDream(entity)) {
+		byte dream = getDream(entity);
+		if(dream == 1) {
 			return !isDreamAir(pos, world);
 		}
-		else {
+		else if(dream == 0) {
 			return !isDreamBlock(pos, world);
 		}
+		return true;
 	}
 	
 	@ClientOnly
@@ -149,9 +158,20 @@ public class FaeUtil {
 	public static boolean hasClientPlayer() {
 		return getClientPlayer() != null;
 	}
+
 	@ClientOnly
 	public static boolean isPlayerDream() {
-		return getClientPlayer() instanceof DreamClientPlayer dcp && dcp.isDream();
+		ClientPlayerEntity player = getClientPlayer();
+		if(player == null)
+			return false;
+		return getDream(getClientPlayer()) == 1;
+	}
+	@ClientOnly
+	public static byte getPlayerDream() {
+		ClientPlayerEntity player = getClientPlayer();
+		if(player == null)
+			return -1;
+		return getDream(getClientPlayer());
 	}
 	@ClientOnly
 	public static boolean canPlayerInteract(BlockPos pos) {

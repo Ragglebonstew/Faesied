@@ -2,7 +2,7 @@ package com.raggle.half_dream.api;
 
 import net.minecraft.entity.player.PlayerEntity;
 
-public interface DreamHorse extends DreamEntityComponent{
+public interface DreamHorse {
 
 	public void setPlayer(PlayerEntity player);
 	

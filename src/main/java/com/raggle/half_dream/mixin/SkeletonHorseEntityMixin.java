@@ -20,6 +20,7 @@ public abstract class SkeletonHorseEntityMixin extends HorseBaseEntity implement
 	
 	protected SkeletonHorseEntityMixin(EntityType<? extends HorseBaseEntity> entityType, World world) {
 		super(entityType, world);
+		FaeUtil.setDream(this, (byte) 2);
 	}
 
 
@@ -29,14 +30,6 @@ public abstract class SkeletonHorseEntityMixin extends HorseBaseEntity implement
 	@Inject(method = "initCustomGoals", at = @At("TAIL"))
 	protected void initCustomGoals(CallbackInfo ci) {
 		this.goalSelector.add(1, new CrossRiverGoal((SkeletonHorseEntity)(Object)this));
-	}
-	@Override
-	public boolean isDream() {
-		return FaeUtil.isDream(this.mountedPlayer);
-	}
-	@Override
-	public byte getDream() {
-		return 2;
 	}
 
 

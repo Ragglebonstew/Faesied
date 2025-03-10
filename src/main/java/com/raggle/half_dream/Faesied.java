@@ -47,6 +47,7 @@ bug list (things that are broke)
 - skybox renders w/ sodium
 - placed dream blocks don't register as dream
 - living and item entities are not registered for dream
+- placed blocks at dream don't replace
 
 check list (things that may/may not be broke anymore)
 - empty!

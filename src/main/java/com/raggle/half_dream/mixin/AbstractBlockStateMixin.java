@@ -46,7 +46,7 @@ public abstract class AbstractBlockStateMixin {
 	@Inject(method = "canReplace", at = @At("HEAD"), cancellable = true)
 	public void canReplace(ItemPlacementContext context, CallbackInfoReturnable<Boolean> cir) {
 		PlayerEntity player = context.getPlayer();
-		if(!FaeUtil.isDream(player)) {
+		if(FaeUtil.getDream(player) == 0) {
 			if(FaeUtil.isDreamBlock(context.getBlockPos(), context.getWorld()))
 				cir.setReturnValue(true);
 		}

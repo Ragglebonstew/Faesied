@@ -31,7 +31,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 			//return;
 		}
 		
-		if(count < 20) {
+		if(count < 80) {
 			count += 1;
 		}
 		else {

@@ -14,7 +14,6 @@ public class FaeMessaging {
 	public static final Identifier ON_LOAD_CLIENT = new Identifier(Faesied.MOD_ID, "on_load_client");
 	
 	public static void registerS2CPackets() {
-		ClientPlayNetworking.registerGlobalReceiver(DREAM_SYNC, FaeS2C::receive);
 		ClientPlayNetworking.registerGlobalReceiver(SKELETON_LIST_SIZE, FaeS2C::recieveListSize);
 	}
 	public static void registerC2SPackets() {

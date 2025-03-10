@@ -3,7 +3,7 @@ package com.raggle.half_dream.common.registry;
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamEntityComponent;
 import com.raggle.half_dream.api.DreamlessComponent;
-import com.raggle.half_dream.common.component.DreamEntityComponentP;
+import com.raggle.half_dream.common.component.DreamEntityComponentImpl;
 import com.raggle.half_dream.common.component.DreamlessChunkComponent;
 
 import dev.onyxstudios.cca.api.v3.chunk.ChunkComponentFactoryRegistry;
@@ -12,6 +12,8 @@ import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import dev.onyxstudios.cca.api.v3.component.ComponentRegistryV3;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
+import net.minecraft.entity.ItemEntity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.Identifier;
 
@@ -35,6 +37,8 @@ public class FaeComponentRegistry implements ChunkComponentInitializer, EntityCo
 	}
 	@Override
 	public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry) {
-		registry.registerFor(PlayerEntity.class, DREAM_ENTITY, DreamEntityComponentP::new);
+		registry.registerFor(ItemEntity.class, DREAM_ENTITY, DreamEntityComponentImpl::new);
+		registry.registerFor(LivingEntity.class, DREAM_ENTITY, DreamEntityComponentImpl::new);
+		registry.registerFor(PlayerEntity.class, DREAM_ENTITY, DreamEntityComponentImpl::new);
 	}
 }

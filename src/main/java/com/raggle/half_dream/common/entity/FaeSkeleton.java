@@ -1,7 +1,7 @@
 package com.raggle.half_dream.common.entity;
 
-import com.raggle.half_dream.api.DreamEntityComponent;
 import com.raggle.half_dream.api.DreamServerPlayer;
+import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.registry.FaeItemRegistry;
 
 import net.minecraft.entity.EntityType;
@@ -27,7 +27,7 @@ public class FaeSkeleton extends StrayEntity {
 		super(entityType, world);
 		this.setPathfindingPenalty(PathNodeType.DOOR_OPEN, -1.0F);
 		
-		((DreamEntityComponent)this).setDream(true);
+		FaeUtil.setDream(this, (byte)1);
 	}
 
 	@Override
@@ -45,10 +45,8 @@ public class FaeSkeleton extends StrayEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		if(this.getTarget() instanceof DreamEntityComponent de) {
-			if(!de.isDream())
-				this.setTarget(null);
-		}
+		if(FaeUtil.getDream(this.getTarget()) == 0)
+			this.setTarget(null);
 	}
 
 	@Override

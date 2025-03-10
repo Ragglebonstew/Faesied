@@ -4,9 +4,9 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
-import com.raggle.half_dream.api.DreamServerPlayer;
 import com.raggle.half_dream.common.FaeUtil;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
@@ -14,6 +14,9 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
@@ -24,9 +27,11 @@ public class FaeEventRegistry {
 	public static void init() {
 		ServerPlayerEntityCopyCallback.EVENT.register(FaeEventRegistry::afterRespawn);
 		PlayerBlockBreakEvents.BEFORE.register(FaeEventRegistry::beforeBlockBreak);
+		UseBlockCallback.EVENT.register(FaeEventRegistry::onBlockUse);
+		
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(CommandManager.literal("dreamstate").executes(context -> {
-			if(context.getSource().getEntity() instanceof DreamServerPlayer dsp) {
-				dsp.setDream(!dsp.isDream());
+			if(context.getSource().getEntity() instanceof ServerPlayerEntity spe) {
+				FaeUtil.toggleDream(spe);
 			}
 	     
 			return 1;
@@ -38,9 +43,12 @@ public class FaeEventRegistry {
 	}
 	private static boolean beforeBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity){
 		
-		if(FaeUtil.isDream(player)) {
+		byte player_dream = FaeUtil.getDream(player);
+		
+		if(player_dream == 1) {
 			if(FaeUtil.isDreamBlock(pos, world)) {
 				FaeUtil.setDreamBlock(pos, false, world);
+				return true;
 			}
 			else {
 				FaeUtil.setDreamAir(pos, true, world);
@@ -52,6 +60,15 @@ public class FaeEventRegistry {
 			FaeUtil.setDreamAir(pos, false, world);
 		}
 		return true;
+	}
+	
+	private static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
+
+		if(FaeUtil.getDream(player) == 1) {
+			FaeUtil.setDreamAir(hitResult.getBlockPos(), true, world);
+		}
+		
+		return ActionResult.PASS;
 	}
 	/*static BlockPos lastPlayerPos;
 	private static void clientTick(MinecraftClient mc) {

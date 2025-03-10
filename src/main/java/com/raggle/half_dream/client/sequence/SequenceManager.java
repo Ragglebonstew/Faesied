@@ -1,6 +1,6 @@
 package com.raggle.half_dream.client.sequence;
 
-import com.raggle.half_dream.api.DreamClientPlayer;
+import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiGraphics;
@@ -22,7 +22,7 @@ public class SequenceManager {
 				fogEffect = null;
 			}
 		}
-		else if(client.player instanceof DreamClientPlayer dcp && dcp.isDream()) {
+		else if(FaeUtil.getDream(client.player) == 1) {
 			setFogEffect(FogEffect.DREAM_FOG);
 		}
 			

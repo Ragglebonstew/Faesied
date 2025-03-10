@@ -2,7 +2,6 @@ package com.raggle.half_dream.client.sequence;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import com.raggle.half_dream.api.DreamClientPlayer;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.MinecraftClient;
@@ -16,19 +15,19 @@ public class BridgeFogEffect extends FogEffect {
 
 	private final BlockPos startPos;
 	private final Direction startFacing;
-	private final boolean startDream;
+	private final byte startDream;
 	private int progress;
 	
-	public BridgeFogEffect(BlockPos startPos, Direction startFacing, boolean startDream) {
+	public BridgeFogEffect(BlockPos startPos, Direction startFacing, byte startDream) {
 		this.startPos = startPos;
 		this.startFacing = startFacing;
 		this.startDream = startDream;
 		this.progress = 1;
-		this.alpha = this.startDream ? 1.0F : 0.0F;
+		this.alpha = this.startDream == 1 ? 1.0F : 0.0F;
 	}
 	@Override
 	public void tick(MinecraftClient client) {
-		if(client.player instanceof DreamClientPlayer dcp && (dcp.isDream() != this.startDream)) {
+		if(FaeUtil.getDream(client.player) != this.startDream) {
 			this.finished = true;
 		}
 		if(this.cancelled) {
@@ -45,7 +44,7 @@ public class BridgeFogEffect extends FogEffect {
 		if(this.cancelled)
 			s = s/this.progress;
 		s = MathHelper.clamp(s, 0, 1);
-		if(this.startDream)
+		if(this.startDream == 1)
 			s = 1 - s;
 		
 		this.alpha = (float)s;
