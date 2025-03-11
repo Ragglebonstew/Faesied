@@ -6,6 +6,8 @@
 	"mixins": [
 		"AbstractBlockStateMixin",
 		"BrewingRecipeRegistryMixin",
+		"ChunkLightProviderAccessor",
+		"ChunkLightProviderMixin",
 		"EntityMixin",
 		"ItemEntityMixin",
 		"LandPathNodeMakerMixin",

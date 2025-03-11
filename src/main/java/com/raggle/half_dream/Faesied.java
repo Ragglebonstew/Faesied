@@ -45,7 +45,7 @@ bug list (things that are broke)
 - can attack entities despite dream state
 - entities can push player in dream state, and probably the other way around
 - skybox renders w/ sodium
-- living and item entities are not registered for dream
+- living and dropped item entities are not registered for dream
 - replacing blocks w/ dream blocks misplaces dream block pos
 - dream blocks cast shadow on real world
 

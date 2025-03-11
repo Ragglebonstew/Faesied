@@ -5,16 +5,20 @@ import java.util.Optional;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
+import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import com.raggle.half_dream.mixin.WorldRendererAccessor;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
+import net.minecraft.client.render.chunk.ChunkRenderRegion;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
+import net.minecraft.world.BlockView;
+import net.minecraft.world.EmptyBlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 
@@ -94,18 +98,47 @@ public class FaeUtil {
 		return false;
 	}
 
+	public static boolean isDreamAir(BlockPos pos, BlockView world) {
+		if(world instanceof World w) {
+			return isDreamAir(pos, w);
+		}
+		else if(world instanceof Chunk c) {
+			return isDreamAir(pos, c);
+		}
+		Faesied.LOGGER.warn("BlockView was neither world nor chunk: "+world.getClass().descriptorString());
+		return false;
+	}
+	public static boolean isDreamBlock(BlockPos pos, BlockView world) {
+		if(world instanceof World w) {
+			return isDreamBlock(pos, w);
+		}
+		else if(world instanceof Chunk c) {
+			return isDreamBlock(pos, c);
+		}
+		else if(world instanceof ChunkRenderRegion || world instanceof EmptyBlockView) {
+			return false;
+		}
+		Faesied.LOGGER.warn("BlockView was neither world nor chunk: "+world.getClass().descriptorString());
+		return false;
+	}
 	public static boolean isDreamAir(BlockPos pos, World world) {
-		if(world != null) {
-			Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(world.getChunk(pos));
+		return isDreamAir(pos, world.getChunk(pos));
+	}
+	public static boolean isDreamBlock(BlockPos pos, World world) {
+		return isDreamBlock(pos, world.getChunk(pos));
+	}
+	public static boolean isDreamAir(BlockPos pos, Chunk chunk) {
+		if(chunk != null) {
+			Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
 			if(op.isEmpty())
 				return false;
 			return op.get().contains(pos);
 		}
 		return false;
 	}
-	public static boolean isDreamBlock(BlockPos pos, World world) {
-		if(world != null) {
-			Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(world.getChunk(pos));
+	public static boolean isDreamBlock(BlockPos pos, Chunk chunk) {
+		if(chunk != null) {
+			Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
 			if(op.isEmpty())
 				return false;
 			return op.get().contains(pos);
@@ -118,7 +151,7 @@ public class FaeUtil {
 		byte d2 = getDream(e2);
 		return d1 == 2 || d2 == 2 || d1 == d2;
 	}
-	public static boolean canInteract(Entity entity, BlockPos pos, World world) {
+	public static boolean canInteract(Entity entity, BlockPos pos, BlockView world) {
 		byte dream = getDream(entity);
 		if(dream == 1) {
 			return !isDreamAir(pos, world);

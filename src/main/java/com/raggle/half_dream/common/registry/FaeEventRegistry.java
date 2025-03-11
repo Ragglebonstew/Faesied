@@ -6,8 +6,6 @@ import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.raggle.half_dream.common.FaeUtil;
-import com.raggle.half_dream.common.particles.FaeParticles;
-
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
