@@ -10,6 +10,7 @@ import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import com.raggle.half_dream.mixin.WorldRendererAccessor;
 
+import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.chunk.ChunkRenderRegion;
@@ -99,46 +100,37 @@ public class FaeUtil {
 	}
 
 	public static boolean isDreamAir(BlockPos pos, BlockView world) {
-		if(world instanceof World w) {
-			return isDreamAir(pos, w);
-		}
-		else if(world instanceof Chunk c) {
-			return isDreamAir(pos, c);
-		}
-		Faesied.LOGGER.warn("BlockView was neither world nor chunk: "+world.getClass().descriptorString());
-		return false;
+		return componentContainsPos(pos, world, DREAM_TYPE.AIR);
 	}
 	public static boolean isDreamBlock(BlockPos pos, BlockView world) {
+		return componentContainsPos(pos, world, DREAM_TYPE.BLOCK);
+	}
+	
+
+	public static boolean componentContainsPos(BlockPos pos, BlockView world, DREAM_TYPE type) {
 		if(world instanceof World w) {
-			return isDreamBlock(pos, w);
+			return componentContainsPos(pos, w, type);
 		}
 		else if(world instanceof Chunk c) {
-			return isDreamBlock(pos, c);
+			return componentContainsPos(pos, c, type);
 		}
-		else if(world instanceof ChunkRenderRegion || world instanceof EmptyBlockView) {
-			return false;
-		}
-		Faesied.LOGGER.warn("BlockView was neither world nor chunk: "+world.getClass().descriptorString());
 		return false;
 	}
-	public static boolean isDreamAir(BlockPos pos, World world) {
-		return isDreamAir(pos, world.getChunk(pos));
-	}
-	public static boolean isDreamBlock(BlockPos pos, World world) {
+	private static boolean componentContainsPos(BlockPos pos, World world, DREAM_TYPE type) {
 		return isDreamBlock(pos, world.getChunk(pos));
 	}
-	public static boolean isDreamAir(BlockPos pos, Chunk chunk) {
-		if(chunk != null) {
-			Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
-			if(op.isEmpty())
-				return false;
-			return op.get().contains(pos);
+	private static boolean componentContainsPos(BlockPos pos, Chunk chunk, DREAM_TYPE type) {
+		if(type == DREAM_TYPE.AIR) {
+			return componentContainsPos(pos, chunk, FaeComponentRegistry.DREAM_AIR);
+		}
+		else if(type == DREAM_TYPE.BLOCK) {
+			return componentContainsPos(pos, chunk, FaeComponentRegistry.DREAM_BLOCKS);
 		}
 		return false;
 	}
-	public static boolean isDreamBlock(BlockPos pos, Chunk chunk) {
+	private static boolean componentContainsPos(BlockPos pos, Chunk chunk, ComponentKey<DreamChunkComponent> key) {
 		if(chunk != null) {
-			Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
+			Optional<DreamChunkComponent> op = key.maybeGet(chunk);
 			if(op.isEmpty())
 				return false;
 			return op.get().contains(pos);
@@ -160,6 +152,11 @@ public class FaeUtil {
 			return !isDreamBlock(pos, world);
 		}
 		return true;
+	}
+	
+	public enum DREAM_TYPE {
+		AIR,
+		BLOCK
 	}
 	
 	@ClientOnly
