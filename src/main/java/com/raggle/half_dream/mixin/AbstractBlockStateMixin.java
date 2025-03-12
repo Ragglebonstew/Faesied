@@ -112,6 +112,16 @@ public abstract class AbstractBlockStateMixin {
 	}*/
 
 	
+	@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
+	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+		if(world instanceof Chunk w && !(w instanceof EmptyChunk || w instanceof ProtoChunk)) {
+			if(FaeUtil.isDreamBlock(pos, world)) {
+				cir.setReturnValue(0);
+			}
+		}
+	}
+	
+	
 	//Endless light wrangling below (Everything is just to get light to pass through dream blocks)
 	
 	//This method completely also bricks world generation apparently
@@ -122,22 +132,6 @@ public abstract class AbstractBlockStateMixin {
 			cir.setReturnValue(VoxelShapes.empty());
 		}
 	}*/
-	
-	//This method completely bricks world generation for some reason
-	//*
-	@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
-	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-
-		//Faesied.LOGGER.info("calling method");
-		if(world instanceof Chunk w  && !(w instanceof EmptyChunk || w instanceof ProtoChunk)) {
-			//Faesied.LOGGER.info("preparing dream block call from ");
-			if(FaeUtil.isDreamBlock(pos, world)) {
-				//Faesied.LOGGER.info("trying at "+pos.asLong());
-				cir.setReturnValue(0);
-			}
-		}
-	}//*/
-	
 	/*
 	@Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
 	private void isTranslucent(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
