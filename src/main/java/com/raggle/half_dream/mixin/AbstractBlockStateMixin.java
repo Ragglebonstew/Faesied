@@ -2,6 +2,7 @@ package com.raggle.half_dream.mixin;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -10,6 +11,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.ShapeContext;
@@ -26,6 +28,12 @@ import net.minecraft.world.World;
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class AbstractBlockStateMixin {
+	
+	@Shadow
+	public abstract boolean isAir();
+
+	@Shadow
+	public abstract Block getBlock();
     
 	@Inject(at = @At("HEAD"), method = "getCollisionShape(Lnet/minecraft/world/BlockView;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/block/ShapeContext;)Lnet/minecraft/util/shape/VoxelShape;", cancellable = true)
     private void getCollisionShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
@@ -90,7 +98,7 @@ public abstract class AbstractBlockStateMixin {
 
 	@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
 	public void onStateReplaced(World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
-		if(moved) {
+		if(moved || this.isAir()) {// || newState.getBlock() == this.getBlock()) {
 			return;
 		}
 		FaeUtil.setDreamBlock(pos, false, world);

@@ -30,7 +30,6 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
                     mc.worldRenderer.reload();
                 }
         	}
-        	//SequenceManager.start(new FallingHalfAsleepSequence(dcp, this.dream, tag.getBoolean("dream")));
         }
 	}
 
