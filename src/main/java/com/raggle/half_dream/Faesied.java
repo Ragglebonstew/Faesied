@@ -46,8 +46,7 @@ bug list (things that are broke)
 - entities can push player in dream state, and probably the other way around
 - skybox renders w/ sodium
 - living and dropped item entities are not registered for dream
-- replacing blocks w/ dream blocks misplaces dream block pos
-- dream blocks cast shadow on real world
+* dream blocks cast shadow on real world (WHY IS THIS LIGHTING ENGINE SO WACKO (ToT))
 
 check list (things that may/may not be broke anymore)
 - empty!

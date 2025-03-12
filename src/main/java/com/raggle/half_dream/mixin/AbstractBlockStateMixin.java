@@ -25,6 +25,9 @@ import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.EmptyChunk;
+import net.minecraft.world.chunk.ProtoChunk;
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class AbstractBlockStateMixin {
@@ -121,13 +124,19 @@ public abstract class AbstractBlockStateMixin {
 	}*/
 	
 	//This method completely bricks world generation for some reason
-	/*
+	//*
 	@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
 	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(0);
+
+		//Faesied.LOGGER.info("calling method");
+		if(world instanceof Chunk w  && !(w instanceof EmptyChunk || w instanceof ProtoChunk)) {
+			//Faesied.LOGGER.info("preparing dream block call from ");
+			if(FaeUtil.isDreamBlock(pos, world)) {
+				//Faesied.LOGGER.info("trying at "+pos.asLong());
+				cir.setReturnValue(0);
+			}
 		}
-	}*/
+	}//*/
 	
 	/*
 	@Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
@@ -135,14 +144,14 @@ public abstract class AbstractBlockStateMixin {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(true);
 		}
-	}
-	//*//*
+	}*/
+	/*
 	@Inject(method = "getAmbientOcclusionLightLevel", at = @At("HEAD"), cancellable = true)
 	private void getAmbientOcclusionLightLevel(BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(1.0F);
 		}
-	}
+	}*/
 	/*
 	@Inject(method = "isSolidBlock", at = @At("HEAD"), cancellable = true)
 	private void isSolidBlock(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
