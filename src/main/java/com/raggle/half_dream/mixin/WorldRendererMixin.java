@@ -14,6 +14,7 @@ import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.WorldRenderer;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockRenderView;
+import net.minecraft.world.LightType;
 
 @ClientOnly
 @Mixin(WorldRenderer.class)
@@ -28,10 +29,10 @@ public abstract class WorldRendererMixin {
 	
 	@Inject(method = "getLightmapCoordinates(Lnet/minecraft/world/BlockRenderView;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/BlockPos;)I", at = @At("TAIL"), cancellable = true)
 	private static void getLightmapCoordinates(BlockRenderView world, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtil.isPlayerDream()) {
+		if(FaeUtil.getPlayerDream() == 1) {
 			
-			int lightmap = cir.getReturnValue();
-			int blockLight = LightmapTextureManager.getBlockLightCoordinates(lightmap);
+			//int lightmap = cir.getReturnValue();
+			int blockLight = 0;//world.getLightLevel(LightType.BLOCK, pos);
 			if(FaeUtil.isDreamAir(pos)) {
 				blockLight = 4;
 			}
@@ -41,6 +42,7 @@ public abstract class WorldRendererMixin {
 			}
 
 			cir.setReturnValue(0 << 20 | blockLight << 4);
+			//cir.setReturnValue(0);
 		}
 	}
 }

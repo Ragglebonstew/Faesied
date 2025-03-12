@@ -5,6 +5,7 @@ import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.FaeUtil;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
@@ -22,6 +23,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
 
 public class FaeEventRegistry {
 	
@@ -39,18 +41,31 @@ public class FaeEventRegistry {
 				.then(CommandManager.argument("value", IntegerArgumentType.integer())
 						.executes(context -> 
 				{
-					if(context.getSource().getEntity() instanceof ServerPlayerEntity spe) {
-						byte dream = (byte)IntegerArgumentType.getInteger(context, "value");
-						if(dream >= 0 && dream <= 2) {
-							FaeUtil.setDream(spe, dream);
-							context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(dream)), false);
-						}
-						else {
-							context.getSource().sendFeedback(() -> Text.literal("Value must be between 0 and 2"), false);
-						}
+					byte dream = (byte)IntegerArgumentType.getInteger(context, "value");
+					if(dream >= 0 && dream <= 2) {
+						FaeUtil.setDream(context.getSource().getPlayer(), dream);
+						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(dream)), false);
+					}
+					else {
+						context.getSource().sendFeedback(() -> Text.literal("Value must be between 0 and 2"), false);
 					}
 					return 1;
 		}))));
+		
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
+				CommandManager
+				.literal("dreamclear")
+				.requires(source -> source.hasPermissionLevel(2))
+				.executes(context -> 
+				{
+					context.getSource().getServer();
+					Chunk chunk = context.getSource().getPlayer().getWorld().getChunk(context.getSource().getPlayer().getBlockPos());
+					int air_count = FaeComponentRegistry.DREAM_AIR.get(chunk).clear();
+					int block_count = FaeComponentRegistry.DREAM_BLOCKS.get(chunk).clear();
+					
+					context.getSource().sendFeedback(() -> Text.literal("Deleted "+air_count+" dream air and "+block_count+" dream blocks"), false);
+					return 1;
+		})));
 	}
 	
 	private static void afterRespawn(ServerPlayerEntity copy, ServerPlayerEntity original, boolean wasDeath) {

@@ -51,7 +51,7 @@ public abstract class AbstractBlockStateMixin {
 	public void canReplace(ItemPlacementContext context, CallbackInfoReturnable<Boolean> cir) {
 		PlayerEntity player = context.getPlayer();
 		if(FaeUtil.getDream(player) == 0) {
-			if(FaeUtil.setDreamBlock(context.getBlockPos(), false, context.getWorld())) {
+			if(FaeUtil.isDreamBlock(context.getBlockPos(), context.getWorld())) {
 				cir.setReturnValue(true);
 			}
 		}
@@ -71,7 +71,7 @@ public abstract class AbstractBlockStateMixin {
 	
 	@Inject(method = "onEntityCollision", at = @At("HEAD"), cancellable = true)
     private void onEntityCollision(World world, BlockPos pos, Entity entity, CallbackInfo ci) {
-		if(FaeUtil.canInteract(entity, pos, world))
+		if(!FaeUtil.canInteract(entity, pos, world))
 			ci.cancel();
     }
 	@Inject(method = "shouldBlockVision", at = @At("HEAD"), cancellable = true)
@@ -87,7 +87,14 @@ public abstract class AbstractBlockStateMixin {
 			}
 		}
 	}
-	
+
+	@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
+	public void onStateReplaced(World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
+		if(moved) {
+			return;
+		}
+		FaeUtil.setDreamBlock(pos, false, world);
+	}
 
 	/*public boolean canPathfindThrough(BlockView world, BlockPos pos, NavigationType type) {
 		return this.getBlock().canPathfindThrough(this.asBlockState(), world, pos, type);
@@ -95,35 +102,45 @@ public abstract class AbstractBlockStateMixin {
 
 	
 	//Endless light wrangling below (Everything is just to get light to pass through dream blocks)
-
+	
+	//This method completely also bricks world generation apparently
+	/*
 	@Inject(method = "getCullingFace", at = @At("HEAD"), cancellable = true)
 	private void getCullingFace(BlockView world, BlockPos pos, Direction direction, CallbackInfoReturnable<VoxelShape> cir) {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(VoxelShapes.empty());
 		}
-	}
+	}*/
+	
+	//This method completely bricks world generation for some reason
+	/*
 	@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
 	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(0);
 		}
-	}
+	}*/
+	
+	/*
 	@Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
 	private void isTranslucent(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(true);
 		}
 	}
+	//*//*
 	@Inject(method = "getAmbientOcclusionLightLevel", at = @At("HEAD"), cancellable = true)
 	private void getAmbientOcclusionLightLevel(BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(1.0F);
 		}
 	}
+	/*
 	@Inject(method = "isSolidBlock", at = @At("HEAD"), cancellable = true)
 	private void isSolidBlock(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(false);
 		}
 	}
+	*/
 }

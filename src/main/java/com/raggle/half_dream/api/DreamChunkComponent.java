@@ -11,4 +11,6 @@ public interface DreamChunkComponent extends ComponentV3 {
 	
 	public boolean removePosFromList(BlockPos pos);
 	
+	public int clear();
+	
 }

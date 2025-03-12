@@ -18,6 +18,7 @@ import net.minecraft.world.chunk.light.ChunkLightProvider;
 @Mixin(ChunkLightProvider.class)
 public class ChunkLightProviderMixin {
 
+/*
 	@Inject(method = "getState", at = @At("HEAD"), cancellable = true)
 	private void getState(BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
 		ChunkProvider chunkProvider = ((ChunkLightProviderAccessor)this).getChunkProvider();
@@ -34,5 +35,5 @@ public class ChunkLightProviderMixin {
 			cir.setReturnValue(false);
 		}
 	}
-
+*/
 }

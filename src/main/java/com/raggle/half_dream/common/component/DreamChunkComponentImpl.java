@@ -84,6 +84,14 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 		return false;
 	}
 	
+	@Override
+	public int clear() {
+		int count = this.posList.size();
+		this.posList.clear();
+		this.sync();
+		return count;
+	}
+	
 	private void sync() {
 		FaeComponentRegistry.DREAM_AIR.sync(provider);
 		FaeComponentRegistry.DREAM_BLOCKS.sync(provider);

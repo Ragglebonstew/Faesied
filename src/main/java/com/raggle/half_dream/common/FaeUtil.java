@@ -13,15 +13,15 @@ import com.raggle.half_dream.mixin.WorldRendererAccessor;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.render.chunk.ChunkRenderRegion;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.BlockView;
-import net.minecraft.world.EmptyBlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.EmptyChunk;
+import net.minecraft.world.chunk.ProtoChunk;
 
 public class FaeUtil {
 	
@@ -72,15 +72,19 @@ public class FaeUtil {
 				Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
 				if(op.isEmpty())
 					return false;
-				if(append)
+				if(append) {
+					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to air");
 					return op.get().addPosToList(pos);
-				else
+				}
+				else {
+					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to air");
 					return op.get().removePosFromList(pos);
+				}
 			}
 		}
 		return false;
 	}
-	public static boolean setDreamBlock(BlockPos pos, boolean dreamless, World world) {
+	public static boolean setDreamBlock(BlockPos pos, boolean append, World world) {
 		if(world != null) {
 			Chunk chunk = world.getChunk(pos);
 			
@@ -90,10 +94,14 @@ public class FaeUtil {
 				Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
 				if(op.isEmpty())
 					return false;
-				if(dreamless)
+				if(append) {
+					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
 					return op.get().addPosToList(pos);
-				else
+				}
+				else {
+					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
 					return op.get().removePosFromList(pos);
+				}
 			}
 		}
 		return false;
@@ -108,18 +116,25 @@ public class FaeUtil {
 	
 
 	public static boolean componentContainsPos(BlockPos pos, BlockView world, DREAM_TYPE type) {
+		Chunk chunk = null;
+		
 		if(world instanceof World w) {
-			return componentContainsPos(pos, w, type);
+			chunk = w.getChunk(pos);
 		}
 		else if(world instanceof Chunk c) {
-			return componentContainsPos(pos, c, type);
+			chunk = c;
+		}
+		
+		if(chunk != null) {
+			return componentContainsPos(pos, chunk, type);
 		}
 		return false;
 	}
-	private static boolean componentContainsPos(BlockPos pos, World world, DREAM_TYPE type) {
-		return isDreamBlock(pos, world.getChunk(pos));
-	}
 	private static boolean componentContainsPos(BlockPos pos, Chunk chunk, DREAM_TYPE type) {
+		if(chunk instanceof ProtoChunk) {
+			return false;
+		}
+		
 		if(type == DREAM_TYPE.AIR) {
 			return componentContainsPos(pos, chunk, FaeComponentRegistry.DREAM_AIR);
 		}
@@ -129,7 +144,7 @@ public class FaeUtil {
 		return false;
 	}
 	private static boolean componentContainsPos(BlockPos pos, Chunk chunk, ComponentKey<DreamChunkComponent> key) {
-		if(chunk != null) {
+		if(chunk != null && !(chunk instanceof EmptyChunk)) {
 			Optional<DreamChunkComponent> op = key.maybeGet(chunk);
 			if(op.isEmpty())
 				return false;

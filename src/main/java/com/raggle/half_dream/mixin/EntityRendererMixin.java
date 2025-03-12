@@ -21,10 +21,8 @@ public class EntityRendererMixin<T extends Entity> {
 
 	@Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
 	private void shouldRender(T entity, Frustum frustum, double d, double e, double f, CallbackInfoReturnable<Boolean> cir) {
-		if(entity instanceof DreamEntityComponent de && !(entity instanceof DreamHorse)) {
-			if(!FaeUtil.canInteract(entity, FaeUtil.getClientPlayer())) {
-				cir.setReturnValue(false);
-			}
+		if(!FaeUtil.canInteract(entity, FaeUtil.getClientPlayer())) {
+			cir.setReturnValue(false);
 		}
 	}
 	
