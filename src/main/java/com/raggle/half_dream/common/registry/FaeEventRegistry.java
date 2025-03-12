@@ -84,6 +84,7 @@ public class FaeEventRegistry {
 				FaeUtil.setDreamAir(pos, true, world);
 				ItemEntity dream_resin = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN));
 				world.spawnEntity(dream_resin);
+				dream_resin.setPickupDelay(40);
 				FaeUtil.setDream(dream_resin, (byte)1);
 				return false;
 			}

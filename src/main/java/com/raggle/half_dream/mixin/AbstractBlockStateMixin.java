@@ -98,7 +98,7 @@ public abstract class AbstractBlockStateMixin {
 			}
 		}
 	}
-
+	//handles real players placing at dream block location
 	@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
 	public void onStateReplaced(World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
 		if(moved || this.isAir()) {// || newState.getBlock() == this.getBlock()) {
@@ -111,7 +111,7 @@ public abstract class AbstractBlockStateMixin {
 		return this.getBlock().canPathfindThrough(this.asBlockState(), world, pos, type);
 	}*/
 
-	
+	//handles light passage for dream blocks
 	@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
 	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
 		if(world instanceof Chunk w && !(w instanceof EmptyChunk || w instanceof ProtoChunk)) {

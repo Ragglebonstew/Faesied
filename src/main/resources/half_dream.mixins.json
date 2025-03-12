@@ -12,6 +12,7 @@
 		"LivingEntityMixin",
 		"MobEntityAccessor",
 		"MobEntityMixin",
+		"PlayerEntityMixin",
 		"ServerPlayerEntityMixin",
 		"SkeletonHorseEntityMixin",
 		"WorldMixin"

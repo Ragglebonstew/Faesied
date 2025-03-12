@@ -44,12 +44,13 @@ bug list (things that are broke)
 	- dream mobs get stuck in dreamless blocks
 - can attack entities despite dream state
 - entities can push player in dream state, and probably the other way around
-- skybox renders w/ sodium
-- living and dropped item entities are not registered for dream
-* dream blocks cast shadow on real world (WHY IS THIS LIGHTING ENGINE SO WACKO (ToT))
+- dropped item entities are not registered for dream
 
 check list (things that may/may not be broke anymore)
-- empty!
+- sodium
+- dream block replacement
+	- grass in dream or real replaced w/ other may be weird
+- dropped items correct state
 
 
 ideas (things that aren't in atm)
