@@ -100,14 +100,20 @@ public class FaeEventRegistry {
 	
 	private static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
 
+		if(world.isClient()) {
+			return ActionResult.PASS;
+		}
 		//trying to figure out if block was placed on another, or replaced it
 		if(FaeUtil.getDream(player) == 1) {
 			Iterable<ItemStack> stacks = player.getItemsHand();
 			for(ItemStack itemStack : stacks) {
-				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
+				ItemPlacementContext itemContext = new ItemPlacementContext(world, player, hand, itemStack, hitResult);
+				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
 
-				if(itemContext.canPlace()) {
+				if(block_hand != Blocks.AIR && block_hand != null && itemContext.canPlace()) {
 					FaeUtil.setDreamBlock(itemContext.getBlockPos(), true, world);
+					BlockPos pos = itemContext.getBlockPos();
+					Faesied.LOGGER.info("Placing at "+pos.getX()+", "+pos.getY()+", "+pos.getZ());
 					break;
 				}
 			}

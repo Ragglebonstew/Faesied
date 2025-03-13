@@ -6,6 +6,7 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
+import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import com.raggle.half_dream.mixin.WorldRendererAccessor;
@@ -95,11 +96,11 @@ public class FaeUtil {
 				if(op.isEmpty())
 					return false;
 				if(append) {
-					//Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
 					return op.get().addPosToList(pos);
 				}
 				else {
-					//Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
 					return op.get().removePosFromList(pos);
 				}
 			}
