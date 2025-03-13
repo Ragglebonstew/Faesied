@@ -10,7 +10,6 @@ import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.Heightmap;
-import net.minecraft.world.LightType;
 import net.minecraft.world.World;
 
 @Mixin(World.class)
