@@ -5,6 +5,7 @@
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
 		"AbstractBlockStateMixin",
+		"AoCalculatorMixin",
 		"BrewingRecipeRegistryMixin",
 		"EntityMixin",
 		"ItemEntityMixin",
@@ -22,6 +23,7 @@
 		"BackgroundRendererMixin",
 		"ChunkRenderRegionMixin",
 		"ClientPlayerEntityMixin",
+		"DimensionVisualEffectsMixin",
 		"EntityRendererMixin",
 		"WorldRendererAccessor",
 		"WorldRendererMixin",
