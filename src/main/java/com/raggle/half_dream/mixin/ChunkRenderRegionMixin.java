@@ -17,6 +17,7 @@ import net.minecraft.util.math.BlockPos;
 @Mixin(ChunkRenderRegion.class)
 public abstract class ChunkRenderRegionMixin {
 	
+	//Hides blocks in renderer
 	@Inject(method = "getBlockState", at = @At("HEAD"), cancellable = true)
 	private void getBlockState(BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
 		if(!FaeUtil.canPlayerInteract(pos)){

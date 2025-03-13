@@ -44,13 +44,12 @@ bug list (things that are broke)
 	- dream mobs get stuck in dreamless blocks
 - can attack entities despite dream state
 - entities can push player in dream state, and probably the other way around
-- dropped item entities are not registered for dream
+- dropped dream block items are not registered for dream
 
 check list (things that may/may not be broke anymore)
 - sodium
 - dream block replacement
 	- grass in dream or real replaced w/ other may be weird
-- dropped items correct state
 
 
 ideas (things that aren't in atm)

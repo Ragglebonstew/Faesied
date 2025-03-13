@@ -2,6 +2,7 @@ package com.raggle.half_dream.common;
 
 import java.util.Optional;
 
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
@@ -178,6 +179,7 @@ public class FaeUtil {
 		BLOCK
 	}
 	
+	@Nullable
 	@ClientOnly
 	public static ClientPlayerEntity getClientPlayer() {
 		MinecraftClient mc = MinecraftClient.getInstance();
@@ -185,6 +187,7 @@ public class FaeUtil {
 			return null;
 		return mc.player;
 	}
+	@Nullable
 	@ClientOnly
 	public static ClientWorld getClientWorld() {
 		MinecraftClient mc = MinecraftClient.getInstance();
@@ -208,7 +211,7 @@ public class FaeUtil {
 	public static byte getPlayerDream() {
 		ClientPlayerEntity player = getClientPlayer();
 		if(player == null)
-			return -1;
+			return 1;
 		return getDream(getClientPlayer());
 	}
 	@ClientOnly
