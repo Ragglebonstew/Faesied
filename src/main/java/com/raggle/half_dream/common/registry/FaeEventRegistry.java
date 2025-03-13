@@ -5,14 +5,18 @@ import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.FaeUtil;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
+import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -96,16 +100,49 @@ public class FaeEventRegistry {
 	
 	private static ActionResult onBlockUse(PlayerEntity player, World world, Hand hand, BlockHitResult hitResult) {
 
-		BlockPos pos = hitResult.getBlockPos().offset(hitResult.getSide());
-		Iterable<ItemStack> stacks = player.getItemsHand();
-		
+		//trying to figure out if block was placed on another, or replaced it
 		if(FaeUtil.getDream(player) == 1) {
+			Iterable<ItemStack> stacks = player.getItemsHand();
 			for(ItemStack itemStack : stacks) {
-				if(Item.BLOCK_ITEMS.containsValue(itemStack.getItem())) {
-					FaeUtil.setDreamBlock(pos, true, world);
+				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
+
+				if(itemContext.canPlace()) {
+					FaeUtil.setDreamBlock(itemContext.getBlockPos(), true, world);
 					break;
 				}
 			}
+		}
+		else if(FaeUtil.getDream(player) == 0) {
+			Iterable<ItemStack> stacks = player.getItemsHand();
+			for(ItemStack itemStack : stacks) {
+				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
+
+				if(world.getBlockState(itemContext.getBlockPos()).getBlock() == Block.getBlockFromItem(itemStack.getItem())) {
+					FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
+					break;
+				}
+			}
+			
+			
+			
+			/*
+			Iterable<ItemStack> stacks = player.getItemsHand();
+			BlockPos pos = hitResult.getBlockPos();
+			BlockPos pos_offset = pos.offset(hitResult.getSide());
+			BlockState state = world.getBlockState(pos);
+			
+			for(ItemStack itemStack : stacks) {
+				ItemPlacementContext newContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
+				if(state.canReplace(newContext)) {
+					FaeUtil.setDreamBlock(pos, true, world);
+				}
+				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
+				if(block_hand != Blocks.AIR && block_hand != null) {
+					FaeUtil.setDreamBlock(pos_offset, true, world);
+					break;
+				}
+			}
+			*/
 		}
 		
 		return ActionResult.PASS;

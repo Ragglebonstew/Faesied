@@ -7,6 +7,7 @@ import com.mojang.blaze3d.vertex.Tessellator;
 import com.mojang.blaze3d.vertex.VertexFormats;
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamClientPlayer;
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
@@ -21,12 +22,12 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 		this.startDream = startDream;
 		this.toDream = toDream;
 		ticks = 0;
-		Faesied.LOGGER.info("Starting half asleep sequence");
+		//Faesied.LOGGER.info("Starting half asleep sequence");
 	}
 	@Override
 	public void stop() {
 		super.stop();
-		Faesied.LOGGER.info("Stopping half asleep sequence");
+		//Faesied.LOGGER.info("Stopping half asleep sequence");
 	}
 
 	@Override
@@ -54,7 +55,7 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 		
 		if(ticks == totalLength/3) {
 			//switch dream state
-			FaeUtil.setDream(FaeUtil.getClientPlayer(), toDream);
+			FaeUtil.setDream(FaeUtilClient.getClientPlayer(), toDream);
 		}
 		else if (ticks >= totalLength - 1) {
 			finished = true;

@@ -106,6 +106,28 @@ public class FaeUtil {
 		}
 		return false;
 	}
+	private static boolean setComponentPos(BlockPos pos, boolean append, World world, ComponentKey<DreamChunkComponent> key) {
+		if(world != null) {
+			Chunk chunk = world.getChunk(pos);
+			
+			if(chunk == null)
+				return false;
+			else {
+				Optional<DreamChunkComponent> op = key.maybeGet(chunk);
+				if(op.isEmpty())
+					return false;
+				if(append) {
+					//Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					return op.get().addPosToList(pos);
+				}
+				else {
+					//Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					return op.get().removePosFromList(pos);
+				}
+			}
+		}
+		return false;
+	}
 
 	public static boolean isDreamAir(BlockPos pos, BlockView world) {
 		return componentContainsPos(pos, world, DREAM_TYPE.AIR);
@@ -178,6 +200,7 @@ public class FaeUtil {
 		BLOCK
 	}
 	
+	@Deprecated
 	@Nullable
 	@ClientOnly
 	public static ClientPlayerEntity getClientPlayer() {
@@ -186,6 +209,7 @@ public class FaeUtil {
 			return null;
 		return mc.player;
 	}
+	@Deprecated
 	@Nullable
 	@ClientOnly
 	public static ClientWorld getClientWorld() {
@@ -194,6 +218,7 @@ public class FaeUtil {
 			return null;
 		return mc.world;
 	}
+	@Deprecated
 	@ClientOnly
 	public static boolean hasClientPlayer() {
 		return getClientPlayer() != null;
@@ -206,6 +231,7 @@ public class FaeUtil {
 			return false;
 		return getDream(getClientPlayer()) == 1;
 	}
+	@Deprecated
 	@ClientOnly
 	public static byte getPlayerDream() {
 		ClientPlayerEntity player = getClientPlayer();
@@ -213,10 +239,12 @@ public class FaeUtil {
 			return 1;
 		return getDream(getClientPlayer());
 	}
+	@Deprecated
 	@ClientOnly
 	public static boolean canPlayerInteract(BlockPos pos) {
 		return canInteract(getClientPlayer(), pos, getClientWorld());
 	}
+	@Deprecated
 	@ClientOnly
 	public static void scheduleChunkRenderAt(BlockPos pos) {
 		MinecraftClient mc = MinecraftClient.getInstance();
@@ -225,6 +253,7 @@ public class FaeUtil {
 			((WorldRendererAccessor)mc.worldRenderer).invokeScheduleChunkRender(chunkPos.getSectionX(), chunkPos.getSectionY(), chunkPos.getSectionZ(), true);;
 		}
 	}
+	@Deprecated
 	@ClientOnly
 	public static void scheduleChunkRenderAt(int x, int y, int z) {
 		MinecraftClient mc = MinecraftClient.getInstance();
