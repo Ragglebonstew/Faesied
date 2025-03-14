@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -60,7 +61,11 @@ public abstract class AbstractBlockStateMixin {
 		PlayerEntity player = context.getPlayer();
 		if(FaeUtil.getDream(player) == 0) {
 			if(FaeUtil.isDreamBlock(context.getBlockPos(), context.getWorld())) {
+				Faesied.LOGGER.info("cna reaplce yes!");
 				cir.setReturnValue(true);
+			}
+			else {
+				Faesied.LOGGER.info("cna reaplce idk!");
 			}
 		}
 	}
@@ -95,13 +100,12 @@ public abstract class AbstractBlockStateMixin {
 			}
 		}
 	}
-	//handles real players placing at dream block location
+	//handles real players placing at dream block location (doesn't replace dream block w/ dream block when dream)
 	@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
 	public void onStateReplaced(World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
-		if(moved || this.isAir()) {// || newState.getBlock() == this.getBlock()) {
-			return;
+		if(FaeUtil.getMarked(pos)) {
+			FaeUtil.setDreamBlock(pos, false, world);
 		}
-		FaeUtil.setDreamBlock(pos, false, world);
 	}
 
 	/*public boolean canPathfindThrough(BlockView world, BlockPos pos, NavigationType type) {

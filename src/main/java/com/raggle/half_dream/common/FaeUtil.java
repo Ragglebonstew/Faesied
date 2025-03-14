@@ -1,5 +1,6 @@
 package com.raggle.half_dream.common;
 
+import java.util.ArrayList;
 import java.util.Optional;
 
 import org.jetbrains.annotations.Nullable;
@@ -86,26 +87,8 @@ public class FaeUtil {
 		return false;
 	}
 	public static boolean setDreamBlock(BlockPos pos, boolean append, World world) {
-		if(world != null) {
-			Chunk chunk = world.getChunk(pos);
-			
-			if(chunk == null)
-				return false;
-			else {
-				Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
-				if(op.isEmpty())
-					return false;
-				if(append) {
-					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
-					return op.get().addPosToList(pos);
-				}
-				else {
-					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
-					return op.get().removePosFromList(pos);
-				}
-			}
-		}
-		return false;
+		
+		return setComponentPos(pos, append, world, FaeComponentRegistry.DREAM_BLOCKS);
 	}
 	private static boolean setComponentPos(BlockPos pos, boolean append, World world, ComponentKey<DreamChunkComponent> key) {
 		if(world != null) {
@@ -118,11 +101,11 @@ public class FaeUtil {
 				if(op.isEmpty())
 					return false;
 				if(append) {
-					//Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
 					return op.get().addPosToList(pos);
 				}
 				else {
-					//Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
 					return op.get().removePosFromList(pos);
 				}
 			}
@@ -262,6 +245,14 @@ public class FaeUtil {
 			//mc.worldRenderer.scheduleBlockRender(x, y, z);
 			((WorldRendererAccessor)mc.worldRenderer).invokeScheduleChunkRender(x, y, z, true);;
 		}
+	}
+	//coding gods forgive me, for I have written jank (marks replaced dream blocks to be removed from list)
+	private static ArrayList<BlockPos> marks = new ArrayList<BlockPos>();
+	public static boolean getMarked(BlockPos pos) {
+		return marks.remove(pos);
+	}
+	public static void addMarked(BlockPos blockPos) {
+		marks.add(blockPos);
 	}
 	
 }

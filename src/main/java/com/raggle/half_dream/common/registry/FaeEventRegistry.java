@@ -112,8 +112,6 @@ public class FaeEventRegistry {
 
 				if(block_hand != Blocks.AIR && block_hand != null && itemContext.canPlace()) {
 					FaeUtil.setDreamBlock(itemContext.getBlockPos(), true, world);
-					BlockPos pos = itemContext.getBlockPos();
-					Faesied.LOGGER.info("Placing at "+pos.getX()+", "+pos.getY()+", "+pos.getZ());
 					break;
 				}
 			}
@@ -122,9 +120,12 @@ public class FaeEventRegistry {
 			Iterable<ItemStack> stacks = player.getItemsHand();
 			for(ItemStack itemStack : stacks) {
 				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
+				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
 
-				if(world.getBlockState(itemContext.getBlockPos()).getBlock() == Block.getBlockFromItem(itemStack.getItem())) {
-					FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
+				if(block_hand != Blocks.AIR && block_hand != null && itemContext.canPlace()) {
+					Faesied.LOGGER.info("Placing block!!!");
+					//FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
+					FaeUtil.addMarked(itemContext.getBlockPos());
 					break;
 				}
 			}
