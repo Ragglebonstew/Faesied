@@ -61,11 +61,7 @@ public abstract class AbstractBlockStateMixin {
 		PlayerEntity player = context.getPlayer();
 		if(FaeUtil.getDream(player) == 0) {
 			if(FaeUtil.isDreamBlock(context.getBlockPos(), context.getWorld())) {
-				Faesied.LOGGER.info("cna reaplce yes!");
 				cir.setReturnValue(true);
-			}
-			else {
-				Faesied.LOGGER.info("cna reaplce idk!");
 			}
 		}
 	}

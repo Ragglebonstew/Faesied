@@ -123,9 +123,11 @@ public class FaeEventRegistry {
 				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
 
 				if(block_hand != Blocks.AIR && block_hand != null && itemContext.canPlace()) {
-					Faesied.LOGGER.info("Placing block!!!");
-					//FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
-					FaeUtil.addMarked(itemContext.getBlockPos());
+					if(block_hand == world.getBlockState(itemContext.getBlockPos()).getBlock()) {
+						FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
+					}
+					else
+						FaeUtil.addMarked(itemContext.getBlockPos());
 					break;
 				}
 			}

@@ -65,29 +65,9 @@ public class FaeUtil {
 	}
 	
 	public static boolean setDreamAir(BlockPos pos, boolean append, World world) {
-		if(world != null) {
-			Chunk chunk = world.getChunk(pos);
-			
-			if(chunk == null || chunk.getBlockState(pos).isAir())
-				return false;
-			else {
-				Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_AIR.maybeGet(chunk);
-				if(op.isEmpty())
-					return false;
-				if(append) {
-					//Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to air");
-					return op.get().addPosToList(pos);
-				}
-				else {
-					//Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to air");
-					return op.get().removePosFromList(pos);
-				}
-			}
-		}
-		return false;
+		return setComponentPos(pos, append, world, FaeComponentRegistry.DREAM_AIR);
 	}
 	public static boolean setDreamBlock(BlockPos pos, boolean append, World world) {
-		
 		return setComponentPos(pos, append, world, FaeComponentRegistry.DREAM_BLOCKS);
 	}
 	private static boolean setComponentPos(BlockPos pos, boolean append, World world, ComponentKey<DreamChunkComponent> key) {
@@ -101,11 +81,11 @@ public class FaeUtil {
 				if(op.isEmpty())
 					return false;
 				if(append) {
-					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					Faesied.LOGGER.debug("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
 					return op.get().addPosToList(pos);
 				}
 				else {
-					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to blocks");
+					Faesied.LOGGER.debug("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
 					return op.get().removePosFromList(pos);
 				}
 			}
