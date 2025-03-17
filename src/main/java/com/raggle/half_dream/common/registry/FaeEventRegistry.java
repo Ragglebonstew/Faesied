@@ -80,7 +80,7 @@ public class FaeEventRegistry {
 		
 		if(player_dream == 1) {
 			if(FaeUtil.isDreamBlock(pos, world)) {
-				FaeUtil.setDreamBlock(pos, false, world);
+				//FaeUtil.setDreamBlock(pos, false, world);
 				return true;
 			}
 			else {

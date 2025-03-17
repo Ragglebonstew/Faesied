@@ -81,11 +81,11 @@ public class FaeUtil {
 				if(op.isEmpty())
 					return false;
 				if(append) {
-					Faesied.LOGGER.debug("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
+					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
 					return op.get().addPosToList(pos);
 				}
 				else {
-					Faesied.LOGGER.debug("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
+					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
 					return op.get().removePosFromList(pos);
 				}
 			}

@@ -49,8 +49,15 @@ bug list (things that are broke)
 
 check list (things that may/may not be broke anymore)
 - sodium
-- dream block replacement
-	- grass in dream or real replaced w/ other may be weird
+
+Feature list
+- Area totem
+	- Entities in radius become dream
+	- Toggleable
+- Dream mist particle
+- Totem of water
+	- On death, get pulled to water source
+	- Entering sets you to dream
 
 
 ideas (things that aren't in atm)

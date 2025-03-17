@@ -18,6 +18,8 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.item.ItemStack;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -99,9 +101,7 @@ public abstract class AbstractBlockStateMixin {
 	//handles real players placing at dream block location (doesn't replace dream block w/ dream block when dream)
 	@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
 	public void onStateReplaced(World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
-		if(FaeUtil.getMarked(pos)) {
-			FaeUtil.setDreamBlock(pos, false, world);
-		}
+		
 	}
 
 	/*public boolean canPathfindThrough(BlockView world, BlockPos pos, NavigationType type) {
@@ -116,6 +116,15 @@ public abstract class AbstractBlockStateMixin {
 				cir.setReturnValue(0);
 			}
 		}
+	}
+	
+
+	@Inject(method = "onStacksDropped", at = @At("TAIL"), cancellable = false)
+	public void onStacksDropped(ServerWorld world, BlockPos pos, ItemStack stack, boolean dropExperience, CallbackInfo ci) {
+		//if(FaeUtil.getMarked(pos)) {
+			FaeUtil.setDreamBlock(pos, false, world);
+			Faesied.LOGGER.info("Removing dream blocks");
+		//}
 	}
 	
 	
