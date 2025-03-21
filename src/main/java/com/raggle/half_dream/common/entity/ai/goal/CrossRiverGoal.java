@@ -72,7 +72,7 @@ public class CrossRiverGoal extends Goal{
 		this.startPos = horse.getBlockPos();
 		if(horse instanceof DreamHorse dh && dh.getPlayer() instanceof ServerPlayerEntity player) {
 			PacketByteBuf buf = PacketByteBufs.create();
-			ServerPlayNetworking.send(player, FaeMessaging.SKELETON_LIST_SIZE, buf);
+			ServerPlayNetworking.send(player, FaeMessaging.BRIDGE_FOG, buf);
 		}
 	}
 	@Override
