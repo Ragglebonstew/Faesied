@@ -24,6 +24,14 @@ repositories {
             includeGroup "maven.modrinth"
         }
     }
+    maven {
+        name = 'BlameJared Maven (CrT / Bookshelf)'
+        url = 'https://maven.blamejared.com'
+    }
+	maven {
+		name = "TerraformersMC"
+		url = "https://maven.terraformersmc.com/"
+	}
 }
 
 // All the dependencies are declared at gradle/libs.version.toml and referenced with "libs.<id>"
@@ -38,22 +46,34 @@ dependencies {
 		officialMojangMappings()
 	}
 	*/
-	modImplementation libs.quilt.loader
+	modImplementation(libs.quilt.loader)
 
 	// QSL is not a complete API; You will need Quilted Fabric API to fill in the gaps.
 	// Quilted Fabric API will automatically pull in the correct QSL version.
 	modImplementation libs.quilted.fabric.api
-	// modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
-	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinal_components_version}"
-    // Adds a dependency on a specific module
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${project.cardinal_components_version}"
-    modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cardinal_components_version}"
+	//modImplementation libs.bundles.quilted.fabric.api // If you wish to use Fabric API's deprecated modules, you can replace the above line with this one
+
+	modImplementation(libs.cardinal.components.base) {
+		exclude group: "net.fabricmc"
+		exclude group: "net.fabricmc.fabric-api"
+	}
+	// Adds a dependency on a specific module
+	modImplementation(libs.cardinal.components.entity) {
+		exclude group: "net.fabricmc"
+		exclude group: "net.fabricmc.fabric-api"
+	}
+	modImplementation(libs.cardinal.components.chunk) {
+		exclude group: "net.fabricmc"
+		exclude group: "net.fabricmc.fabric-api"
+	}
     // Includes Cardinal Components API as a Jar-in-Jar dependency (optional)
-    include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:${project.cardinal_components_version}"
-    include "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:${project.cardinal_components_version}"
-    include "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${project.cardinal_components_version}"
+    include(libs.cardinal.components.base)
+    include(libs.cardinal.components.entity)
+    include(libs.cardinal.components.chunk)
+
+    modCompileOnly (libs.sodium)
     
-    modCompileOnly "maven.modrinth:sodium:mc${project.sodium_minecraft_version}-${project.sodium_version}"
+    modImplementation(libs.trinkets)
 }
 
 processResources {
