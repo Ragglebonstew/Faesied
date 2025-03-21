@@ -1,7 +1,7 @@
 package com.raggle.half_dream.common.component;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
-import com.raggle.half_dream.common.FaeUtil;
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -25,7 +25,7 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
         if (tag != null) {
         	if(tag.getByte("dream") != this.dream) {
                 this.readFromNbt(tag);
-                if(entity.getId() == FaeUtil.getClientPlayer().getId()) {
+                if(entity.getId() == FaeUtilClient.getClientPlayer().getId()) {
                     MinecraftClient mc = MinecraftClient.getInstance();
                     mc.worldRenderer.reload();
                 }

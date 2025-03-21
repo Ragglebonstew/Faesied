@@ -79,11 +79,7 @@ public class FaeEventRegistry {
 		byte player_dream = FaeUtil.getDream(player);
 		
 		if(player_dream == 1) {
-			if(FaeUtil.isDreamBlock(pos, world)) {
-				//FaeUtil.setDreamBlock(pos, false, world);
-				return true;
-			}
-			else {
+			if(!FaeUtil.isDreamBlock(pos, world)) {
 				FaeUtil.setDreamAir(pos, true, world);
 				ItemEntity dream_resin = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN));
 				world.spawnEntity(dream_resin);
