@@ -4,7 +4,9 @@
 
 0.6.0
 	
-	WIP (lot of stuff)
+	blocks placed in dream state now register as dream blocks
+	
+	fixed some client server convolution bugs
 
 0.5.0
 
