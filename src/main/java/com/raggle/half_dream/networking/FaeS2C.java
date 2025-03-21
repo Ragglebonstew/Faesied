@@ -3,11 +3,15 @@ package com.raggle.half_dream.networking;
 import org.quiltmc.qsl.networking.api.PacketSender;
 
 import com.raggle.half_dream.api.DreamClientPlayer;
+import com.raggle.half_dream.client.FaeUtilClient;
+import com.raggle.half_dream.client.sequence.BridgeFogEffect;
 import com.raggle.half_dream.client.sequence.SequenceManager;
 import com.raggle.half_dream.client.sequence.SkeletonCircleFogEffect;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Direction;
 
 public class FaeS2C {
 	
@@ -20,5 +24,13 @@ public class FaeS2C {
 				SequenceManager.setFogEffect(new SkeletonCircleFogEffect());
 			});
 		}
+	}
+	public static void startBridgeSequence(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {		
+		BlockPos pos = client.player.getBlockPos();
+		Direction facing = client.player.getHorizontalFacing();
+		
+		client.execute(() -> {
+			SequenceManager.setFogEffect(new BridgeFogEffect(pos, facing, FaeUtilClient.getPlayerDream()));
+		});
 	}
 }

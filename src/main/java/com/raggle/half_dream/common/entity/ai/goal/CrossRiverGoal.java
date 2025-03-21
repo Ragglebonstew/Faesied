@@ -1,16 +1,21 @@
 package com.raggle.half_dream.common.entity.ai.goal;
 
+import org.quiltmc.qsl.networking.api.PacketByteBufs;
+import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
+
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamHorse;
-import com.raggle.half_dream.client.sequence.BridgeFogEffect;
 import com.raggle.half_dream.client.sequence.SequenceManager;
 import com.raggle.half_dream.common.FaeUtil;
+import com.raggle.half_dream.networking.FaeMessaging;
 
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
+import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Holder;
 import net.minecraft.registry.tag.BiomeTags;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
@@ -65,8 +70,10 @@ public class CrossRiverGoal extends Goal{
 	public void start() {
 		this.startFacing = horse.getHorizontalFacing();
 		this.startPos = horse.getBlockPos();
-		if(this.world.isClient() && horse instanceof DreamHorse dh)
-			SequenceManager.setFogEffect(new BridgeFogEffect(this.startPos, this.startFacing, FaeUtil.getDream(dh.getPlayer())));
+		if(horse instanceof DreamHorse dh && dh.getPlayer() instanceof ServerPlayerEntity player) {
+			PacketByteBuf buf = PacketByteBufs.create();
+			ServerPlayNetworking.send(player, FaeMessaging.SKELETON_LIST_SIZE, buf);
+		}
 	}
 	@Override
 	public void stop() {
