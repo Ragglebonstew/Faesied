@@ -1,5 +1,6 @@
 package com.raggle.half_dream.client.sequence;
 
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.MinecraftClient;
@@ -55,7 +56,7 @@ public class SequenceManager {
 					oldFhas.setEndDream(newFhas.getEndDream());
 				}
 				else {
-					newFhas.setStartDream(FaeUtil.getPlayerDream());
+					newFhas.setStartDream(FaeUtilClient.getPlayerDream());
 					dreamSequence = newSequence;
 				}
 			}

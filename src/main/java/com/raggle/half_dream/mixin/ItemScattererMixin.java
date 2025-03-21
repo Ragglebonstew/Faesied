@@ -4,9 +4,6 @@ import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
-import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
-import org.spongepowered.asm.mixin.injection.modify.LocalVariableDiscriminator.Context.Local;
-
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.FaeUtil;
 
@@ -30,7 +27,6 @@ public class ItemScattererMixin {
 
 		while(!stack.isEmpty()) {
 			ItemEntity itemEntity = new ItemEntity(world, g, h, i, stack.split(world.random.nextInt(21) + 10));
-			float j = 0.05F;
 			itemEntity.setVelocity(
 				world.random.nextTriangular(0.0, 0.11485000171139836),
 				world.random.nextTriangular(0.2, 0.11485000171139836),
@@ -43,10 +39,5 @@ public class ItemScattererMixin {
 			}
 		}
 		ci.cancel();
-	}
-
-	//@Inject(method = "spawn(Lnet/minecraft/world/World;DDDLnet/minecraft/item/ItemStack;)V", at = @At(value = "TAIL", target = "Lnet/minecraft/world/World;spawnEntity(Lnet/minecraft/entity/Entity)B", shift = At.Shift.AFTER))
-	private void injected(CallbackInfo ci, ItemEntity arg1) {
-
 	}
 }

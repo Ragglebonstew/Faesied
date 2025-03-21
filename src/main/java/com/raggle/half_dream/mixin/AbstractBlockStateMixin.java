@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.half_dream.Faesied;
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -87,7 +88,7 @@ public abstract class AbstractBlockStateMixin {
     }
 	@Inject(method = "shouldBlockVision", at = @At("HEAD"), cancellable = true)
 	private void shouldBlockVision(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtil.hasClientPlayer()) {
+		if(FaeUtilClient.getClientPlayer() != null) {
 			if(FaeUtil.isPlayerDream()) {
 				if(FaeUtil.isDreamAir(pos)) 
 					cir.setReturnValue(false);

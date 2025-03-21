@@ -2,6 +2,7 @@ package com.raggle.half_dream.client.sequence;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.MinecraftClient;
@@ -36,7 +37,7 @@ public class BridgeFogEffect extends FogEffect {
 		if(this.progress > 30)
 			this.finished = true;
 
-		Vec3d dPos = FaeUtil.getClientPlayer().getPos().subtract(Vec3d.ofCenter(this.startPos));
+		Vec3d dPos = FaeUtilClient.getClientPlayer().getPos().subtract(Vec3d.ofCenter(this.startPos));
 		double x = dPos.x * this.startFacing.getVector().getX();
 		double z = dPos.z * this.startFacing.getVector().getZ();
 		double s;

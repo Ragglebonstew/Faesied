@@ -6,8 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.half_dream.common.FaeUtil;
-
+import com.raggle.half_dream.client.FaeUtilClient;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.render.chunk.ChunkRenderRegion;
@@ -20,7 +19,7 @@ public abstract class ChunkRenderRegionMixin {
 	//Hides blocks in renderer
 	@Inject(method = "getBlockState", at = @At("HEAD"), cancellable = true)
 	private void getBlockState(BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
-		if(!FaeUtil.canPlayerInteract(pos)){
+		if(!FaeUtilClient.canPlayerInteract(pos)){
 			cir.setReturnValue(Blocks.AIR.getDefaultState());
 		}
 	}

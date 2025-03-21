@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.render.Frustum;
@@ -19,7 +20,7 @@ public class EntityRendererMixin<T extends Entity> {
 
 	@Inject(method = "shouldRender", at = @At("HEAD"), cancellable = true)
 	private void shouldRender(T entity, Frustum frustum, double d, double e, double f, CallbackInfoReturnable<Boolean> cir) {
-		if(!FaeUtil.canInteract(entity, FaeUtil.getClientPlayer())) {
+		if(!FaeUtil.canInteract(entity, FaeUtilClient.getClientPlayer())) {
 			cir.setReturnValue(false);
 		}
 	}

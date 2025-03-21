@@ -3,7 +3,7 @@ package com.raggle.half_dream.common.component;
 import java.util.ArrayList;
 
 import com.raggle.half_dream.api.DreamChunkComponent;
-import com.raggle.half_dream.common.FaeUtil;
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -53,7 +53,7 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
         NbtCompound tag = buf.readNbt();
         if (tag != null) {
             this.readFromNbt(tag);
-    		FaeUtil.scheduleChunkRenderAt(BlockPos.fromLong(tag.getLong("renderpos")));
+    		FaeUtilClient.scheduleChunkRenderAt(BlockPos.fromLong(tag.getLong("renderpos")));
 			provider.setNeedsSaving(true);
         }
     }
