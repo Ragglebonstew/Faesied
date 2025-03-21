@@ -1,11 +1,14 @@
 package com.raggle.half_dream.client.sequence;
 
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+
 import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.GuiGraphics;
 
+@ClientOnly
 public class SequenceManager {
 
 	private static DreamSequence dreamSequence;

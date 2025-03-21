@@ -5,7 +5,6 @@ import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamHorse;
-import com.raggle.half_dream.client.sequence.SequenceManager;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.networking.FaeMessaging;
 
@@ -71,8 +70,7 @@ public class CrossRiverGoal extends Goal{
 		this.startFacing = horse.getHorizontalFacing();
 		this.startPos = horse.getBlockPos();
 		if(horse instanceof DreamHorse dh && dh.getPlayer() instanceof ServerPlayerEntity player) {
-			PacketByteBuf buf = PacketByteBufs.create();
-			ServerPlayNetworking.send(player, FaeMessaging.BRIDGE_FOG, buf);
+			ServerPlayNetworking.send(player, FaeMessaging.BRIDGE_FOG, PacketByteBufs.empty());
 		}
 	}
 	@Override
@@ -96,8 +94,8 @@ public class CrossRiverGoal extends Goal{
 				FaeUtil.setDream(dh.getPlayer(), (byte) 0);
 			}
 		}
-		else if(SequenceManager.hasFogEffect()){
-			SequenceManager.getFogEffect().cancel();
+		else if(horse instanceof DreamHorse dh && dh.getPlayer() instanceof ServerPlayerEntity player) {
+			ServerPlayNetworking.send(player, FaeMessaging.STOP_FOG, PacketByteBufs.empty());
 		}
 	}
 	@Override

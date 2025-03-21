@@ -33,4 +33,11 @@ public class FaeS2C {
 			SequenceManager.setFogEffect(new BridgeFogEffect(pos, facing, FaeUtilClient.getPlayerDream()));
 		});
 	}
+	public static void stopFogEffect(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {				
+		client.execute(() -> {
+			if(SequenceManager.hasFogEffect()){
+				SequenceManager.getFogEffect().cancel();
+			}
+		});
+	}
 }
