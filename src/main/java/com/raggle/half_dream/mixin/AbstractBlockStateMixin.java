@@ -86,21 +86,22 @@ public abstract class AbstractBlockStateMixin {
 		if(!FaeUtil.canInteract(entity, pos, world))
 			ci.cancel();
     }
+	@ClientOnly
 	@Inject(method = "shouldBlockVision", at = @At("HEAD"), cancellable = true)
 	private void shouldBlockVision(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 		if(FaeUtilClient.getClientPlayer() != null) {
-			if(FaeUtil.isPlayerDream()) {
-				if(FaeUtil.isDreamAir(pos)) 
+			if(FaeUtilClient.getPlayerDream() == 1) {
+				if(FaeUtilClient.isDreamAir(pos)) 
 					cir.setReturnValue(false);
 			}
 			else {
-				if(FaeUtil.isDreamBlock(pos)) 
+				if(FaeUtilClient.isDreamBlock(pos)) 
 					cir.setReturnValue(false);
 			}
 		}
 	}
 	//handles real players placing at dream block location (doesn't replace dream block w/ dream block when dream)
-	@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
+	//@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
 	public void onStateReplaced(World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
 		
 	}

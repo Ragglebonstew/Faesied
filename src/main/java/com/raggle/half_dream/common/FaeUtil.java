@@ -3,22 +3,13 @@ package com.raggle.half_dream.common;
 import java.util.ArrayList;
 import java.util.Optional;
 
-import org.jetbrains.annotations.Nullable;
-import org.quiltmc.loader.api.minecraft.ClientOnly;
-
 import com.raggle.half_dream.api.DreamEntityComponent;
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
-import com.raggle.half_dream.mixin.WorldRendererAccessor;
-
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
-import net.minecraft.client.MinecraftClient;
-import net.minecraft.client.network.ClientPlayerEntity;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
@@ -45,23 +36,6 @@ public class FaeUtil {
 			FaeUtil.setDream(e, (byte)1);
 		else if(dream == 1)
 			FaeUtil.setDream(e, (byte)0);
-	}
-
-	@ClientOnly
-	public static boolean isDreamAir(BlockPos pos) {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if(mc != null && mc.world != null) {
-			return isDreamAir(pos, mc.world);
-		}
-		return false;
-	}
-	@ClientOnly
-	public static boolean isDreamBlock(BlockPos pos) {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if(mc != null && mc.world != null) {
-			return isDreamBlock(pos, mc.world);
-		}
-		return false;
 	}
 	
 	public static boolean setDreamAir(BlockPos pos, boolean append, World world) {
@@ -164,68 +138,6 @@ public class FaeUtil {
 		BLOCK
 	}
 	
-	@Deprecated
-	@Nullable
-	@ClientOnly
-	public static ClientPlayerEntity getClientPlayer() {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if(mc == null)
-			return null;
-		return mc.player;
-	}
-	@Deprecated
-	@Nullable
-	@ClientOnly
-	public static ClientWorld getClientWorld() {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if(mc == null)
-			return null;
-		return mc.world;
-	}
-	@Deprecated
-	@ClientOnly
-	public static boolean hasClientPlayer() {
-		return getClientPlayer() != null;
-	}
-
-	@ClientOnly
-	public static boolean isPlayerDream() {
-		ClientPlayerEntity player = getClientPlayer();
-		if(player == null)
-			return false;
-		return getDream(getClientPlayer()) == 1;
-	}
-	@Deprecated
-	@ClientOnly
-	public static byte getPlayerDream() {
-		ClientPlayerEntity player = getClientPlayer();
-		if(player == null)
-			return 1;
-		return getDream(getClientPlayer());
-	}
-	@Deprecated
-	@ClientOnly
-	public static boolean canPlayerInteract(BlockPos pos) {
-		return canInteract(getClientPlayer(), pos, getClientWorld());
-	}
-	@Deprecated
-	@ClientOnly
-	public static void scheduleChunkRenderAt(BlockPos pos) {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if(mc != null && mc.world != null) {
-			ChunkSectionPos chunkPos = ChunkSectionPos.from(pos);
-			((WorldRendererAccessor)mc.worldRenderer).invokeScheduleChunkRender(chunkPos.getSectionX(), chunkPos.getSectionY(), chunkPos.getSectionZ(), true);;
-		}
-	}
-	@Deprecated
-	@ClientOnly
-	public static void scheduleChunkRenderAt(int x, int y, int z) {
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if(mc.world != null) {
-			//mc.worldRenderer.scheduleBlockRender(x, y, z);
-			((WorldRendererAccessor)mc.worldRenderer).invokeScheduleChunkRender(x, y, z, true);;
-		}
-	}
 	//coding gods forgive me, for I have written jank (marks replaced dream blocks to be removed from list)
 	private static ArrayList<BlockPos> marks = new ArrayList<BlockPos>();
 	public static boolean getMarked(BlockPos pos) {

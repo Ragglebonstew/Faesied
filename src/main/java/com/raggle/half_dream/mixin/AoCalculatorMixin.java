@@ -25,7 +25,7 @@ public class AoCalculatorMixin {
     private static void getLightmapCoordinates(BlockRenderView world, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
     	if(FaeUtilClient.getPlayerDream() == 1) {
 			int blockLight = world.getLightLevel(LightType.BLOCK, pos);
-			if(FaeUtil.isDreamAir(pos)) {
+			if(FaeUtil.isDreamAir(pos, world)) {
 				blockLight = 4;
 			}
 

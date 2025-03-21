@@ -9,8 +9,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.half_dream.Faesied;
-import com.raggle.half_dream.common.FaeUtil;
-
+import com.raggle.half_dream.client.FaeUtilClient;
 import net.minecraft.client.sound.AbstractSoundInstance;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.util.Identifier;
@@ -30,7 +29,7 @@ public abstract class AbstractSoundInstanceMixin {
     @Inject(method = "getVolume()F", at = @At("HEAD"), cancellable = true)
 	private void getVolume(CallbackInfoReturnable<Float> cir) {
 
-        if(!FaeUtil.isPlayerDream())
+        if(FaeUtilClient.getPlayerDream() != 1)
         	return;
         if (category == SoundCategory.WEATHER) {
             cir.setReturnValue(0.0F);

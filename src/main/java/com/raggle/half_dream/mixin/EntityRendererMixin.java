@@ -27,13 +27,13 @@ public class EntityRendererMixin<T extends Entity> {
 	
 	@Inject(method = "getSkyLight", at = @At("HEAD"), cancellable = true)
 	private void getSkyLight(T entity, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtil.isPlayerDream())
+		if(FaeUtilClient.getPlayerDream() == 1)
 			cir.setReturnValue(0);
 	}
 
 	@Inject(method = "getBlockLight", at = @At("HEAD"), cancellable = true)
 	private void getBlockLight(T entity, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtil.isPlayerDream() && FaeUtil.isDreamAir(pos))
+		if(FaeUtilClient.getPlayerDream() == 1 && FaeUtilClient.isDreamAir(pos))
 			cir.setReturnValue(4);
 	}
 }

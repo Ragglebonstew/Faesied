@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
@@ -16,6 +17,7 @@ import net.minecraft.world.World;
 public abstract class WorldMixin {
 	
 	@Shadow public abstract BlockState getBlockState(BlockPos pos);
+	@Shadow public abstract boolean isClient();
 	
 	@Inject(at = @At("TAIL"), method = "getTopY", cancellable = true)
     private void getTopY(Heightmap.Type heightmap, int x, int z, CallbackInfoReturnable<Integer> cir) {
@@ -34,14 +36,14 @@ public abstract class WorldMixin {
 
     @Inject(method = "getRainGradient", at = @At("HEAD"), cancellable = true)
     public void getRainGradient(float delta, CallbackInfoReturnable<Float> cir) {
-        if (FaeUtil.isPlayerDream()) {
+        if (this.isClient() && FaeUtilClient.getPlayerDream() == 1) {
         	cir.setReturnValue(0F);
         }
     }
 
     @Inject(method = "getThunderGradient", at = @At("HEAD"), cancellable = true)
     public void getThunderGradient(float delta, CallbackInfoReturnable<Float> cir) {
-        if (FaeUtil.isPlayerDream()) {
+        if (this.isClient() && FaeUtilClient.getPlayerDream() == 1) {
         	cir.setReturnValue(0F);
         }
     }

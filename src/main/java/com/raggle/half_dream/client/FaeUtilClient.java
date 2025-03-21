@@ -15,6 +15,22 @@ import net.minecraft.util.math.ChunkSectionPos;
 public class FaeUtilClient {
 	
 
+	public static boolean isDreamAir(BlockPos pos) {
+		MinecraftClient mc = MinecraftClient.getInstance();
+		if(mc != null && mc.world != null) {
+			return FaeUtil.isDreamAir(pos, mc.world);
+		}
+		return false;
+	}
+
+	public static boolean isDreamBlock(BlockPos pos) {
+		MinecraftClient mc = MinecraftClient.getInstance();
+		if(mc != null && mc.world != null) {
+			return FaeUtil.isDreamBlock(pos, mc.world);
+		}
+		return false;
+	}
+	
 	@Nullable
 	public static ClientPlayerEntity getClientPlayer() {
 		MinecraftClient mc = MinecraftClient.getInstance();
@@ -32,7 +48,7 @@ public class FaeUtilClient {
 	public static byte getPlayerDream() {
 		ClientPlayerEntity player = getClientPlayer();
 		if(player == null)
-			return 1;
+			return 0;
 		return FaeUtil.getDream(getClientPlayer());
 	}
 	public static boolean canPlayerInteract(BlockPos pos) {

@@ -7,8 +7,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.half_dream.client.FaeUtilClient;
-import com.raggle.half_dream.common.FaeUtil;
-
 import net.minecraft.block.BlockState;
 import net.minecraft.client.render.Camera;
 import net.minecraft.client.render.WorldRenderer;
@@ -22,7 +20,7 @@ public abstract class WorldRendererMixin {
 	
 	@Inject(method = "hasSkyBlockingEffect", at = @At("HEAD"), cancellable = true)
 	private void hasSkyBlockingEffect(Camera camera, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtil.isPlayerDream()) {
+		if(FaeUtilClient.getPlayerDream() == 1) {
 			cir.setReturnValue(true);
 		}
 	}
@@ -31,7 +29,7 @@ public abstract class WorldRendererMixin {
 	private static void getLightmapCoordinates(BlockRenderView world, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
 		if(FaeUtilClient.getPlayerDream() == 1) {
 			int blockLight = world.getLightLevel(LightType.BLOCK, pos);
-			if(FaeUtil.isDreamAir(pos)) {
+			if(FaeUtilClient.isDreamAir(pos)) {
 				blockLight = 4;
 			}
 
