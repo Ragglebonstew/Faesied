@@ -2,9 +2,6 @@ package com.raggle.half_dream.networking;
 
 import org.quiltmc.qsl.networking.api.PacketSender;
 
-import com.raggle.half_dream.Faesied;
-import com.raggle.half_dream.common.FaeUtil;
-
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;
@@ -16,12 +13,6 @@ public class FaeC2S {
 		server.execute(() -> {
 			//QuiltDimensions.teleport(player, server.getWorld(FaeMessaging.DEEP_DREAM), new TeleportTarget(player.getPos(), new Vec3d(0,0,0), 0, 0));
 		});
-	}
-	public static void onLoadClient(MinecraftServer server, ServerPlayerEntity player, ServerPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {
-		if(FaeUtil.getDream(player) != 0) {
-			Faesied.LOGGER.info("Player is not dream 0");
-			//server.execute(() -> dp.syncDream());
-		}
 	}
 	
 }

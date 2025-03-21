@@ -3,7 +3,6 @@ package com.raggle.half_dream.common.entity.ai.goal;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 
-import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamHorse;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.networking.FaeMessaging;
@@ -11,7 +10,6 @@ import com.raggle.half_dream.networking.FaeMessaging;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
-import net.minecraft.network.PacketByteBuf;
 import net.minecraft.registry.Holder;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -48,7 +46,6 @@ public class CrossRiverGoal extends Goal{
 		if(this.failed) {
 			if(!holder.isIn(BiomeTags.RIVER)) {
 				this.failed = false;
-				Faesied.LOGGER.info("reset failure");
 			}
 			else {
 				return false;

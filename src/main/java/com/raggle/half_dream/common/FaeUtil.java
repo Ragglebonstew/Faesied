@@ -55,11 +55,11 @@ public class FaeUtil {
 				if(op.isEmpty())
 					return false;
 				if(append) {
-					Faesied.LOGGER.info("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
+					Faesied.LOGGER.debug("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
 					return op.get().addPosToList(pos);
 				}
 				else {
-					Faesied.LOGGER.info("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
+					Faesied.LOGGER.debug("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
 					return op.get().removePosFromList(pos);
 				}
 			}
@@ -71,7 +71,6 @@ public class FaeUtil {
 		return componentContainsPos(pos, world, DREAM_TYPE.AIR);
 	}
 	public static boolean isDreamBlock(BlockPos pos, BlockView world) {
-		//Faesied.LOGGER.info("Passing dream type");
 		return componentContainsPos(pos, world, DREAM_TYPE.BLOCK);
 	}
 	
@@ -80,23 +79,19 @@ public class FaeUtil {
 		Chunk chunk = null;
 		
 		if(world instanceof World w) {
-			//Faesied.LOGGER.info("Got a world");
 			chunk = w.getChunk(pos);
 		}
 		else if(world instanceof Chunk c) {
-			//Faesied.LOGGER.info("Got a chunk");
 			chunk = c;
 		}
 		
 		if(chunk != null) {
-			//Faesied.LOGGER.info("Passing chunk further down");
 			return componentContainsPos(pos, chunk, type);
 		}
 		return false;
 	}
 	private static boolean componentContainsPos(BlockPos pos, Chunk chunk, DREAM_TYPE type) {
 
-		//Faesied.LOGGER.info("type discriminating");
 		if(type == DREAM_TYPE.AIR) {
 			return componentContainsPos(pos, chunk, FaeComponentRegistry.DREAM_AIR);
 		}
@@ -107,11 +102,9 @@ public class FaeUtil {
 	}
 	private static boolean componentContainsPos(BlockPos pos, Chunk chunk, ComponentKey<DreamChunkComponent> key) {
 		if(chunk != null && !(chunk instanceof EmptyChunk || chunk instanceof ProtoChunk)) {
-			//Faesied.LOGGER.info("getting chunk from component");
 			Optional<DreamChunkComponent> op = key.maybeGet(chunk);
 			if(op.isEmpty())
 				return false;
-			//Faesied.LOGGER.info("checking if contained");
 			return op.get().contains(pos);
 		}
 		return false;

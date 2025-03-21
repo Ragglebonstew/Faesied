@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.AbstractBlock;
@@ -120,13 +119,10 @@ public abstract class AbstractBlockStateMixin {
 		}
 	}
 	
-
+	//is called after items are dropped, allowing ItemScattererMixin to detect its state
 	@Inject(method = "onStacksDropped", at = @At("TAIL"), cancellable = false)
 	public void onStacksDropped(ServerWorld world, BlockPos pos, ItemStack stack, boolean dropExperience, CallbackInfo ci) {
-		//if(FaeUtil.getMarked(pos)) {
-			FaeUtil.setDreamBlock(pos, false, world);
-			Faesied.LOGGER.info("Removing dream blocks");
-		//}
+		FaeUtil.setDreamBlock(pos, false, world);
 	}
 	
 	

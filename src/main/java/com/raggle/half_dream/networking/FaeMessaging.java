@@ -23,7 +23,6 @@ public class FaeMessaging {
 	}
 	public static void registerC2SPackets() {
 		ServerPlayNetworking.registerGlobalReceiver(DEEP_DREAM, FaeC2S::receiveSendToDeepDream);
-		ServerPlayNetworking.registerGlobalReceiver(ON_LOAD_CLIENT, FaeC2S::onLoadClient);
 	}
 
 }
