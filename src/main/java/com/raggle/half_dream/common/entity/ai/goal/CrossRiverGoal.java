@@ -65,7 +65,7 @@ public class CrossRiverGoal extends Goal{
 	public void start() {
 		this.startFacing = horse.getHorizontalFacing();
 		this.startPos = horse.getBlockPos();
-		if(horse instanceof DreamHorse dh)
+		if(this.world.isClient() && horse instanceof DreamHorse dh)
 			SequenceManager.setFogEffect(new BridgeFogEffect(this.startPos, this.startFacing, FaeUtil.getDream(dh.getPlayer())));
 	}
 	@Override
