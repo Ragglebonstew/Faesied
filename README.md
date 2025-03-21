@@ -3,10 +3,25 @@
 ## Changelog
 
 0.6.0
-	
-	blocks placed in dream state now register as dream blocks
-	
-	fixed some client server convolution bugs
+
+	Added ability to place any block as a dream block while in dream state
+	Added dreamstate command to allow setting one's dream state
+	Added dreamclear command to clear all dream block and dream air refrences in a chunk
+	Deprecated old dream blocks
+	Removed dream entity interfaces 
+
+	Fixed a bug where clicking a block added it to dream air
+	Fixed bug where dream block reference overrided by state change
+	Fixed blocklight not passing through dream blocks
+	Fixed skylight not passing through dream blocks
+	Fixed dropped items not matching dream state
+	Fixed skylight showing in dream
+	Fixed a bug where dream blocks and real blocks couldn't replae each other
+	Fixed bug where dream blocks didn't drop dream items
+	Fixed bug where dream chests didn't drop dream items
+	Fixed bug where skel-horse would call fog server side
+	Fixed bug where server skel-horse imported client player
+	Fixed bugs where utility class imported client classes on server
 
 0.5.0
 

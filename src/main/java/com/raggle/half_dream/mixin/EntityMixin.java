@@ -7,10 +7,12 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamHorse;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
@@ -19,6 +21,17 @@ public abstract class EntityMixin {
 	
 	@Shadow
 	public abstract World getWorld();
+	
+	@Inject(method = "isInvulnerableTo", at = @At("RETURN"), cancellable = true)
+	private void isInvulnerableTo(DamageSource damageSource, CallbackInfoReturnable<Boolean> cir) {
+		if(!cir.getReturnValueZ() && damageSource.getSource() != null) {
+			Entity e1 = (Entity)(Object)this;
+			Entity e2 = damageSource.getSource();
+			if(!FaeUtil.canInteract(e1, e2)) {
+				cir.setReturnValue(true);
+			}
+		}
+	}
 	
 	@Inject(method = "isInsideWall", at = @At("HEAD"), cancellable = true)
 	private void isInsideWall(CallbackInfoReturnable<Boolean> cir) {

@@ -113,6 +113,8 @@ public class FaeUtil {
 	public static boolean canInteract(Entity e1, Entity e2) {
 		byte d1 = getDream(e1);
 		byte d2 = getDream(e2);
+		if(e1 != null && e2 != null)
+			Faesied.LOGGER.debug("Checking interaction between "+e1.getEntityName()+" and "+e2.getEntityName());
 		return d1 == 2 || d2 == 2 || d1 == d2;
 	}
 	public static boolean canInteract(Entity entity, BlockPos pos, BlockView world) {
