@@ -10,9 +10,9 @@ import net.minecraft.util.Identifier;
 
 public class FaeParticles {
 	
-    public static final DefaultParticleType GREEN_FLAME = FabricParticleTypes.simple();
+    public static final DefaultParticleType INTERLOPER_MIST = FabricParticleTypes.simple();
 
 	public static void init() {
-		Registry.register(Registries.PARTICLE_TYPE, new Identifier(Faesied.MOD_ID, "green_flame"), GREEN_FLAME);
+		Registry.register(Registries.PARTICLE_TYPE, new Identifier(Faesied.MOD_ID, "mist"), INTERLOPER_MIST);
 	}
 }

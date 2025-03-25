@@ -22,7 +22,7 @@ public class FlameSpawner extends Item {
 		
 		BlockPos pos = context.getBlockPos().offset(context.getSide());
 		if(world.isClient()) {
-			world.addParticle(FaeParticles.GREEN_FLAME, pos.getX(), pos.getY(), pos.getZ(), 0, 0.05F, 0);
+			world.addParticle(FaeParticles.INTERLOPER_MIST, pos.getX(), pos.getY(), pos.getZ(), 0, 0.05F, 0);
 			//FaeParticles.spawnParticle(new Vector3d(pos.getX(), pos.getY(), pos.getZ()), FaeParticles.FLAME_1);
 		}
 		return ActionResult.success(true);

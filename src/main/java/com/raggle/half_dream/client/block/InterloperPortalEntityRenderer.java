@@ -1,9 +1,7 @@
 package com.raggle.half_dream.client.block;
 
-import org.joml.Matrix4f;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 import com.raggle.half_dream.common.particles.FaeParticles;
 
@@ -14,7 +12,6 @@ import net.minecraft.client.render.block.entity.BlockEntityRenderer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactory;
 import net.minecraft.client.util.math.MatrixStack;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.Direction;
 
 @ClientOnly
 public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> implements BlockEntityRenderer<T> {
@@ -36,15 +33,15 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		}
 		else {
 			BlockPos pos = entity.getPos();
-			mc.world.addParticle(FaeParticles.GREEN_FLAME, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0, 0F, 0);
+			mc.world.addParticle(FaeParticles.INTERLOPER_MIST, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0, 0F, 0);
 			count = 0;
 		}
 		
 		
-		Matrix4f matrix4f = matrixStack.peek().getModel();
+		//Matrix4f matrix4f = matrixStack.peek().getModel();
 		//this.renderSides(entity, matrix4f, vertexConsumerProvider.getBuffer(this.getLayer()));
 	}
-
+	/*
 	private void renderSides(T entity, Matrix4f matrix, VertexConsumer vertexConsumer) {
 		float f = this.getBottomYOffset();
 		float g = this.getTopYOffset();
@@ -66,7 +63,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 			vertices.vertex(model, x1, y2, z4).next();
 		}
 	}
-
+	*/
 	protected float getTopYOffset() {
 		return 1.0F;
 	}

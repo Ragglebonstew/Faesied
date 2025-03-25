@@ -36,7 +36,7 @@ public class FaesiedClient implements ClientModInitializer {
         
 		BlockEntityRendererFactories.register(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalEntityRenderer::new);
 
-        ParticleFactoryRegistry.getInstance().register(FaeParticles.GREEN_FLAME, GreenFlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FaeParticles.INTERLOPER_MIST, GreenFlameParticle.Factory::new);
 	}
 	
 }
