@@ -8,7 +8,7 @@ import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 import com.raggle.half_dream.client.block.InterloperPortalEntityRenderer;
 import com.raggle.half_dream.client.sequence.SequenceManager;
 import com.raggle.half_dream.common.particles.FaeParticles;
-import com.raggle.half_dream.common.particles.custom.GreenFlameParticle;
+import com.raggle.half_dream.common.particles.custom.InterloperPortalParticle;
 import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.common.registry.FaeEntityRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
@@ -36,7 +36,7 @@ public class FaesiedClient implements ClientModInitializer {
         
 		BlockEntityRendererFactories.register(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalEntityRenderer::new);
 
-        ParticleFactoryRegistry.getInstance().register(FaeParticles.INTERLOPER_MIST, GreenFlameParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FaeParticles.INTERLOPER_MIST, InterloperPortalParticle.Factory::new);
 	}
 	
 }

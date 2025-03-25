@@ -2,10 +2,10 @@ package com.raggle.half_dream.client.block;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
+import com.raggle.half_dream.common.block.InterloperPortalBlock;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 import com.raggle.half_dream.common.particles.FaeParticles;
 
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;
@@ -23,9 +23,8 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 	@Override
 	public void render(T entity, float f, MatrixStack matrixStack, VertexConsumerProvider vertexConsumerProvider, int i, int j) {
 		
-		MinecraftClient mc = MinecraftClient.getInstance();
-		if (mc == null) {
-			//return;
+		if(!entity.getCachedState().get(InterloperPortalBlock.ACTIVE)) {
+			return;
 		}
 		
 		if(count < 80) {
@@ -33,7 +32,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		}
 		else {
 			BlockPos pos = entity.getPos();
-			mc.world.addParticle(FaeParticles.INTERLOPER_MIST, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0, 0F, 0);
+			entity.getWorld().addParticle(FaeParticles.INTERLOPER_MIST, pos.getX()+0.5, pos.getY()+0.5, pos.getZ()+0.5, 0, 0F, 0);
 			count = 0;
 		}
 		

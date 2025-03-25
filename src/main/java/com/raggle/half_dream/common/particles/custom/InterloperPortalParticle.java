@@ -11,9 +11,9 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.util.math.MathHelper;
 
-public class GreenFlameParticle extends SpriteBillboardParticle {
+public class InterloperPortalParticle extends SpriteBillboardParticle {
 
-	protected GreenFlameParticle(ClientWorld clientWorld, double x, double y, double z, 
+	protected InterloperPortalParticle(ClientWorld clientWorld, double x, double y, double z, 
 			double xd, double yd, double zd, SpriteProvider spriteProvider) {
 		super(clientWorld, x, y, z, xd, yd, zd);
 		this.setSpriteForAge(spriteProvider);
@@ -23,13 +23,13 @@ public class GreenFlameParticle extends SpriteBillboardParticle {
 		this.velocityY = yd;
 		this.velocityZ = zd;
 
-		this.scale *= 40f + world.random.nextFloat() * 0.5f;
-		this.maxAge = 300;
+		this.scale *= 4f + world.random.nextFloat() * 0.5f;
+		this.maxAge = 100;
 		
-		this.colorRed = 1.0F;
-		this.colorGreen = 1.0F;
+		this.colorRed = 0.9F + world.random.nextFloat() * 0.1F;
+		this.colorGreen = 0.9F + world.random.nextFloat() * 0.1f;
 		this.colorBlue = 1.0F;
-		this.colorAlpha = 0.5F;
+		this.colorAlpha = 1.0F;
 	}
 
 	@Override
@@ -74,7 +74,7 @@ public class GreenFlameParticle extends SpriteBillboardParticle {
 		public Particle createParticle(DefaultParticleType particleEffect, ClientWorld clientWorld, 
 				double x, double y, double z, 
 				double dx, double dy, double dz) {
-			return new GreenFlameParticle(clientWorld, x, y, z, dx, dy, dz, this.spriteProvider);
+			return new InterloperPortalParticle(clientWorld, x, y, z, dx, dy, dz, this.spriteProvider);
 		}
 		
 		
