@@ -1,4 +1,4 @@
-package com.raggle.half_dream.mixin;
+package com.raggle.half_dream.mixin.common;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;

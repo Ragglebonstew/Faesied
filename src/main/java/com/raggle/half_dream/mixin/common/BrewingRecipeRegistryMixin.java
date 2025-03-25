@@ -1,4 +1,4 @@
-package com.raggle.half_dream.mixin;
+package com.raggle.half_dream.mixin.common;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;

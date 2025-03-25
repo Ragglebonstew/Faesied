@@ -3,7 +3,7 @@ package com.raggle.half_dream.client;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import com.raggle.half_dream.common.FaeUtil;
-import com.raggle.half_dream.mixin.WorldRendererAccessor;
+import com.raggle.half_dream.mixin.client.WorldRendererAccessor;
 
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;

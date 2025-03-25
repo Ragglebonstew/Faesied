@@ -38,7 +38,11 @@
             }
 		]
 	},
-	"mixin": "half_dream.mixins.json",
+	"mixin": [
+		"half_dream.mixins.common.json",
+		"half_dream.mixins.client.json",
+		"half_dream.compat.mixins.json"
+	],
 	"cardinal-components": [
         "half_dream:dream_air",
         "half_dream:dream_blocks",

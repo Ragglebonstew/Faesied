@@ -1,0 +1,19 @@
+{
+	"required": true,
+	"minVersion": "0.8",
+	"package": "com.raggle.half_dream.mixin.client",
+	"compatibilityLevel": "JAVA_17",
+	"mixins": [],
+	"client": [
+		"AbstractSoundInstanceMixin",
+		"BackgroundRendererMixin",
+		"ChunkRenderRegionMixin",
+		"ClientPlayerEntityMixin",
+		"EntityRendererMixin",
+		"WorldRendererAccessor",
+		"WorldRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	}
+}

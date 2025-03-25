@@ -42,10 +42,7 @@ bug list (things that are broke)
 - broken pathfinding
 	- entities jump while passing through dream blocks
 	- dream mobs get stuck in dreamless blocks
-- can attack entities despite dream state
 - entities can push player in dream state, and probably the other way around
-- dropped dream block chest items are not registered for dream
-- falling asleep sequence not fading to black
 
 check list (things that may/may not be broke anymore)
 - sodium

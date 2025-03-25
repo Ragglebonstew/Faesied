@@ -1,4 +1,4 @@
-package com.raggle.half_dream.mixin;
+package com.raggle.half_dream.mixin.common;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamHorse;
 import com.raggle.half_dream.common.FaeUtil;
 

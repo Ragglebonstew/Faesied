@@ -1,4 +1,4 @@
-package com.raggle.half_dream.mixin;
+package com.raggle.half_dream.mixin.common;
 
 import java.util.function.Supplier;
 
