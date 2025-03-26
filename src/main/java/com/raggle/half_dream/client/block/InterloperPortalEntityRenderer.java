@@ -4,6 +4,7 @@ import org.joml.Matrix4f;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.block.InterloperPortalBlock;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 import com.raggle.half_dream.common.registry.FaeParticleRegistry;
@@ -29,7 +30,10 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		
 		World world = entity.getWorld();
 		
-		if(world == null || !entity.getCachedState().get(InterloperPortalBlock.ACTIVE)) {
+		if(world == null 
+				|| !entity.getCachedState().get(InterloperPortalBlock.ACTIVE)
+				|| !FaeUtilClient.isInterloped()
+		) {
 			return;
 		}
 		BlockPos pos = entity.getPos();

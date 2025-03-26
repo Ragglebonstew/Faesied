@@ -61,4 +61,8 @@ public class FaeUtilClient {
 			((WorldRendererAccessor)mc.worldRenderer).invokeScheduleChunkRender(chunkPos.getSectionX(), chunkPos.getSectionY(), chunkPos.getSectionZ(), true);;
 		}
 	}
+
+	public static boolean isInterloped() {
+		return FaeUtil.isInterloped(getClientPlayer());
+	}
 }
