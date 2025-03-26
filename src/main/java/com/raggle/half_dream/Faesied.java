@@ -5,12 +5,12 @@ import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.raggle.half_dream.common.particles.FaeParticles;
 import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import com.raggle.half_dream.common.registry.FaeEntityRegistry;
 import com.raggle.half_dream.common.registry.FaeEventRegistry;
 import com.raggle.half_dream.common.registry.FaeItemRegistry;
+import com.raggle.half_dream.common.registry.FaeParticleRegistry;
 import com.raggle.half_dream.common.registry.FaeTagRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
@@ -32,7 +32,7 @@ public class Faesied implements ModInitializer {
 		FaeItemRegistry.init();
 		FaeMessaging.registerC2SPackets();
 		FaeTagRegistry.init();
-		FaeParticles.init();
+		FaeParticleRegistry.init();
 		
 	}
 }

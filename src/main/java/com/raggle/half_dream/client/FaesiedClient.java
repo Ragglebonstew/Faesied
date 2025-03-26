@@ -6,11 +6,12 @@ import org.quiltmc.qsl.block.extensions.api.client.BlockRenderLayerMap;
 import org.quiltmc.qsl.lifecycle.api.client.event.ClientTickEvents;
 
 import com.raggle.half_dream.client.block.InterloperPortalEntityRenderer;
+import com.raggle.half_dream.client.particle.FallenStarParticle;
+import com.raggle.half_dream.client.particle.InterloperPortalParticle;
 import com.raggle.half_dream.client.sequence.SequenceManager;
-import com.raggle.half_dream.common.particles.FaeParticles;
-import com.raggle.half_dream.common.particles.custom.InterloperPortalParticle;
 import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.common.registry.FaeEntityRegistry;
+import com.raggle.half_dream.common.registry.FaeParticleRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
 import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
@@ -36,7 +37,8 @@ public class FaesiedClient implements ClientModInitializer {
         
 		BlockEntityRendererFactories.register(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalEntityRenderer::new);
 
-        ParticleFactoryRegistry.getInstance().register(FaeParticles.INTERLOPER_MIST, InterloperPortalParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FaeParticleRegistry.INTERLOPER_MIST, InterloperPortalParticle.Factory::new);
+        ParticleFactoryRegistry.getInstance().register(FaeParticleRegistry.FALLEN_STAR, FallenStarParticle.Factory::new);
 	}
 	
 }

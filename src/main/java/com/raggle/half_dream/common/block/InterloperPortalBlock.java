@@ -2,6 +2,7 @@ package com.raggle.half_dream.common.block;
 
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
+import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 
 import net.minecraft.block.Block;
@@ -10,9 +11,15 @@ import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.Hand;
+import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.World;
 
 public class InterloperPortalBlock extends BlockWithEntity implements Waterloggable {
 	
@@ -30,7 +37,23 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 				.luminance(InterloperPortalBlock::getLuminance)
 				);
 
-		setDefaultState(getDefaultState().with(ACTIVE, false));
+		setDefaultState(getDefaultState().with(ACTIVE, true));
+	}
+	
+	@Override
+	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
+		if (!player.getAbilities().allowModifyWorld) {
+			// Skip if the player isn't allowed to modify the world.
+			return ActionResult.PASS;
+		} else {
+			// Get the current value of the "activated" property
+			boolean activated = state.get(ACTIVE);
+
+			// Flip the value of activated and save the new blockstate.
+			world.setBlockState(pos, state.with(ACTIVE, !activated));
+
+			return ActionResult.SUCCESS;
+		}
 	}
 
 	@Override
@@ -43,12 +66,17 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		builder.add(ACTIVE);
 	}
 
-	public static int getLuminance(BlockState currentBlockState) {
-		// Get the value of the "activated" property.
-		boolean activated = currentBlockState.get(ACTIVE);
-
-		// Return a light level if activated = true
+	public static int getLuminance(BlockState state) {
+		boolean activated = state.get(ACTIVE);
 		return activated ? 8 : 0;
+	}
+
+	@Override
+	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+		if (!world.isClient && state.get(ACTIVE)) {
+			FaeUtil.toggleDream(entity);
+			world.setBlockState(pos, state.with(ACTIVE, false));
+		}
 	}
 	
 }

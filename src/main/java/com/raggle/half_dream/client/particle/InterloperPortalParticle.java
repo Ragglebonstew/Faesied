@@ -1,4 +1,4 @@
-package com.raggle.half_dream.common.particles.custom;
+package com.raggle.half_dream.client.particle;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
@@ -19,15 +19,15 @@ public class InterloperPortalParticle extends SpriteBillboardParticle {
 		this.setSpriteForAge(spriteProvider);
 
 		this.velocityMultiplier = 1.0F;
-		this.velocityX = xd;
-		this.velocityY = yd;
-		this.velocityZ = zd;
+		this.velocityX = xd + world.random.nextFloat() * 0.001f - 0.0005F;
+		this.velocityY = yd + world.random.nextFloat() * 0.001f - 0.0005F;
+		this.velocityZ = zd + world.random.nextFloat() * 0.001f - 0.0005F;
 
 		this.scale *= 4f + world.random.nextFloat() * 0.5f;
 		this.maxAge = 100;
 		
-		this.colorRed = 0.9F + world.random.nextFloat() * 0.1F;
-		this.colorGreen = 0.9F + world.random.nextFloat() * 0.1f;
+		this.colorRed = 0.95F + world.random.nextFloat() * 0.05F;
+		this.colorGreen = 0.95F + world.random.nextFloat() * 0.05f;
 		this.colorBlue = 1.0F;
 		this.colorAlpha = 1.0F;
 	}
@@ -39,7 +39,8 @@ public class InterloperPortalParticle extends SpriteBillboardParticle {
 	}
 	
 	private void fadeOut() {
-		this.colorAlpha = (1.0F-(this.age/(float)maxAge));
+		//this.colorAlpha = (1.0F-(this.age/(float)maxAge));
+		this.scale *= (1-(this.age/(float)maxAge));
 	}
 	
 	@Override
