@@ -4,13 +4,13 @@ import java.util.ArrayList;
 import java.util.Optional;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
-import com.raggle.half_dream.api.DreamServerPlayer;
+import com.raggle.half_dream.api.DreamPlayerComponent;
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import net.minecraft.entity.Entity;
-import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -143,10 +143,18 @@ public class FaeUtil {
 	public static void addMarked(BlockPos blockPos) {
 		marks.add(blockPos);
 	}
-	public static void setInterlope(ServerPlayerEntity player, boolean value) {
-		if(player instanceof DreamServerPlayer dsp) {
-			dsp.setInterloped(value);
-		}
+	public static boolean isInterloped(PlayerEntity player) {
+		Optional<DreamPlayerComponent> op = FaeComponentRegistry.DREAM_PLAYER.maybeGet(player);
+		if(op.isEmpty())
+			return false; 
+		return op.get().isInterloped();
+	}
+	public static boolean setInterlope(PlayerEntity player, boolean value) {
+		Optional<DreamPlayerComponent> op = FaeComponentRegistry.DREAM_PLAYER.maybeGet(player);
+		if(op.isEmpty())
+			return false;
+		op.get().setInterlope(value);
+		return true;
 	}
 	
 }
