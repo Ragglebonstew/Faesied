@@ -2,6 +2,7 @@ package com.raggle.half_dream.common.block;
 
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
+import com.raggle.half_dream.api.DreamServerPlayer;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 
@@ -74,8 +75,11 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (!world.isClient && state.get(ACTIVE)) {
-			FaeUtil.toggleDream(entity);
-			world.setBlockState(pos, state.with(ACTIVE, false));
+			if(entity instanceof DreamServerPlayer dsp && dsp.getInterloped()) {
+				dsp.setInterloped(false);
+				FaeUtil.toggleDream(entity);
+				world.setBlockState(pos, state.with(ACTIVE, false));
+			}
 		}
 	}
 	

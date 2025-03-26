@@ -17,6 +17,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 public abstract class ServerPlayerEntityMixin implements DreamServerPlayer {
 
 	private final ArrayList<FaeSkeleton> skeletonList = new ArrayList<FaeSkeleton>();
+	private boolean isInterloped;
 
 	/*
 	@Override
@@ -62,6 +63,14 @@ public abstract class ServerPlayerEntityMixin implements DreamServerPlayer {
 		buf.writeInt(skeletonList.size());
 		ServerPlayNetworking.send(player, FaeMessaging.SKELETON_LIST_SIZE, buf);
 	}
- 
+
+	@Override
+	public boolean getInterloped() {
+		return this.isInterloped;
+	}
+	@Override
+	public void setInterloped(boolean interloped) {
+		this.isInterloped = interloped;
+	}
 
 }

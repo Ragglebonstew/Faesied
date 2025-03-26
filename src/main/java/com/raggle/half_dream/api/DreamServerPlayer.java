@@ -11,4 +11,7 @@ public interface DreamServerPlayer {
 	
 	ArrayList<FaeSkeleton> getList();
 	
+	boolean getInterloped();
+	void setInterloped(boolean interloped);
+	
 }
