@@ -32,7 +32,6 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		
 		if(world == null 
 				|| !entity.getCachedState().get(InterloperPortalBlock.ACTIVE)
-				|| !FaeUtilClient.isInterloped()
 		) {
 			return;
 		}

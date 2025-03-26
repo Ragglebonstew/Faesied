@@ -19,7 +19,7 @@ public class DreamPlayerComponentImpl implements DreamPlayerComponent, AutoSynce
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {
-		tag.getBoolean("interloped");
+		this.isInterloped = tag.getBoolean("interloped");
 	}
 
 	@Override
