@@ -2,10 +2,12 @@ package com.raggle.half_dream.common.block;
 
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
+import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
@@ -21,6 +23,9 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.Vec3i;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
@@ -38,6 +43,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 				.strength(-1.0F, 3600000.0F)
 				.dropsNothing()
 				.luminance(InterloperPortalBlock::getLuminance)
+				//.blockVision(InterloperPortalBlock::shouldBlockVisionPredicate)
 				);
 
 		setDefaultState(getDefaultState().with(ACTIVE, true));
@@ -73,7 +79,15 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		boolean activated = state.get(ACTIVE);
 		return activated ? 8 : 0;
 	}
-
+	/*
+	@Override
+	public BlockRenderType getRenderType(BlockState state) {
+		return state.get(ACTIVE) ? BlockRenderType.MODEL : BlockRenderType.INVISIBLE;
+	}*/
+	public static boolean shouldBlockVisionPredicate(BlockState state, BlockView world, BlockPos pos) {
+		return state.get(ACTIVE);
+	}
+	
 	@Override
 	public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
 		if (entity instanceof ServerPlayerEntity player 
