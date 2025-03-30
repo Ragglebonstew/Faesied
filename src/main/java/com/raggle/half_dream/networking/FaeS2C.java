@@ -5,6 +5,7 @@ import org.quiltmc.qsl.networking.api.PacketSender;
 import com.raggle.half_dream.api.DreamClientPlayer;
 import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.client.sequence.BridgeFogEffect;
+import com.raggle.half_dream.client.sequence.InterlopeSequence;
 import com.raggle.half_dream.client.sequence.SequenceManager;
 import com.raggle.half_dream.client.sequence.SkeletonCircleFogEffect;
 import net.minecraft.client.MinecraftClient;
@@ -38,6 +39,11 @@ public class FaeS2C {
 			if(SequenceManager.hasFogEffect()){
 				SequenceManager.getFogEffect().cancel();
 			}
+		});
+	}
+	public static void startInterlopeSequence(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {		
+		client.execute(() -> {
+			SequenceManager.start(new InterlopeSequence());
 		});
 	}
 }

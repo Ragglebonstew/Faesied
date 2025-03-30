@@ -10,6 +10,7 @@ import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.render.GameRenderer;
 
 public class FallingHalfAsleepSequence extends DreamSequence {
@@ -61,7 +62,7 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 		}
 	}
 	@Override
-	public void render(float tickDelta) {
+	public void render(GuiGraphics g, float tickDelta) {
 
 		//render dream fade in and out
 		int width = client.getWindow().getScaledWidth();

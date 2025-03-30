@@ -10,7 +10,6 @@ import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.common.registry.FaeParticleRegistry;
 
 import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.VertexConsumerProvider;
 import net.minecraft.client.render.block.entity.BlockEntityRenderer;

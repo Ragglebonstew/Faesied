@@ -42,7 +42,7 @@ public class SequenceManager {
 	}
 	public static void render(GuiGraphics g, float tickDelta) {
 		if(hasSequence())
-			dreamSequence.render(tickDelta);
+			dreamSequence.render(g, tickDelta);
 	}
 	public static void start(DreamSequence newSequence) {
 		if(!hasSequence()) {
@@ -102,5 +102,4 @@ public class SequenceManager {
 		}
 		return dreamSequence.isSequenceImportant();
 	}
-	
 }

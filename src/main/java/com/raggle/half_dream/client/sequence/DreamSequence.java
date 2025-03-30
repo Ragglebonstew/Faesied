@@ -3,6 +3,7 @@ package com.raggle.half_dream.client.sequence;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.gui.GuiGraphics;
 
 @ClientOnly
 public class DreamSequence {
@@ -24,6 +25,6 @@ public class DreamSequence {
 	}
 	
 	public void tick() {}
-	public void render(float tickDelta) {}
+	public void render(GuiGraphics g, float tickDelta) {}
 	
 }

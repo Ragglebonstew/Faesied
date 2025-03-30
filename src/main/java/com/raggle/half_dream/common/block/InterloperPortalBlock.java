@@ -1,13 +1,14 @@
 package com.raggle.half_dream.common.block;
 
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
+import org.quiltmc.qsl.networking.api.PacketByteBufs;
+import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 
-import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
+import com.raggle.half_dream.networking.FaeMessaging;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
@@ -23,8 +24,6 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
-import net.minecraft.util.math.Vec3d;
-import net.minecraft.util.math.Vec3i;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -99,6 +98,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 			FaeUtil.setInterlope(player, false);
 			FaeUtil.toggleDream(player);
 			world.setBlockState(pos, state.with(ACTIVE, false));
+			ServerPlayNetworking.send(player, FaeMessaging.INTERLOPE, PacketByteBufs.empty());
 		}
 	}
 	@Override
