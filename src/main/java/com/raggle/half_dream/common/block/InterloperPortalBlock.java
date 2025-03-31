@@ -18,9 +18,13 @@ import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.fluid.FluidState;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
+import net.minecraft.state.property.Properties;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -33,7 +37,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 
 public class InterloperPortalBlock extends BlockWithEntity implements Waterloggable {
-	
+
+	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 	public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
 
 	private InterloperPortalBlock(Settings settings) {
@@ -49,7 +54,10 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 				//.blockVision(InterloperPortalBlock::shouldBlockVisionPredicate)
 				);
 
-		setDefaultState(getDefaultState().with(ACTIVE, true));
+		setDefaultState(getDefaultState()
+				.with(ACTIVE, true)
+	            .with(WATERLOGGED, false)
+		);
 	}
 	
 	@Override
@@ -75,13 +83,24 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 	
 	@Override
 	protected void appendProperties(StateManager.Builder<Block, BlockState> builder) {
-		builder.add(ACTIVE);
+		builder.add(ACTIVE, WATERLOGGED);
 	}
 
 	public static int getLuminance(BlockState state) {
 		boolean activated = state.get(ACTIVE);
 		return activated ? 8 : 0;
 	}
+	
+	@Override
+	public FluidState getFluidState(BlockState state) {
+		return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);
+	}
+	
+	@Override
+	public BlockState getPlacementState(ItemPlacementContext ctx) {
+        return this.getDefaultState()
+                .with(WATERLOGGED, ctx.getWorld().getFluidState(ctx.getBlockPos()).isOf(Fluids.WATER));
+        }
 	
 	@Override
 	public BlockRenderType getRenderType(BlockState state) {
@@ -114,6 +133,11 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 	public BlockState getStateForNeighborUpdate(
 			BlockState state, Direction direction, BlockState neighborState, WorldAccess world, BlockPos pos, BlockPos neighborPos
 		) {
+
+		if (state.get(WATERLOGGED)) {
+			world.scheduleFluidTick(pos, Fluids.WATER, Fluids.WATER.getTickRate(world));
+		}
+		
 		if(neighborState.getBlock() == this) {
 			return neighborState;
 		}
