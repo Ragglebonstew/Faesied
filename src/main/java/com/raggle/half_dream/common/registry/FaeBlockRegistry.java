@@ -7,6 +7,7 @@ import com.raggle.half_dream.Faesied;
 import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
+import com.raggle.half_dream.common.block.BunnyPlushBlock;
 import com.raggle.half_dream.common.block.InterloperPortalBlock;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 
@@ -24,6 +25,7 @@ public class FaeBlockRegistry {
 	public static final Block STRIPPED_DREAM_WOOD = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
 	public static final Block DREAM_LEAVES = new Block(QuiltBlockSettings.copyOf(Blocks.BIRCH_LEAVES));
 	public static final InterloperPortalBlock INTERLOPER_PORTAL_BLOCK = new InterloperPortalBlock();
+	public static final BunnyPlushBlock BUNNY_PLUSH = new BunnyPlushBlock(QuiltBlockSettings.copyOf(Blocks.WHITE_WOOL));
 
 	public static final BlockEntityType<InterloperBlockEntity> INTERLOPER_PORTAL_BLOCK_ENTITY = register(
 			"interloper_portal_block_entity",
@@ -42,6 +44,7 @@ public class FaeBlockRegistry {
 		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_leaves"), DREAM_LEAVES);
 
 		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), INTERLOPER_PORTAL_BLOCK);
+		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "bunny_plush"), BUNNY_PLUSH);
 		
 		//block entities
 	}

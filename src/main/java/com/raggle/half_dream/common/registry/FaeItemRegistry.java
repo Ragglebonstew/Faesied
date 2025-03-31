@@ -18,6 +18,7 @@ public class FaeItemRegistry {
 	public static final BlockItem DREAM_LEAVES = new BlockItem(FaeBlockRegistry.DREAM_LEAVES, new QuiltItemSettings());
 	public static final DreamResin DREAM_RESIN = new DreamResin();
 	public static final Item FLAME_SPAWNER = new FlameSpawner();
+	public static final Item BUNNY_PLUSH = new BlockItem(FaeBlockRegistry.BUNNY_PLUSH, new QuiltItemSettings());
 	
 	public static void init() {
 		
@@ -35,6 +36,7 @@ public class FaeItemRegistry {
 		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), new BlockItem(FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK, new QuiltItemSettings()));
 		
 		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "flame_spawner"), FLAME_SPAWNER);
+		Registry.register(Registries.ITEM, new Identifier(Faesied.MOD_ID, "bunny_plush"), BUNNY_PLUSH);
 
 	}
 }
