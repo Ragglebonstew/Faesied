@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.half_dream.common.FaeUtil;
+import com.raggle.half_dream.common.registry.FaeItemRegistry;
 
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -22,4 +23,11 @@ public class PlayerEntityMixin {
 		}
 	}
 
+
+	@Inject(method = "canResetTimeBySleeping", at = @At("HEAD"), cancellable = true)
+	public void canResetTimeBySleeping(CallbackInfoReturnable<Boolean> ci) {
+		if( ((PlayerEntity)(Object)this).isHolding(FaeItemRegistry.BUNNY_PLUSH) ) {
+			ci.setReturnValue(false);
+		}
+	}
 }
