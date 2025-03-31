@@ -2,6 +2,7 @@ package com.raggle.half_dream.common.registry;
 import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
 
 import com.raggle.half_dream.Faesied;
+import com.raggle.half_dream.common.item.BunnyPlushItem;
 import com.raggle.half_dream.common.item.DreamResin;
 import com.raggle.half_dream.common.item.FlameSpawner;
 
@@ -18,7 +19,7 @@ public class FaeItemRegistry {
 	public static final BlockItem DREAM_LEAVES = new BlockItem(FaeBlockRegistry.DREAM_LEAVES, new QuiltItemSettings());
 	public static final DreamResin DREAM_RESIN = new DreamResin();
 	public static final Item FLAME_SPAWNER = new FlameSpawner();
-	public static final Item BUNNY_PLUSH = new BlockItem(FaeBlockRegistry.BUNNY_PLUSH, new QuiltItemSettings());
+	public static final BunnyPlushItem BUNNY_PLUSH = new BunnyPlushItem(FaeBlockRegistry.BUNNY_PLUSH, new QuiltItemSettings());
 	
 	public static void init() {
 		
