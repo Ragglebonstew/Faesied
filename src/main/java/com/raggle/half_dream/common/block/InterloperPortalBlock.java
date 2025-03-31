@@ -9,9 +9,11 @@ import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 import com.raggle.half_dream.networking.FaeMessaging;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.BlockWithEntity;
 import net.minecraft.block.Blocks;
+import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.Entity;
@@ -24,6 +26,8 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
@@ -37,8 +41,8 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 	}
 	
 	public InterloperPortalBlock() {
-		this(QuiltBlockSettings.copyOf(Blocks.GRASS)
-				.noCollision()
+		this(QuiltBlockSettings.copyOf(Blocks.STONE)
+				//.noCollision()
 				.strength(-1.0F, 3600000.0F)
 				.dropsNothing()
 				.luminance(InterloperPortalBlock::getLuminance)
@@ -78,11 +82,16 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		boolean activated = state.get(ACTIVE);
 		return activated ? 8 : 0;
 	}
-	/*
+	
 	@Override
 	public BlockRenderType getRenderType(BlockState state) {
-		return state.get(ACTIVE) ? BlockRenderType.MODEL : BlockRenderType.INVISIBLE;
-	}*/
+		return state.get(ACTIVE) ? BlockRenderType.INVISIBLE : BlockRenderType.MODEL;
+	}
+	@Override
+	public VoxelShape getCollisionShape(BlockState state, BlockView world, BlockPos pos, ShapeContext context) {
+		return !state.get(ACTIVE) ? state.getOutlineShape(world, pos) : VoxelShapes.empty();
+	}
+	
 	public static boolean shouldBlockVisionPredicate(BlockState state, BlockView world, BlockPos pos) {
 		return state.get(ACTIVE);
 	}
