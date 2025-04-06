@@ -6,9 +6,6 @@ import com.mojang.blaze3d.vertex.BufferRenderer;
 import com.mojang.blaze3d.vertex.Tessellator;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormats;
-import com.raggle.half_dream.client.FaeUtilClient;
-import com.raggle.half_dream.common.FaeUtil;
-
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.util.Identifier;
@@ -20,8 +17,6 @@ public class InterlopeSequence extends DreamSequence {
 		ticks++;
 		
 		if(ticks == totalLength/2) {
-			//switch dream state
-			FaeUtil.setInterlope(FaeUtilClient.getClientPlayer(), false);
 		}
 		else if (ticks >= totalLength - 1) {
 			finished = true;

@@ -4,8 +4,7 @@ import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
 
-import com.raggle.half_dream.networking.FaeMessaging;
-
+import com.raggle.half_dream.networking.FaeC2S;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.network.PacketByteBuf;
 
@@ -54,7 +53,7 @@ public class SkeletonCircleFogEffect extends FogEffect{
 	@Override
 	public void stop() {
 		PacketByteBuf buf = PacketByteBufs.create();
-		ClientPlayNetworking.send(FaeMessaging.DEEP_DREAM, buf);
+		ClientPlayNetworking.send(FaeC2S.DEEP_DREAM, buf);
 	}
 	
 	private void setRedColors() {

@@ -14,9 +14,6 @@ public class FaeMessaging {
 	public static final Identifier INTERLOPE = new Identifier(Faesied.MOD_ID, "interlope");
 	public static final Identifier FALLING_ASLEEP = new Identifier(Faesied.MOD_ID, "falling_asleep");
 	
-	public static final Identifier DEEP_DREAM = new Identifier(Faesied.MOD_ID, "deep_dream");
-	public static final Identifier ON_LOAD_CLIENT = new Identifier(Faesied.MOD_ID, "on_load_client");
-	
 	public static void registerS2CPackets() {
 		ClientPlayNetworking.registerGlobalReceiver(SKELETON_LIST_SIZE, FaeS2C::recieveListSize);
 		ClientPlayNetworking.registerGlobalReceiver(STOP_FOG, FaeS2C::stopFogEffect);
@@ -26,7 +23,8 @@ public class FaeMessaging {
 		ClientPlayNetworking.registerGlobalReceiver(FALLING_ASLEEP, FaeS2C::startFallingAsleepSequence);
 	}
 	public static void registerC2SPackets() {
-		ServerPlayNetworking.registerGlobalReceiver(DEEP_DREAM, FaeC2S::receiveSendToDeepDream);
+		ServerPlayNetworking.registerGlobalReceiver(FaeC2S.DEEP_DREAM, FaeC2S::receiveSendToDeepDream);
+		ServerPlayNetworking.registerGlobalReceiver(FaeC2S.TOGGLE_DREAM, FaeC2S::receiveToggleDream);
 	}
 
 }

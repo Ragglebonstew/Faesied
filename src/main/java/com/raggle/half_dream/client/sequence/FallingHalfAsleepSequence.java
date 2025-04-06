@@ -1,12 +1,14 @@
 package com.raggle.half_dream.client.sequence;
 
+import org.quiltmc.qsl.networking.api.PacketByteBufs;
+import org.quiltmc.qsl.networking.api.client.ClientPlayNetworking;
+
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferRenderer;
 import com.mojang.blaze3d.vertex.Tessellator;
 import com.mojang.blaze3d.vertex.VertexFormats;
-import com.raggle.half_dream.client.FaeUtilClient;
-import com.raggle.half_dream.common.FaeUtil;
+import com.raggle.half_dream.networking.FaeC2S;
 import com.mojang.blaze3d.vertex.VertexFormat;
 
 import net.minecraft.client.gui.GuiGraphics;
@@ -34,7 +36,7 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 		
 		if(ticks == totalLength/3) {
 			//switch dream state
-			FaeUtil.toggleDream(FaeUtilClient.getClientPlayer());
+			ClientPlayNetworking.send(FaeC2S.TOGGLE_DREAM, PacketByteBufs.empty());
 		}
 		else if (ticks >= totalLength - 1) {
 			finished = true;
