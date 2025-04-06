@@ -1,11 +1,8 @@
 package com.raggle.half_dream.client.block;
 
 import org.joml.Matrix4f;
-import org.joml.Vector3f;
-import org.joml.Vector3fc;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import com.mojang.blaze3d.shader.FogShape;
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferRenderer;
@@ -17,10 +14,7 @@ import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.block.InterloperPortalBlock;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 import com.raggle.half_dream.common.registry.FaeBlockRegistry;
-import com.raggle.half_dream.common.registry.FaeParticleRegistry;
-
 import net.minecraft.block.BlockState;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.render.GameRenderer;
 import net.minecraft.client.render.RenderLayer;
@@ -54,8 +48,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		) {
 			return;
 		}
-		BlockPos pos = entity.getPos();
-		
+
 		if(count < 60) {
 			count += 1;
 		}
@@ -98,6 +91,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		this.renderInside(entity, matrix4f, vertexConsumer, f, g, f, f, f, f, g, g, alpha, Direction.DOWN);
 		this.renderInside(entity, matrix4f, vertexConsumer, f, g, g, g, g, g, f, f, alpha, Direction.UP);
 	}
+	/*
 	private void renderSides(T entity, Matrix4f matrix, VertexConsumer vertexConsumer, float alpha) {
 		this.renderSide(entity, matrix, vertexConsumer, 0.0F, 1.0F, 0.0F, 1.0F, 1.0F, 1.0F, 1.0F, 1.0F, alpha, Direction.SOUTH);
 		this.renderSide(entity, matrix, vertexConsumer, 0.0F, 1.0F, 1.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, alpha, Direction.NORTH);
@@ -117,6 +111,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 			vertices.vertex(model, x1, y2, z4).color(1.0F, 1.0F, 1.0F, alpha).uv(1, 0).next();
 		}
 	}
+	*/
 	private void renderInside(
 			T entity, Matrix4f model, VertexConsumer vertices, float x1, float x2, float y1, float y2, float z1, float z2, float z3, float z4, float alpha, Direction side
 	) {

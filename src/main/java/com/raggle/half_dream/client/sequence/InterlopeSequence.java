@@ -1,12 +1,9 @@
 package com.raggle.half_dream.client.sequence;
 
-import org.joml.Matrix4f;
-
 import com.mojang.blaze3d.systems.RenderSystem;
 import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferRenderer;
 import com.mojang.blaze3d.vertex.Tessellator;
-import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.blaze3d.vertex.VertexFormats;
 import com.raggle.half_dream.client.FaeUtilClient;
@@ -14,8 +11,6 @@ import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.render.GameRenderer;
-import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.texture.Sprite;
 import net.minecraft.util.Identifier;
 
 public class InterlopeSequence extends DreamSequence {
@@ -60,7 +55,6 @@ public class InterlopeSequence extends DreamSequence {
 		if(ticks < totalLength/2) {
 			backgroundProgress = scaleNum;
 		}
-		//RenderSystem.disableTexture();
 		bufferBuilder.vertex(0.0D, height, 0.0D).color(255, 255, 255, backgroundProgress).uv(0, 0).next();
 		bufferBuilder.vertex(width, height, 0.0D).color(255, 255, 255, backgroundProgress).uv(0, 1).next();
 		bufferBuilder.vertex(width, 0.0D, -90.0D).color(255, 255, 255, backgroundProgress).uv(1, 1).next();
