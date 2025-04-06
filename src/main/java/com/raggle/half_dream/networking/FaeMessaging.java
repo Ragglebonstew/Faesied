@@ -12,6 +12,7 @@ public class FaeMessaging {
 	public static final Identifier STOP_FOG = new Identifier(Faesied.MOD_ID, "stop_fog");
 	public static final Identifier BRIDGE_FOG = new Identifier(Faesied.MOD_ID, "bridge_fog");
 	public static final Identifier INTERLOPE = new Identifier(Faesied.MOD_ID, "interlope");
+	public static final Identifier FALLING_ASLEEP = new Identifier(Faesied.MOD_ID, "falling_asleep");
 	
 	public static final Identifier DEEP_DREAM = new Identifier(Faesied.MOD_ID, "deep_dream");
 	public static final Identifier ON_LOAD_CLIENT = new Identifier(Faesied.MOD_ID, "on_load_client");
@@ -20,7 +21,9 @@ public class FaeMessaging {
 		ClientPlayNetworking.registerGlobalReceiver(SKELETON_LIST_SIZE, FaeS2C::recieveListSize);
 		ClientPlayNetworking.registerGlobalReceiver(STOP_FOG, FaeS2C::stopFogEffect);
 		ClientPlayNetworking.registerGlobalReceiver(BRIDGE_FOG, FaeS2C::startBridgeSequence);
+		
 		ClientPlayNetworking.registerGlobalReceiver(INTERLOPE, FaeS2C::startInterlopeSequence);
+		ClientPlayNetworking.registerGlobalReceiver(FALLING_ASLEEP, FaeS2C::startFallingAsleepSequence);
 	}
 	public static void registerC2SPackets() {
 		ServerPlayNetworking.registerGlobalReceiver(DEEP_DREAM, FaeC2S::receiveSendToDeepDream);

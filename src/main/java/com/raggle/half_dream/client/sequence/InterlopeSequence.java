@@ -49,20 +49,18 @@ public class InterlopeSequence extends DreamSequence {
 		
 		backgroundProgress = (int)(scaleNum*(1.0F-Math.abs((ticks*2.0F-totalLength)/totalLength)));
 
-		if(ticks < totalLength/2) {
-			VertexConsumer vertices = g.getVertexConsumers().getBuffer(RenderLayer.getEndGateway());
-			vertices.vertex(0.0D, height, 0.0D).next();
-			vertices.vertex(width, height, 0.0D).next();
-			vertices.vertex(width, 0.0D, -90.0D).next();
-			vertices.vertex(0.0D, 0.0D, -90.0D).next();
-		}
-		//RenderSystem.disableTexture();
+
 		RenderSystem.setShaderTexture(0, new Identifier("textures/entity/end_portal.png"));
 		RenderSystem.setShader(GameRenderer::getPositionColorTexShader);
 		RenderSystem.enableBlend();
 		Tessellator tessellator = Tessellator.getInstance();
 		BufferBuilder bufferBuilder = tessellator.getBufferBuilder();
 		bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_COLOR_TEXTURE);
+		
+		if(ticks < totalLength/2) {
+			backgroundProgress = scaleNum;
+		}
+		//RenderSystem.disableTexture();
 		bufferBuilder.vertex(0.0D, height, 0.0D).color(255, 255, 255, backgroundProgress).uv(0, 0).next();
 		bufferBuilder.vertex(width, height, 0.0D).color(255, 255, 255, backgroundProgress).uv(0, 1).next();
 		bufferBuilder.vertex(width, 0.0D, -90.0D).color(255, 255, 255, backgroundProgress).uv(1, 1).next();

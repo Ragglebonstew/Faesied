@@ -5,7 +5,6 @@ import com.mojang.blaze3d.vertex.BufferBuilder;
 import com.mojang.blaze3d.vertex.BufferRenderer;
 import com.mojang.blaze3d.vertex.Tessellator;
 import com.mojang.blaze3d.vertex.VertexFormats;
-import com.raggle.half_dream.api.DreamClientPlayer;
 import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import com.mojang.blaze3d.vertex.VertexFormat;
@@ -15,19 +14,12 @@ import net.minecraft.client.render.GameRenderer;
 
 public class FallingHalfAsleepSequence extends DreamSequence {
 
-	private byte toDream;
-	private byte startDream;
-
-	public FallingHalfAsleepSequence(DreamClientPlayer player, byte startDream, byte toDream) {
-		this.startDream = startDream;
-		this.toDream = toDream;
+	public FallingHalfAsleepSequence() {
 		ticks = 0;
-		//Faesied.LOGGER.info("Starting half asleep sequence");
 	}
 	@Override
 	public void stop() {
 		super.stop();
-		//Faesied.LOGGER.info("Stopping half asleep sequence");
 	}
 
 	@Override
@@ -37,25 +29,12 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 	public boolean hasTransitioned() {
 		return ticks >= totalLength/3;
 	}
-	public void setStartDream(byte startDream) {
-		this.startDream = startDream;
-	}
-	public void setEndDream(byte endDream) {
-		this.toDream = endDream;
-	}
-	public byte getStartDream() {
-		return startDream;
-	}
-	public byte getEndDream() {
-		return toDream;
-	}
-	@Override
 	public void tick() {
 		ticks++;
 		
 		if(ticks == totalLength/3) {
 			//switch dream state
-			FaeUtil.setDream(FaeUtilClient.getClientPlayer(), toDream);
+			FaeUtil.toggleDream(FaeUtilClient.getClientPlayer());
 		}
 		else if (ticks >= totalLength - 1) {
 			finished = true;
@@ -91,6 +70,7 @@ public class FallingHalfAsleepSequence extends DreamSequence {
 		bufferBuilder.vertex(width, 0.0D, -90.0D).color(0, 0, 0, backgroundProgress).next();
 		bufferBuilder.vertex(0.0D, 0.0D, -90.0D).color(0, 0, 0, backgroundProgress).next();
 		BufferRenderer.drawWithShader(bufferBuilder.end());
+		RenderSystem.disableBlend();
 	}
 
 }

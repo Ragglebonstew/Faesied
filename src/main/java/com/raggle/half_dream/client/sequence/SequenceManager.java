@@ -49,36 +49,6 @@ public class SequenceManager {
 			dreamSequence = newSequence;
 			dreamSequence.start();
 		}
-		//if dream status changes mid-animation
-		else if(newSequence instanceof FallingHalfAsleepSequence newFhas) {
-			if(dreamSequence instanceof FallingHalfAsleepSequence oldFhas) {
-				if(newFhas.getEndDream() == oldFhas.getEndDream()) {
-					return;
-				}
-				else if(!oldFhas.hasTransitioned()) {
-					oldFhas.setEndDream(newFhas.getEndDream());
-				}
-				else {
-					newFhas.setStartDream(FaeUtilClient.getPlayerDream());
-					dreamSequence = newSequence;
-				}
-			}
-			else {
-				dreamSequence = newSequence;
-				dreamSequence.start();
-			}
-			/*
-//			(toDream != dreamSequence.dreaming) 
-			HalfDream.LOGGER.info("Sequence already playing. Changing to different end dream");
-			if(dreamSequence.ticks > totalLength/3) {
-				dreamSequence.sequenceState = toDream;
-				client.worldRenderer.reload();
-			}
-			else {
-				dreamSequence.dreaming = toDream;
-			}
-			*/
-		}
 	}
 	public static boolean hasSequence() {
 		return dreamSequence != null;

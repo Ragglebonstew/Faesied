@@ -51,6 +51,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 				.strength(-1.0F, 3600000.0F)
 				.dropsNothing()
 				.luminance(InterloperPortalBlock::getLuminance)
+				.nonOpaque()
 				//.blockVision(InterloperPortalBlock::shouldBlockVisionPredicate)
 				);
 
@@ -124,9 +125,8 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 				&& FaeUtil.isInterloped(player)
 		) {
 			FaeUtil.setInterlope(player, false);
-			FaeUtil.toggleDream(player);
-			world.setBlockState(pos, state.with(ACTIVE, false));
-			ServerPlayNetworking.send(player, FaeMessaging.INTERLOPE, PacketByteBufs.empty());
+			//world.setBlockState(pos, state.with(ACTIVE, false));
+			ServerPlayNetworking.send(player, FaeMessaging.FALLING_ASLEEP, PacketByteBufs.empty());
 		}
 	}
 	@Override
