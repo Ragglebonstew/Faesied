@@ -1,11 +1,13 @@
 package com.raggle.half_dream.common.block;
 
+import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
 import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
+import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
 import net.minecraft.block.Block;
@@ -16,6 +18,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.block.Waterloggable;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.block.entity.BlockEntityTicker;
+import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
@@ -60,7 +64,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 	            .with(WATERLOGGED, false)
 		);
 	}
-	
+	/*
 	@Override
 	public ActionResult onUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit) {
 		if (!player.getAbilities().allowModifyWorld) {
@@ -76,6 +80,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 			return ActionResult.SUCCESS;
 		}
 	}
+	*/
 
 	@Override
 	public BlockEntity createBlockEntity(BlockPos pos, BlockState state) {
@@ -142,6 +147,20 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 			return neighborState;
 		}
 		return state;
+	}
+
+	@Nullable
+	@Override
+	public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
+		return !world.isClient && world.getDimension().hasSkyLight() ? checkType(type, FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalBlock::tick) : null;
+	}
+	private static void tick(World world, BlockPos pos, BlockState state, InterloperBlockEntity blockEntity) {
+		if (world.getTime() % 20L == 0L) {
+			updateState(state, world, pos);
+		}
+	}
+	private static void updateState(BlockState state, World world, BlockPos pos) {
+		world.setBlockState(pos, state.with(ACTIVE, world.isNight()));
 	}
 	
 }
