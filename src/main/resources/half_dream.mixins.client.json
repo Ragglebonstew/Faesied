@@ -10,7 +10,6 @@
 		"ChunkRenderRegionMixin",
 		"ClientPlayerEntityMixin",
 		"EntityRendererMixin",
-		"WorldRendererAccessor",
 		"WorldRendererMixin"
 	],
 	"injectors": {
