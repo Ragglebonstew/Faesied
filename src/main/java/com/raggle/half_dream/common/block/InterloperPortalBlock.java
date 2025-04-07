@@ -93,6 +93,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		return activated ? 8 : 0;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public FluidState getFluidState(BlockState state) {
 		return state.get(WATERLOGGED) ? Fluids.WATER.getStill(false) : super.getFluidState(state);

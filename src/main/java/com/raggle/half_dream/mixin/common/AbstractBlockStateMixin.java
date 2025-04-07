@@ -99,11 +99,6 @@ public abstract class AbstractBlockStateMixin {
 			}
 		}
 	}
-	//handles real players placing at dream block location (doesn't replace dream block w/ dream block when dream)
-	//@Inject(method = "onStateReplaced", at = @At("HEAD"), cancellable = true)
-	public void onStateReplaced(World world, BlockPos pos, BlockState newState, boolean moved, CallbackInfo ci) {
-		
-	}
 
 	/*public boolean canPathfindThrough(BlockView world, BlockPos pos, NavigationType type) {
 		return this.getBlock().canPathfindThrough(this.asBlockState(), world, pos, type);

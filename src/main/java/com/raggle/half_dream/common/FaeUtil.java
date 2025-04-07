@@ -1,6 +1,5 @@
 package com.raggle.half_dream.common;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
@@ -135,14 +134,6 @@ public class FaeUtil {
 		BLOCK
 	}
 	
-	//coding gods forgive me, for I have written jank (marks replaced dream blocks to be removed from list)
-	private static ArrayList<BlockPos> marks = new ArrayList<BlockPos>();
-	public static boolean getMarked(BlockPos pos) {
-		return marks.remove(pos);
-	}
-	public static void addMarked(BlockPos blockPos) {
-		marks.add(blockPos);
-	}
 	public static boolean isInterloped(PlayerEntity player) {
 		Optional<DreamPlayerComponent> op = FaeComponentRegistry.DREAM_PLAYER.maybeGet(player);
 		if(op.isEmpty())

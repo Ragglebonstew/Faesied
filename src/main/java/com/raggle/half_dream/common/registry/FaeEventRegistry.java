@@ -131,12 +131,12 @@ public class FaeEventRegistry {
 				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
 				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
 
-				if(block_hand != Blocks.AIR && block_hand != null && itemContext.canPlace()) {
-					if(block_hand == world.getBlockState(itemContext.getBlockPos()).getBlock()) {
-						FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
-					}
-					else
-						FaeUtil.addMarked(itemContext.getBlockPos());
+				if(block_hand != Blocks.AIR 
+						&& block_hand != null 
+						&& itemContext.canPlace() 
+						&& FaeUtil.isDreamBlock(itemContext.getBlockPos(), world)) {
+					world.setBlockState(itemContext.getBlockPos(), Blocks.AIR.getDefaultState());
+					FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
 					break;
 				}
 			}
