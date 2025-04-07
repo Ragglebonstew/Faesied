@@ -1,6 +1,24 @@
 # HalfDream
 
+The Half Dream mod allows players and other entities to interact with the seemingly invisible dream world. In it, invisible monsters and structures hide from the waking world. Crossing through the veil is the only way to reveal what is hidden. But be warned, you too (and anything you build) will be imperceptible to the waking world.
+
 ## Changelog
+
+0.7.0
+
+	Added Bunny Plush
+	Added Interloper Portal Block
+	Added Interloper Portal Structure
+	Removed deprecated dream block items
+	
+    Fixed bug where entities could hit other dream state entities
+	Fixed dream blocks not replacing properly
+	Fixed lighting not updating on world
+	Fixed bug where structure nbt was misnamed
+    Fixed crash with IPortal structure json
+	Fixed IPortal spawning in oceans
+	
+	Implemented Player Dream component
 
 0.6.0
 
