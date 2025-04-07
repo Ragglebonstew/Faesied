@@ -4,7 +4,6 @@ import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 
 import com.raggle.half_dream.Faesied;
-import net.minecraft.block.Block;
 import net.minecraft.block.Blocks;
 
 import com.raggle.half_dream.common.block.BunnyPlushBlock;
@@ -18,12 +17,6 @@ import net.minecraft.util.Identifier;
 
 public class FaeBlockRegistry {
 	
-	public static final Block DREAM_BLOCK = new Block(QuiltBlockSettings.copyOf(Blocks.STONE));
-	public static final Block DREAM_LOG = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
-	public static final Block DREAM_WOOD = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
-	public static final Block STRIPPED_DREAM_LOG = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
-	public static final Block STRIPPED_DREAM_WOOD = new Block(QuiltBlockSettings.copyOf(Blocks.OAK_WOOD));
-	public static final Block DREAM_LEAVES = new Block(QuiltBlockSettings.copyOf(Blocks.BIRCH_LEAVES));
 	public static final InterloperPortalBlock INTERLOPER_PORTAL_BLOCK = new InterloperPortalBlock();
 	public static final BunnyPlushBlock BUNNY_PLUSH = new BunnyPlushBlock(QuiltBlockSettings.copyOf(Blocks.WHITE_WOOL));
 
@@ -33,15 +26,6 @@ public class FaeBlockRegistry {
 			);
 	  
 	public static void init() {
-		
-		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_block"), DREAM_BLOCK);
-		
-		//dream wood stuff
-		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_log"), DREAM_LOG);
-		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_wood"), DREAM_WOOD);
-		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "stripped_dream_log"), STRIPPED_DREAM_LOG);
-		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "stripped_dream_wood"), STRIPPED_DREAM_WOOD);
-		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "dream_leaves"), DREAM_LEAVES);
 
 		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "interloper_portal_block"), INTERLOPER_PORTAL_BLOCK);
 		Registry.register(Registries.BLOCK, new Identifier(Faesied.MOD_ID, "bunny_plush"), BUNNY_PLUSH);
