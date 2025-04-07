@@ -13,5 +13,6 @@
 	"block.half_dream.dream_sapling" : "Dream Sapling",
 	"item.half_dream.dream_sapling" : "Dream Sapling",
 	"item.half_dream.dream_resin" : "Dream Resin",
-	"block.half_dream.bunny_plush" : "Bunny Plush"
+	"block.half_dream.bunny_plush" : "Bunny Plush",
+	"block.half_dream.interloper_portal_block" : "Interloper Portal Block"
 }
