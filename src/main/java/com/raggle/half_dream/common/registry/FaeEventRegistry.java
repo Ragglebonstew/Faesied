@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -52,7 +53,21 @@ public class FaeEventRegistry {
 						context.getSource().sendFeedback(() -> Text.literal("Value must be between 0 and 2"), false);
 					}
 					return 1;
-		}))));
+		})
+				.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.executes(context -> 
+				{
+					byte dream = (byte)IntegerArgumentType.getInteger(context, "value");
+					if(dream >= 0 && dream <= 2) {
+						FaeUtil.setDream(EntityArgumentType.getEntity(context, "entity"), dream);
+						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(dream)), false);
+					}
+					else {
+						context.getSource().sendFeedback(() -> Text.literal("Value must be between 0 and 2"), false);
+					}
+					return 1;
+		})
+))));
 		
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
 				CommandManager
