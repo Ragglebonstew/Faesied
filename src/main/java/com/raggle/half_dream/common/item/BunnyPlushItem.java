@@ -19,8 +19,9 @@ public class BunnyPlushItem extends BlockItem {
 
 	@Override
 	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
-		if(selected && !world.isClient() && entity instanceof PlayerEntity le && le.isSleeping()) {
-			FaeUtil.setInterlope(le, true);
+		if(selected && !world.isClient() && entity instanceof PlayerEntity player && player.isSleeping() && player.getSleepTimer() >= 100) {
+			FaeUtil.setInterlope(player, true);
+			player.wakeUp();
 		}
 	}
 
