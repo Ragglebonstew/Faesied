@@ -26,7 +26,8 @@ public class PlayerEntityMixin {
 
 	@Inject(method = "canResetTimeBySleeping", at = @At("HEAD"), cancellable = true)
 	public void canResetTimeBySleeping(CallbackInfoReturnable<Boolean> ci) {
-		if( ((PlayerEntity)(Object)this).isHolding(FaeItemRegistry.BUNNY_PLUSH) ) {
+		PlayerEntity player = (PlayerEntity)(Object)this;
+		if(player.isHolding(FaeItemRegistry.BUNNY_PLUSH) && !FaeUtil.isInterloped(player)) {
 			ci.setReturnValue(false);
 		}
 	}
