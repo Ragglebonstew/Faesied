@@ -127,7 +127,6 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 				&& FaeUtil.isInterloped(player)
 		) {
 			FaeUtil.setInterlope(player, false);
-			//world.setBlockState(pos, state.with(ACTIVE, false));
 			ServerPlayNetworking.send(player, FaeMessaging.FALLING_ASLEEP, PacketByteBufs.empty());
 		}
 	}

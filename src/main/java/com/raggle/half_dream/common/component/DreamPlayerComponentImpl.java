@@ -29,7 +29,7 @@ public class DreamPlayerComponentImpl implements DreamPlayerComponent, AutoSynce
 
 	@Override
 	public boolean isInterloped() {
-		return this.isInterloped && player.getWorld().isNight();
+		return this.isInterloped;
 	}
 
 	@Override
