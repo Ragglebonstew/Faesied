@@ -1,12 +1,45 @@
 # HalfDream
 
+The Half Dream mod allows players and other entities to interact with the seemingly invisible dream world. In it, invisible monsters and structures hide from the waking world. Crossing through the veil is the only way to reveal what is hidden. But be warned, you too (and anything you build) will be imperceptible to the waking world.
+
 ## Changelog
 
+0.7.0
+
+	Added Bunny Plush
+	Added Interloper Portal Block
+	Added Interloper Portal Structure
+	Removed deprecated dream block items
+	
+    Fixed bug where entities could hit other dream state entities
+	Fixed dream blocks not replacing properly
+	Fixed lighting not updating on world
+	Fixed bug where structure nbt was misnamed
+    Fixed crash with IPortal structure json
+	Fixed IPortal spawning in oceans
+	
+	Implemented Player Dream component
+
 0.6.0
-	
-	blocks placed in dream state now register as dream blocks
-	
-	fixed some client server convolution bugs
+
+	Added ability to place any block as a dream block while in dream state
+	Added dreamstate command to allow setting one's dream state
+	Added dreamclear command to clear all dream block and dream air refrences in a chunk
+	Deprecated old dream blocks
+	Removed dream entity interfaces 
+
+	Fixed a bug where clicking a block added it to dream air
+	Fixed bug where dream block reference overrided by state change
+	Fixed blocklight not passing through dream blocks
+	Fixed skylight not passing through dream blocks
+	Fixed dropped items not matching dream state
+	Fixed skylight showing in dream
+	Fixed a bug where dream blocks and real blocks couldn't replae each other
+	Fixed bug where dream blocks didn't drop dream items
+	Fixed bug where dream chests didn't drop dream items
+	Fixed bug where skel-horse would call fog server side
+	Fixed bug where server skel-horse imported client player
+	Fixed bugs where utility class imported client classes on server
 
 0.5.0
 

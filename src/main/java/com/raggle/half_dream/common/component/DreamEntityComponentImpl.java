@@ -13,6 +13,7 @@ import net.minecraft.network.PacketByteBuf;
 public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSyncedComponent {
 	
 	private final Entity entity;
+	
 	private byte dream;
 	
 	public DreamEntityComponentImpl(Entity entity) {

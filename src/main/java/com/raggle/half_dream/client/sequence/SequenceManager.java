@@ -2,7 +2,6 @@ package com.raggle.half_dream.client.sequence;
 
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 
-import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 
 import net.minecraft.client.MinecraftClient;
@@ -42,42 +41,12 @@ public class SequenceManager {
 	}
 	public static void render(GuiGraphics g, float tickDelta) {
 		if(hasSequence())
-			dreamSequence.render(tickDelta);
+			dreamSequence.render(g, tickDelta);
 	}
 	public static void start(DreamSequence newSequence) {
 		if(!hasSequence()) {
 			dreamSequence = newSequence;
 			dreamSequence.start();
-		}
-		//if dream status changes mid-animation
-		else if(newSequence instanceof FallingHalfAsleepSequence newFhas) {
-			if(dreamSequence instanceof FallingHalfAsleepSequence oldFhas) {
-				if(newFhas.getEndDream() == oldFhas.getEndDream()) {
-					return;
-				}
-				else if(!oldFhas.hasTransitioned()) {
-					oldFhas.setEndDream(newFhas.getEndDream());
-				}
-				else {
-					newFhas.setStartDream(FaeUtilClient.getPlayerDream());
-					dreamSequence = newSequence;
-				}
-			}
-			else {
-				dreamSequence = newSequence;
-				dreamSequence.start();
-			}
-			/*
-//			(toDream != dreamSequence.dreaming) 
-			HalfDream.LOGGER.info("Sequence already playing. Changing to different end dream");
-			if(dreamSequence.ticks > totalLength/3) {
-				dreamSequence.sequenceState = toDream;
-				client.worldRenderer.reload();
-			}
-			else {
-				dreamSequence.dreaming = toDream;
-			}
-			*/
 		}
 	}
 	public static boolean hasSequence() {
@@ -102,5 +71,4 @@ public class SequenceManager {
 		}
 		return dreamSequence.isSequenceImportant();
 	}
-	
 }

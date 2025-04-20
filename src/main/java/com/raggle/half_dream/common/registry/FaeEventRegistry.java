@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
 import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
 
+import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.raggle.half_dream.common.FaeUtil;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
@@ -67,6 +68,20 @@ public class FaeEventRegistry {
 					context.getSource().sendFeedback(() -> Text.literal("Deleted "+air_count+" dream air and "+block_count+" dream blocks"), false);
 					return 1;
 		})));
+
+		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
+				CommandManager
+				.literal("interlope")
+				.requires(source -> source.hasPermissionLevel(2))
+				.then(CommandManager.argument("value", BoolArgumentType.bool())
+						.executes(context -> 
+				{
+					boolean value = BoolArgumentType.getBool(context, "value");
+					FaeUtil.setInterlope(context.getSource().getPlayer(), value);
+					context.getSource().sendFeedback(() -> Text.literal("Set interlope to %s".formatted(value)), false);
+					
+					return 1;
+		}))));
 	}
 	
 	private static void afterRespawn(ServerPlayerEntity copy, ServerPlayerEntity original, boolean wasDeath) {
@@ -116,12 +131,12 @@ public class FaeEventRegistry {
 				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
 				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
 
-				if(block_hand != Blocks.AIR && block_hand != null && itemContext.canPlace()) {
-					if(block_hand == world.getBlockState(itemContext.getBlockPos()).getBlock()) {
-						FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
-					}
-					else
-						FaeUtil.addMarked(itemContext.getBlockPos());
+				if(block_hand != Blocks.AIR 
+						&& block_hand != null 
+						&& itemContext.canPlace() 
+						&& FaeUtil.isDreamBlock(itemContext.getBlockPos(), world)) {
+					world.setBlockState(itemContext.getBlockPos(), Blocks.AIR.getDefaultState());
+					FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
 					break;
 				}
 			}

@@ -3,13 +3,10 @@ package com.raggle.half_dream.client;
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.loader.api.minecraft.ClientOnly;
 import com.raggle.half_dream.common.FaeUtil;
-import com.raggle.half_dream.mixin.WorldRendererAccessor;
-
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayerEntity;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.ChunkSectionPos;
 
 @ClientOnly
 public class FaeUtilClient {
@@ -57,8 +54,11 @@ public class FaeUtilClient {
 	public static void scheduleChunkRenderAt(BlockPos pos) {
 		MinecraftClient mc = MinecraftClient.getInstance();
 		if(mc != null && mc.world != null) {
-			ChunkSectionPos chunkPos = ChunkSectionPos.from(pos);
-			((WorldRendererAccessor)mc.worldRenderer).invokeScheduleChunkRender(chunkPos.getSectionX(), chunkPos.getSectionY(), chunkPos.getSectionZ(), true);;
+			mc.worldRenderer.updateBlock(mc.world, pos, null, null, 0);
 		}
+	}
+
+	public static boolean isInterloped() {
+		return FaeUtil.isInterloped(getClientPlayer());
 	}
 }

@@ -1,14 +1,15 @@
 package com.raggle.half_dream.common;
 
-import java.util.ArrayList;
 import java.util.Optional;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
+import com.raggle.half_dream.api.DreamPlayerComponent;
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.api.DreamChunkComponent;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -113,6 +114,8 @@ public class FaeUtil {
 	public static boolean canInteract(Entity e1, Entity e2) {
 		byte d1 = getDream(e1);
 		byte d2 = getDream(e2);
+		//if(e1 != null && e2 != null)
+			//Faesied.LOGGER.debug("Checking interaction between "+e1.getEntityName()+" and "+e2.getEntityName());
 		return d1 == 2 || d2 == 2 || d1 == d2;
 	}
 	public static boolean canInteract(Entity entity, BlockPos pos, BlockView world) {
@@ -131,13 +134,18 @@ public class FaeUtil {
 		BLOCK
 	}
 	
-	//coding gods forgive me, for I have written jank (marks replaced dream blocks to be removed from list)
-	private static ArrayList<BlockPos> marks = new ArrayList<BlockPos>();
-	public static boolean getMarked(BlockPos pos) {
-		return marks.remove(pos);
+	public static boolean isInterloped(PlayerEntity player) {
+		Optional<DreamPlayerComponent> op = FaeComponentRegistry.DREAM_PLAYER.maybeGet(player);
+		if(op.isEmpty())
+			return false; 
+		return op.get().isInterloped();
 	}
-	public static void addMarked(BlockPos blockPos) {
-		marks.add(blockPos);
+	public static boolean setInterlope(PlayerEntity player, boolean value) {
+		Optional<DreamPlayerComponent> op = FaeComponentRegistry.DREAM_PLAYER.maybeGet(player);
+		if(op.isEmpty())
+			return false;
+		op.get().setInterlope(value);
+		return true;
 	}
 	
 }

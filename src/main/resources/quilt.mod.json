@@ -8,7 +8,7 @@
 			"name": "Half Dream",
 			"description": "Enter the dream world.",
 			"contributors": {
-				"Your name here": "Ragglebonstew"
+				"Ragglebonstew": "Owner"
 			},
 			"contact": {
 				"homepage": "https://example.com/",
@@ -38,16 +38,22 @@
             }
 		]
 	},
-	"mixin": "half_dream.mixins.json",
+	"mixin": [
+		"half_dream.mixins.common.json",
+		"half_dream.mixins.client.json",
+		"half_dream.compat.mixins.json"
+	],
 	"cardinal-components": [
         "half_dream:dream_air",
         "half_dream:dream_blocks",
+       	"half_dream:dream_entity",
         "half_dream:dream_player"
     ],
     "custom": {
         "cardinal-components": [
         	"half_dream:dream_air",
         	"half_dream:dream_blocks",
+        	"half_dream:dream_entity", 
         	"half_dream:dream_player"
         ]
     }
