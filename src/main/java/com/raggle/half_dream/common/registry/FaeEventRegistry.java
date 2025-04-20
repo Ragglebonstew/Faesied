@@ -14,6 +14,7 @@ import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.command.argument.EntityArgumentType;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
@@ -50,7 +51,8 @@ public class FaeEventRegistry {
 						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(dream)), false);
 					}
 					else {
-						context.getSource().sendFeedback(() -> Text.literal("Value must be between 0 and 2"), false);
+						context.getSource().sendError(Text.literal("Value must be between 0 and 2"));
+						return -1;
 					}
 					return 1;
 		})
@@ -58,12 +60,14 @@ public class FaeEventRegistry {
 						.executes(context -> 
 				{
 					byte dream = (byte)IntegerArgumentType.getInteger(context, "value");
+					Entity entity = EntityArgumentType.getEntity(context, "entity");
 					if(dream >= 0 && dream <= 2) {
-						FaeUtil.setDream(EntityArgumentType.getEntity(context, "entity"), dream);
-						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(dream)), false);
+						FaeUtil.setDream(entity, dream);
+						context.getSource().sendFeedback(() -> Text.literal("Set dream of %s to %s".formatted(entity.getName().getString(), dream)), true);
 					}
 					else {
-						context.getSource().sendFeedback(() -> Text.literal("Value must be between 0 and 2"), false);
+						context.getSource().sendError(Text.literal("Value must be between 0 and 2"));
+						return -1;
 					}
 					return 1;
 		})
