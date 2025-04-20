@@ -53,7 +53,8 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
         NbtCompound tag = buf.readNbt();
         if (tag != null) {
             this.readFromNbt(tag);
-    		FaeUtilClient.scheduleChunkRenderAt(BlockPos.fromLong(tag.getLong("renderpos")));
+            BlockPos renderPos = BlockPos.fromLong(tag.getLong("renderpos"));
+    		FaeUtilClient.scheduleChunkRenderAt(renderPos);
 			provider.setNeedsSaving(true);
         }
     }

@@ -26,6 +26,7 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.chunk.EmptyChunk;
+import net.minecraft.world.chunk.ProtoChunk;
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class AbstractBlockStateMixin {
@@ -105,16 +106,18 @@ public abstract class AbstractBlockStateMixin {
 	//handles light passage for dream blocks
 	@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
 	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(world instanceof Chunk w && !(w instanceof EmptyChunk)) {
+		if(world instanceof Chunk w && !(w instanceof EmptyChunk || world instanceof ProtoChunk)) {
 			if(FaeUtil.isDreamBlock(pos, world)) {
 				cir.setReturnValue(0);
 			}
 		}
-		else if(world instanceof World w) {
+		/*
+		else if(world instanceof World w && w.isPlayerInRange(pos.getX(), pos.getY(), pos.getZ(), 64)) {
 			if(FaeUtil.isDreamBlock(pos, world)) {
 				cir.setReturnValue(0);
 			}
 		}
+		*/
 	}
 	
 	//is called after items are dropped, allowing ItemScattererMixin to detect its state

@@ -42,6 +42,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		double sdistance = player.squaredDistanceTo(entity.getPos().getX(),entity.getPos().getY(), entity.getPos().getZ());
 		
 		if(world == null 
+				|| player == null
 				|| !entity.getCachedState().get(InterloperPortalBlock.ACTIVE)
 				|| sdistance > range
 		) {

@@ -17,8 +17,7 @@
 		"MobEntityMixin",
 		"PlayerEntityMixin",
 		"ServerPlayerEntityMixin",
-		"SkeletonHorseEntityMixin",
-		"WorldMixin"
+		"SkeletonHorseEntityMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
