@@ -1,6 +1,5 @@
 package com.raggle.half_dream.mixin.common;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -8,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.half_dream.client.FaeUtilClient;
+import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -67,37 +66,12 @@ public abstract class AbstractBlockStateMixin {
 		}
 	}
 	
-	@ClientOnly
-	@Inject(method = "getCameraCollisionShape", at = @At("HEAD"), cancellable = true)
-	private void getCameraCollisionShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
-
-		if(context instanceof EntityShapeContext esc) {
-			Entity entity = esc.getEntity();
-			if(!FaeUtil.canInteract(entity, pos, world))
-				cir.setReturnValue(VoxelShapes.empty());
-		}
-		
-	}
 	
 	@Inject(method = "onEntityCollision", at = @At("HEAD"), cancellable = true)
     private void onEntityCollision(World world, BlockPos pos, Entity entity, CallbackInfo ci) {
 		if(!FaeUtil.canInteract(entity, pos, world))
 			ci.cancel();
     }
-	@ClientOnly
-	@Inject(method = "shouldBlockVision", at = @At("HEAD"), cancellable = true)
-	private void shouldBlockVision(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtilClient.getClientPlayer() != null) {
-			if(FaeUtilClient.getPlayerDream() == 1) {
-				if(FaeUtilClient.isDreamAir(pos)) 
-					cir.setReturnValue(false);
-			}
-			else {
-				if(FaeUtilClient.isDreamBlock(pos)) 
-					cir.setReturnValue(false);
-			}
-		}
-	}
 
 	/*public boolean canPathfindThrough(BlockView world, BlockPos pos, NavigationType type) {
 		return this.getBlock().canPathfindThrough(this.asBlockState(), world, pos, type);
@@ -111,13 +85,13 @@ public abstract class AbstractBlockStateMixin {
 				cir.setReturnValue(0);
 			}
 		}
-		/*
-		else if(world instanceof World w && w.isPlayerInRange(pos.getX(), pos.getY(), pos.getZ(), 64)) {
+		//*
+		else if(world instanceof World w) {
 			if(FaeUtil.isDreamBlock(pos, world)) {
 				cir.setReturnValue(0);
 			}
 		}
-		*/
+		//*/
 	}
 	
 	//is called after items are dropped, allowing ItemScattererMixin to detect its state

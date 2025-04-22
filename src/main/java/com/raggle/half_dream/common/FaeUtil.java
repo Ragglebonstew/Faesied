@@ -10,6 +10,7 @@ import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
@@ -79,7 +80,10 @@ public class FaeUtil {
 	public static boolean componentContainsPos(BlockPos pos, BlockView world, DREAM_TYPE type) {
 		Chunk chunk = null;
 		
-		if(world instanceof World w) {
+		if(world instanceof ServerWorld w && w.getServer().isOnThread()) {
+			chunk = w.getChunk(pos);
+		}
+		else if(world instanceof World w && w.isClient()) {
 			chunk = w.getChunk(pos);
 		}
 		else if(world instanceof Chunk c) {

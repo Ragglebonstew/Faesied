@@ -39,7 +39,7 @@ public abstract class WorldMixin {
 	@Inject(method = "getBlockState", at = @At("HEAD"), cancellable = true)
 	private void getBlockState(BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
 		if(!this.isClient() && FaeUtil.isDreamBlock(pos, (BlockView)(Object)this)){
-			cir.setReturnValue(Blocks.AIR.getDefaultState());
+			//cir.setReturnValue(Blocks.AIR.getDefaultState());
 		}
 	}
     

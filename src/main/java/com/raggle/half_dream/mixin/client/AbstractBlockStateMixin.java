@@ -1,0 +1,96 @@
+package com.raggle.half_dream.mixin.client;
+
+import org.quiltmc.loader.api.minecraft.ClientOnly;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.injection.At;
+import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+
+import com.raggle.half_dream.Faesied;
+import com.raggle.half_dream.client.FaeUtilClient;
+import com.raggle.half_dream.common.FaeUtil;
+import net.minecraft.block.AbstractBlock;
+import net.minecraft.block.Block;
+import net.minecraft.block.EntityShapeContext;
+import net.minecraft.block.ShapeContext;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.shape.VoxelShape;
+import net.minecraft.util.shape.VoxelShapes;
+import net.minecraft.world.BlockView;
+
+@ClientOnly
+@Mixin(AbstractBlock.AbstractBlockState.class)
+public abstract class AbstractBlockStateMixin {
+	
+	@Shadow
+	public abstract boolean isAir();
+
+	@Shadow
+	public abstract Block getBlock();
+	
+	@Inject(method = "getCameraCollisionShape", at = @At("HEAD"), cancellable = true)
+	private void getCameraCollisionShape(BlockView world, BlockPos pos, ShapeContext context, CallbackInfoReturnable<VoxelShape> cir) {
+
+		if(context instanceof EntityShapeContext esc) {
+			Entity entity = esc.getEntity();
+			if(!FaeUtil.canInteract(entity, pos, world))
+				cir.setReturnValue(VoxelShapes.empty());
+		}
+        Faesied.LOGGER.info("Calling getCameraCollisionShape on client");
+		
+	}
+
+	@Inject(method = "shouldBlockVision", at = @At("HEAD"), cancellable = true)
+	private void shouldBlockVision(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+		if(FaeUtilClient.getClientPlayer() != null) {
+			if(FaeUtilClient.getPlayerDream() == 1) {
+				if(FaeUtilClient.isDreamAir(pos)) 
+					cir.setReturnValue(false);
+			}
+			else {
+				if(FaeUtilClient.isDreamBlock(pos)) 
+					cir.setReturnValue(false);
+			}
+		}
+	}
+
+	/*public boolean canPathfindThrough(BlockView world, BlockPos pos, NavigationType type) {
+		return this.getBlock().canPathfindThrough(this.asBlockState(), world, pos, type);
+	}*/
+
+	
+	//Endless light wrangling below (Everything is just to get light to pass through dream blocks)
+	
+	//This method completely also bricks world generation apparently
+	/*
+	@Inject(method = "getCullingFace", at = @At("HEAD"), cancellable = true)
+	private void getCullingFace(BlockView world, BlockPos pos, Direction direction, CallbackInfoReturnable<VoxelShape> cir) {
+		if(FaeUtil.isDreamBlock(pos, world)) {
+			cir.setReturnValue(VoxelShapes.empty());
+		}
+	}*/
+	/*
+	@Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
+	private void isTranslucent(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+		if(FaeUtil.isDreamBlock(pos, world)) {
+			cir.setReturnValue(true);
+		}
+	}*/
+	/*
+	@Inject(method = "getAmbientOcclusionLightLevel", at = @At("HEAD"), cancellable = true)
+	private void getAmbientOcclusionLightLevel(BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
+		if(FaeUtil.isDreamBlock(pos, world)) {
+			cir.setReturnValue(1.0F);
+		}
+	}*/
+	/*
+	@Inject(method = "isSolidBlock", at = @At("HEAD"), cancellable = true)
+	private void isSolidBlock(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+		if(FaeUtil.isDreamBlock(pos, world)) {
+			cir.setReturnValue(false);
+		}
+	}
+	*/
+}
