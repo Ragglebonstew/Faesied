@@ -1,5 +1,7 @@
 package com.raggle.half_dream.common.block;
 
+import java.util.List;
+
 import org.jetbrains.annotations.Nullable;
 import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
 import org.quiltmc.qsl.networking.api.PacketByteBufs;
@@ -21,6 +23,8 @@ import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.block.entity.BlockEntityTicker;
 import net.minecraft.block.entity.BlockEntityType;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.TargetPredicate;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
@@ -29,6 +33,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -56,7 +61,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 				);
 
 		setDefaultState(getDefaultState()
-				.with(ACTIVE, true)
+				.with(ACTIVE, false)
 	            .with(WATERLOGGED, false)
 		);
 	}
@@ -151,12 +156,33 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		return !world.isClient && world.getDimension().hasSkyLight() ? checkType(type, FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalBlock::tick) : null;
 	}
 	private static void tick(World world, BlockPos pos, BlockState state, InterloperBlockEntity blockEntity) {
-		if (world.getTime() % 20L == 0L) {
-			updateState(state, world, pos);
+		if (!state.get(ACTIVE) && world.getTime() % 20L == 0L && checkPlayers(world, pos, state)) {
+			world.setBlockState(pos, state.with(ACTIVE, true));
+		}
+		if(world.getTime() % 20L == 0L) {
+			setDreamBlocks(world, pos, !state.get(ACTIVE));
 		}
 	}
-	private static void updateState(BlockState state, World world, BlockPos pos) {
-		world.setBlockState(pos, state.with(ACTIVE, world.isNight()));
-	}
 	
+	private static boolean checkPlayers(World world, BlockPos pos, BlockState state) {
+		Box bounding_box = new Box(pos.getX()-10, pos.getY()-10, pos.getZ()-10, pos.getX()+11, pos.getY()+11, pos.getZ()+11);
+		List<PlayerEntity> players = world.getPlayers(TargetPredicate.createNonAttackable(), null, bounding_box);
+		for(PlayerEntity player : players) {
+			if(FaeUtil.isInterloped(player) && FaeUtil.getDream(player) != 0) {
+				return true;
+			}
+		}
+		return false;
+	}
+	private static void setDreamBlocks(World world, BlockPos pos, boolean b) {
+		FaeUtil.setDreamBlock(pos, b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.EAST), b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.NORTH), b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.WEST), b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.SOUTH), b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.NORTH).offset(Direction.EAST), b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.NORTH).offset(Direction.WEST), b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.SOUTH).offset(Direction.EAST), b, world);
+		FaeUtil.setDreamBlock(pos.offset(Direction.SOUTH).offset(Direction.WEST), b, world);
+	}
 }
