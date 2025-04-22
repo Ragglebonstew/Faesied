@@ -1,19 +1,19 @@
-package com.raggle.half_dream.mixin.client;
+package com.raggle.half_dream.mixin.common;
 
-import org.quiltmc.loader.api.minecraft.ClientOnly;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.half_dream.client.FaeUtilClient;
+import com.raggle.half_dream.common.FaeUtil;
+
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 
-@ClientOnly
 @Mixin(World.class)
 public abstract class WorldMixin {
 	
@@ -34,26 +34,11 @@ public abstract class WorldMixin {
         }
     }
     */
-	
-
-    @Inject(method = "getRainGradient", at = @At("HEAD"), cancellable = true)
-    public void getRainGradient(float delta, CallbackInfoReturnable<Float> cir) {
-        if (this.isClient() && FaeUtilClient.getPlayerDream() == 1) {
-        	cir.setReturnValue(0F);
-        }
-    }
-
-    @Inject(method = "getThunderGradient", at = @At("HEAD"), cancellable = true)
-    public void getThunderGradient(float delta, CallbackInfoReturnable<Float> cir) {
-        if (this.isClient() && FaeUtilClient.getPlayerDream() == 1) {
-        	cir.setReturnValue(0F);
-        }
-    }
     
 	//Hides blocks in renderer
 	@Inject(method = "getBlockState", at = @At("HEAD"), cancellable = true)
 	private void getBlockState(BlockPos pos, CallbackInfoReturnable<BlockState> cir) {
-		if(this.isClient() && !FaeUtilClient.canPlayerInteract(pos)){
+		if(!this.isClient() && FaeUtil.isDreamBlock(pos, (BlockView)(Object)this)){
 			cir.setReturnValue(Blocks.AIR.getDefaultState());
 		}
 	}
