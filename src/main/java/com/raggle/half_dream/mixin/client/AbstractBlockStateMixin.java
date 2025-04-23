@@ -55,42 +55,4 @@ public abstract class AbstractBlockStateMixin {
 			}
 		}
 	}
-
-	/*public boolean canPathfindThrough(BlockView world, BlockPos pos, NavigationType type) {
-		return this.getBlock().canPathfindThrough(this.asBlockState(), world, pos, type);
-	}*/
-
-	
-	//Endless light wrangling below (Everything is just to get light to pass through dream blocks)
-	
-	//This method completely also bricks world generation apparently
-	/*
-	@Inject(method = "getCullingFace", at = @At("HEAD"), cancellable = true)
-	private void getCullingFace(BlockView world, BlockPos pos, Direction direction, CallbackInfoReturnable<VoxelShape> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(VoxelShapes.empty());
-		}
-	}*/
-	/*
-	@Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
-	private void isTranslucent(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(true);
-		}
-	}*/
-	/*
-	@Inject(method = "getAmbientOcclusionLightLevel", at = @At("HEAD"), cancellable = true)
-	private void getAmbientOcclusionLightLevel(BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(1.0F);
-		}
-	}*/
-	/*
-	@Inject(method = "isSolidBlock", at = @At("HEAD"), cancellable = true)
-	private void isSolidBlock(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(false);
-		}
-	}
-	*/
 }
