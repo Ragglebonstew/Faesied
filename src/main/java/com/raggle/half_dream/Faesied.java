@@ -1,7 +1,5 @@
 package com.raggle.half_dream;
 
-import org.quiltmc.loader.api.ModContainer;
-import org.quiltmc.qsl.base.api.entrypoint.ModInitializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,6 +12,8 @@ import com.raggle.half_dream.common.registry.FaeParticleRegistry;
 import com.raggle.half_dream.common.registry.FaeTagRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
+import net.fabricmc.api.ModInitializer;
+
 public class Faesied implements ModInitializer {
 	// This logger is used to write text to the console and the log file.
 	// It is considered best practice to use your mod name as the logger's name.
@@ -23,7 +23,7 @@ public class Faesied implements ModInitializer {
 	public static final String MOD_ID = "half_dream";
 
 	@Override
-	public void onInitialize(ModContainer mod) {
+	public void onInitialize() {
 		
 		FaeBlockRegistry.init();
 		FaeComponentRegistry.init();

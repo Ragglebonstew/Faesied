@@ -1,9 +1,9 @@
 package com.raggle.half_dream.common.registry;
 
-import org.quiltmc.qsl.block.entity.api.QuiltBlockEntityTypeBuilder;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-
 import com.raggle.half_dream.Faesied;
+
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
+import net.fabricmc.fabric.api.object.builder.v1.block.entity.FabricBlockEntityTypeBuilder;
 import net.minecraft.block.Blocks;
 
 import com.raggle.half_dream.common.block.BunnyPlushBlock;
@@ -18,11 +18,11 @@ import net.minecraft.util.Identifier;
 public class FaeBlockRegistry {
 	
 	public static final InterloperPortalBlock INTERLOPER_PORTAL_BLOCK = new InterloperPortalBlock();
-	public static final BunnyPlushBlock BUNNY_PLUSH = new BunnyPlushBlock(QuiltBlockSettings.copyOf(Blocks.WHITE_WOOL));
+	public static final BunnyPlushBlock BUNNY_PLUSH = new BunnyPlushBlock(FabricBlockSettings.copyOf(Blocks.WHITE_WOOL));
 
 	public static final BlockEntityType<InterloperBlockEntity> INTERLOPER_PORTAL_BLOCK_ENTITY = register(
 			"interloper_portal_block_entity",
-			QuiltBlockEntityTypeBuilder.create(InterloperBlockEntity::new, INTERLOPER_PORTAL_BLOCK).build()
+			FabricBlockEntityTypeBuilder.create(InterloperBlockEntity::new, INTERLOPER_PORTAL_BLOCK).build()
 			);
 	  
 	public static void init() {

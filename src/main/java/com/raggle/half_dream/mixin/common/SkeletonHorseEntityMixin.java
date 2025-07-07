@@ -11,14 +11,14 @@ import com.raggle.half_dream.common.entity.ai.goal.CrossRiverGoal;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.world.World;
 
 @Mixin(SkeletonHorseEntity.class)
-public abstract class SkeletonHorseEntityMixin extends HorseBaseEntity implements DreamHorse {
+public abstract class SkeletonHorseEntityMixin extends AbstractHorseEntity implements DreamHorse {
 	
-	protected SkeletonHorseEntityMixin(EntityType<? extends HorseBaseEntity> entityType, World world) {
+	protected SkeletonHorseEntityMixin(EntityType<? extends AbstractHorseEntity> entityType, World world) {
 		super(entityType, world);
 		FaeUtil.setDream(this, (byte) 2);
 	}

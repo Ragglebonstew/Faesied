@@ -1,10 +1,9 @@
 package com.raggle.half_dream.networking;
 
-import org.quiltmc.qsl.networking.api.PacketSender;
-
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.FaeUtil;
 
+import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.server.network.ServerPlayNetworkHandler;

@@ -2,14 +2,14 @@ package com.raggle.half_dream.mixin.common;
 
 import java.util.ArrayList;
 
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
-import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
 import org.spongepowered.asm.mixin.Mixin;
 
 import com.raggle.half_dream.api.DreamServerPlayer;
 import com.raggle.half_dream.common.entity.FaeSkeleton;
 import com.raggle.half_dream.networking.FaeMessaging;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.server.network.ServerPlayerEntity;
 

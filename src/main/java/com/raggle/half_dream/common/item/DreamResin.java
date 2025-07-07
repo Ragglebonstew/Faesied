@@ -1,9 +1,8 @@
 package com.raggle.half_dream.common.item;
 
-import org.quiltmc.qsl.item.setting.api.QuiltItemSettings;
-
 import com.raggle.half_dream.common.FaeUtil;
 
+import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
@@ -15,7 +14,7 @@ import net.minecraft.world.World;
 public class DreamResin extends Item {
 
 	public DreamResin() {
-		super(new QuiltItemSettings().fireproof());
+		super(new FabricItemSettings().fireproof());
 	}
 
 	@Override

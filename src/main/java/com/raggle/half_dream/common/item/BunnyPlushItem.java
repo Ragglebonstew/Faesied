@@ -1,11 +1,10 @@
 package com.raggle.half_dream.common.item;
 
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
-import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
-
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.networking.FaeMessaging;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;

@@ -1,59 +1,56 @@
 {
 	"schema_version": 1,
-	"quilt_loader": {
-		"group": "com.raggle",
-		"id": "half_dream",
-		"version": "${version}",
-		"metadata": {
-			"name": "Half Dream",
-			"description": "Enter the dream world.",
-			"contributors": {
-				"Ragglebonstew": "Owner"
-			},
-			"contact": {
-				"homepage": "https://example.com/",
-				"issues": "https://github.com/Ragglebonstew/Faesied/issues",
-				"sources": "https://github.com/Ragglebonstew/half_dream"
-			},
-			"icon": "assets/half_dream/icon.png"
-		},
-		"intermediate_mappings": "net.fabricmc:intermediary",
-		"entrypoints": {
-			"init": "com.raggle.half_dream.Faesied",
-			"client_init": "com.raggle.half_dream.client.FaesiedClient",
-			"cardinal-components": "com.raggle.half_dream.common.registry.FaeComponentRegistry"
-		},
-		"depends": [
-			{
-                "id": "quilt_loader",
-                "versions": ">=0.19.1"
-            },
-            {
-                "id": "quilted_fabric_api",
-                "versions": ">=7.0.2"
-            },
-            {
-                "id": "minecraft",
-                "versions": ">=1.20"
-            }
+	"id": "half_dream",
+	"version": "${version}",
+	"name": "Half Dream",
+	"description": "Enter the dream world on the back of the undead.",
+	"authors": [
+		"Ragglebonstew"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/Ragglebonstew/Faesied"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/half_dream/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.raggle.half_dream.Faesied"
+		],
+		"client": [
+			"com.raggle.half_dream.FaesiedClient"
+		],
+		"cardinal-components": [
+			"com.raggle.half_dream.common.registry.FaeComponentRegistry"
 		]
 	},
-	"mixin": [
-		"half_dream.mixins.common.json",
-		"half_dream.mixins.client.json",
-		"half_dream.compat.mixins.json"
+	"mixins": [
+		"half_dream.mixins.json",
+		{
+			"config": "half_dream.client.mixins.json",
+			"environment": "client"
+		},
+		{
+			"config": "half_dream.compat.mixins.json",
+			"environment": "client"
+		}
 	],
-	"cardinal-components": [
-        "half_dream:dream_air",
-        "half_dream:dream_blocks",
-       	"half_dream:dream_entity",
-        "half_dream:dream_player"
-    ],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+
     "custom": {
         "cardinal-components": [
         	"half_dream:dream_air",
         	"half_dream:dream_blocks",
-        	"half_dream:dream_entity", 
+       		"half_dream:dream_entity",
         	"half_dream:dream_player"
         ]
     }

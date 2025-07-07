@@ -1,12 +1,12 @@
 package com.raggle.half_dream.common.registry;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.command.api.CommandRegistrationCallback;
-import org.quiltmc.qsl.entity.event.api.ServerPlayerEntityCopyCallback;
-
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.raggle.half_dream.common.FaeUtil;
+
+import dev.onyxstudios.cca.api.v3.entity.PlayerCopyCallback;
+import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.Block;
@@ -34,7 +34,7 @@ public class FaeEventRegistry {
     
 	
 	public static void init() {
-		ServerPlayerEntityCopyCallback.EVENT.register(FaeEventRegistry::afterRespawn);
+		PlayerCopyCallback.EVENT.register(FaeEventRegistry::afterRespawn);
 		PlayerBlockBreakEvents.BEFORE.register(FaeEventRegistry::beforeBlockBreak);
 		UseBlockCallback.EVENT.register(FaeEventRegistry::onBlockUse);
 		
@@ -133,7 +133,7 @@ public class FaeEventRegistry {
 		}
 		//trying to figure out if block was placed on another, or replaced it
 		if(FaeUtil.getDream(player) == 1) {
-			Iterable<ItemStack> stacks = player.getItemsHand();
+			Iterable<ItemStack> stacks = player.getHandItems();
 			for(ItemStack itemStack : stacks) {
 				ItemPlacementContext itemContext = new ItemPlacementContext(world, player, hand, itemStack, hitResult);
 				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
@@ -145,7 +145,7 @@ public class FaeEventRegistry {
 			}
 		}
 		else if(FaeUtil.getDream(player) == 0) {
-			Iterable<ItemStack> stacks = player.getItemsHand();
+			Iterable<ItemStack> stacks = player.getHandItems();
 			for(ItemStack itemStack : stacks) {
 				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
 				Block block_hand = Block.getBlockFromItem(itemStack.getItem());

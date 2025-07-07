@@ -3,15 +3,14 @@ package com.raggle.half_dream.common.block;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
-import org.quiltmc.qsl.block.extensions.api.QuiltBlockSettings;
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
-import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
-
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.common.block.block_entity.InterloperBlockEntity;
 import com.raggle.half_dream.common.registry.FaeBlockRegistry;
 import com.raggle.half_dream.networking.FaeMessaging;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -51,7 +50,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 	}
 	
 	public InterloperPortalBlock() {
-		this(QuiltBlockSettings.copyOf(Blocks.STONE)
+		this(FabricBlockSettings.copyOf(Blocks.STONE)
 				//.noCollision()
 				.strength(-1.0F, 3600000.0F)
 				.dropsNothing()

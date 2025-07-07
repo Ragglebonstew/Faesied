@@ -1,14 +1,11 @@
 package com.raggle.half_dream.common.component;
 
 import com.raggle.half_dream.api.DreamEntityComponent;
-import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.registry.FaeComponentRegistry;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
-import net.minecraft.client.MinecraftClient;
 import net.minecraft.entity.Entity;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.network.PacketByteBuf;
 
 public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSyncedComponent {
 	
@@ -20,7 +17,7 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
 		this.entity = entity;
 	}
 	
-	@Override
+	/*@Override
 	public void applySyncPacket(PacketByteBuf buf) {
 		NbtCompound tag = buf.readNbt();
         if (tag != null) {
@@ -32,7 +29,7 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
                 }
         	}
         }
-	}
+	}*/
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {

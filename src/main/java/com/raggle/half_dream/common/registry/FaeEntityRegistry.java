@@ -1,10 +1,9 @@
 package com.raggle.half_dream.common.registry;
 
-import org.quiltmc.qsl.entity.api.QuiltEntityTypeBuilder;
-
 import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.common.entity.FaeSkeleton;
 
+import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnGroup;
 import net.minecraft.registry.Registries;
@@ -16,7 +15,7 @@ public class FaeEntityRegistry {
     public static final EntityType<FaeSkeleton> HDSKELETON = Registry.register(
     		Registries.ENTITY_TYPE,
             new Identifier(Faesied.MOD_ID, "hdskeleton"),
-            QuiltEntityTypeBuilder.create(SpawnGroup.CREATURE, FaeSkeleton::new).build()
+            FabricEntityTypeBuilder.create(SpawnGroup.CREATURE, FaeSkeleton::new).build()
     );
     
     public static void init() {

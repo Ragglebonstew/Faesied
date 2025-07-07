@@ -1,16 +1,15 @@
 package com.raggle.half_dream.common.entity.ai.goal;
 
-import org.quiltmc.qsl.networking.api.PacketByteBufs;
-import org.quiltmc.qsl.networking.api.ServerPlayNetworking;
-
 import com.raggle.half_dream.api.DreamHorse;
 import com.raggle.half_dream.common.FaeUtil;
 import com.raggle.half_dream.networking.FaeMessaging;
 
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Blocks;
 import net.minecraft.entity.ai.goal.Goal;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
-import net.minecraft.registry.Holder;
+import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.BiomeTags;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.util.math.BlockPos;
@@ -35,7 +34,7 @@ public class CrossRiverGoal extends Goal{
 	
 	@Override
 	public boolean canStart() {
-		Holder<Biome> holder = world.getBiome(horse.getBlockPos());
+		RegistryEntry<Biome> holder = world.getBiome(horse.getBlockPos());
 		if(
 				horse.isTouchingWater() || 
 				horse instanceof DreamHorse dh &&
@@ -44,7 +43,7 @@ public class CrossRiverGoal extends Goal{
 			return false;
 		}
 		if(this.failed) {
-			if(!holder.isIn(BiomeTags.RIVER)) {
+			if(!holder.isIn(BiomeTags.IS_RIVER)) {
 				this.failed = false;
 			}
 			else {
@@ -52,15 +51,15 @@ public class CrossRiverGoal extends Goal{
 			}
 		}
 		
-		return holder.isIn(BiomeTags.RIVER) && this.overWater();
+		return holder.isIn(BiomeTags.IS_RIVER) && this.overWater();
 	}
 	@Override
 	public boolean shouldContinue() {
 		if(horse instanceof DreamHorse dh && dh.getPlayer() == null || this.failed) {
 			return false;
 		}
-		Holder<Biome> holder = world.getBiome(horse.getBlockPos());
-		return holder.isIn(BiomeTags.RIVER);
+		RegistryEntry<Biome> holder = world.getBiome(horse.getBlockPos());
+		return holder.isIn(BiomeTags.IS_RIVER);
 	}
 	@Override
 	public void start() {
@@ -72,12 +71,12 @@ public class CrossRiverGoal extends Goal{
 	}
 	@Override
 	public void stop() {
-		Holder<Biome> holder = world.getBiome(horse.getBlockPos());
+		RegistryEntry<Biome> holder = world.getBiome(horse.getBlockPos());
 		BlockPos dPos = horse.getBlockPos().subtract(this.startPos);
 		int x = dPos.getX() * this.startFacing.getVector().getX();
 		int z = dPos.getZ() * this.startFacing.getVector().getZ();
 		if(
-				!holder.isIn(BiomeTags.RIVER)
+				!holder.isIn(BiomeTags.IS_RIVER)
 				&& startFacing == horse.getHorizontalFacing()
 				&& (x > 0 || z > 0)//checks if the change in position is in the same direction as initial facing
 				&& !this.failed
