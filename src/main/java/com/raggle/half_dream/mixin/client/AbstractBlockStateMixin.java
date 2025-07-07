@@ -7,7 +7,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
-import com.raggle.half_dream.Faesied;
 import com.raggle.half_dream.client.FaeUtilClient;
 import com.raggle.half_dream.common.FaeUtil;
 import net.minecraft.block.AbstractBlock;
@@ -38,7 +37,6 @@ public abstract class AbstractBlockStateMixin {
 			if(!FaeUtil.canInteract(entity, pos, world))
 				cir.setReturnValue(VoxelShapes.empty());
 		}
-        Faesied.LOGGER.info("Calling getCameraCollisionShape on client");
 		
 	}
 
