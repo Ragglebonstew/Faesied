@@ -1,8 +1,0 @@
-{
-    "variants": {
-        "facing=north": { "model": "half_dream:block/bunny_plush" },
-        "facing=south": { "model": "half_dream:block/bunny_plush", "y":180 },
-        "facing=west": { "model": "half_dream:block/bunny_plush", "y":270 },
-        "facing=east": { "model": "half_dream:block/bunny_plush", "y":90 }
-    }
-}
