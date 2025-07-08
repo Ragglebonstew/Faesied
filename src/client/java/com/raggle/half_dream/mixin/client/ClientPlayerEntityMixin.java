@@ -1,4 +1,4 @@
-package com.raggle.mixin.client;
+package com.raggle.half_dream.mixin.client;
 
 import org.spongepowered.asm.mixin.Mixin;
 
