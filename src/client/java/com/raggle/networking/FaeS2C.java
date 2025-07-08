@@ -52,4 +52,10 @@ public class FaeS2C {
 			SequenceManager.start(new InterlopeSequence());
 		});
 	}
+	public static void rerenderBlock(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender responseSender) {				
+		client.execute(() -> {
+			BlockPos renderPos = buf.readBlockPos();
+			client.worldRenderer.updateBlock(client.world, renderPos, null, null, 0);
+		});
+	}
 }

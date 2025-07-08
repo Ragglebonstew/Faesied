@@ -2,7 +2,6 @@ package com.raggle.component;
 
 import java.util.ArrayList;
 
-import com.raggle.FaeUtil;
 import com.raggle.api.DreamChunkComponent;
 import com.raggle.registry.FaeComponentRegistry;
 
@@ -48,16 +47,15 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
         buf.writeNbt(tag);
 		provider.setNeedsSaving(true);
     }
-	/*@Override
+	@Override
 	public void applySyncPacket(PacketByteBuf buf) {
         NbtCompound tag = buf.readNbt();
         if (tag != null) {
             this.readFromNbt(tag);
-            BlockPos renderPos = BlockPos.fromLong(tag.getLong("renderpos"));
-    		FaeUtil.scheduleChunkRenderAt(renderPos);
+            this.renderPos = tag.getLong("renderpos");
 			provider.setNeedsSaving(true);
         }
-    }*/
+    }
 
 	@Override
 	public boolean contains(BlockPos pos) {
@@ -91,6 +89,12 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 		this.posList.clear();
 		this.sync();
 		return count;
+	}
+	@Override
+	public long getRenderPos() {
+		long pos = this.renderPos;
+		this.renderPos = 0;
+		return pos;
 	}
 	
 	private void sync() {

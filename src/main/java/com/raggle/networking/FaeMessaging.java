@@ -5,6 +5,7 @@ import net.minecraft.util.Identifier;
 
 public class FaeMessaging {
 
+	//public static final Identifier BLOCK_RERENDER = new Identifier(HalfDream.MOD_ID, "block_rerender");
 	public static final Identifier SKELETON_LIST_SIZE = new Identifier(HalfDream.MOD_ID, "skeleton_list_size");
 	public static final Identifier STOP_FOG = new Identifier(HalfDream.MOD_ID, "stop_fog");
 	public static final Identifier BRIDGE_FOG = new Identifier(HalfDream.MOD_ID, "bridge_fog");

@@ -2,6 +2,7 @@ package com.raggle;
 
 import java.util.Optional;
 
+import com.raggle.api.DreamChunkComponent;
 import com.raggle.api.DreamEntityComponent;
 import com.raggle.client.block.InterloperPortalEntityRenderer;
 import com.raggle.client.particle.FallenStarParticle;
@@ -20,6 +21,7 @@ import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.HudRenderCallback;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
+import net.minecraft.util.math.BlockPos;
 
 public class HalfDreamClient implements ClientModInitializer {
 	@Override
@@ -47,9 +49,17 @@ public class HalfDreamClient implements ClientModInitializer {
 		ClientPlayNetworking.registerGlobalReceiver(FaeMessaging.FALLING_ASLEEP, FaeS2C::startFallingAsleepSequence);
 	}
 	private static void checkDreamState(MinecraftClient client) {
-		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(client.player);
-		if(!op.isEmpty() && op.get().shouldUpdateClient()) {
+		Optional<DreamEntityComponent> op1 = FaeComponentRegistry.DREAM_ENTITY.maybeGet(client.player);
+		if(op1.isPresent() && op1.get().shouldUpdateClient()) {
 			client.worldRenderer.reload();
+		}
+		if(client.player != null) {
+			Optional<DreamChunkComponent> op2 = FaeComponentRegistry.DREAM_AIR.maybeGet(client.world.getChunk(client.player.getBlockPos()));
+			if(op2.isPresent()) {
+				long renderPos = op2.get().getRenderPos();
+				if(renderPos != 0)
+					client.worldRenderer.updateBlock(client.world, BlockPos.fromLong(renderPos), null, null, 0);
+			}
 		}
 	}
 }
