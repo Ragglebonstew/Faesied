@@ -3,7 +3,20 @@
 	"package": "com.raggle.mixin",
 	"compatibilityLevel": "JAVA_17",
 	"mixins": [
-		"ExampleMixin"
+		"AbstractBlockStateMixin",
+		"BrewingRecipeRegistryMixin",
+		"BlockMixin",
+		"EntityMixin",
+		"ItemEntityMixin",
+		"ItemScattererMixin",
+		"LandPathNodeMakerMixin",
+		"LivingEntityMixin",
+		"MobEntityAccessor",
+		"MobEntityMixin",
+		"PlayerEntityMixin",
+		"ServerPlayerEntityMixin",
+		"SkeletonHorseEntityMixin",
+		"WorldMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
