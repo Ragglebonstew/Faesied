@@ -3,6 +3,7 @@ package com.raggle.item;
 import com.raggle.FaeUtil;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.minecraft.block.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemUsageContext;
 import net.minecraft.sound.SoundCategory;
@@ -27,6 +28,7 @@ public class DreamResin extends Item {
 			world.playSound(null, pos, SoundEvents.ENTITY_ENDER_EYE_DEATH, SoundCategory.BLOCKS, 1, 1);
 			world.playSound(null, pos, SoundEvents.BLOCK_AMETHYST_CLUSTER_BREAK, SoundCategory.BLOCKS, 1, 1);
 		}
+		world.scheduleBlockRerenderIfNeeded(pos, Blocks.AIR.getDefaultState(), world.getBlockState(pos));
 		return ActionResult.success(world.isClient());
 	}
 }

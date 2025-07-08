@@ -49,7 +49,6 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
 		this.dream = b;
 		FaeComponentRegistry.DREAM_ENTITY.sync(this.entity);
 	}
-
 	@Override
 	public boolean shouldUpdateClient() {
 		if(this.shouldReloadWorldRenderer) {
