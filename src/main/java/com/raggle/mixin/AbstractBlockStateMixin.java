@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtil;
+import com.raggle.util.DreamState;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -59,7 +60,7 @@ public abstract class AbstractBlockStateMixin {
 	@Inject(method = "canReplace", at = @At("HEAD"), cancellable = true)
 	public void canReplace(ItemPlacementContext context, CallbackInfoReturnable<Boolean> cir) {
 		PlayerEntity player = context.getPlayer();
-		if(FaeUtil.getDream(player) == 0) {
+		if(FaeUtil.getDreamState(player) == DreamState.AWAKE) {
 			if(FaeUtil.isDreamBlock(context.getBlockPos(), context.getWorld())) {
 				cir.setReturnValue(true);
 			}

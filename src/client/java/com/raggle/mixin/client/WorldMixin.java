@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtilClient;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -40,14 +41,14 @@ public abstract class WorldMixin {
 
     @Inject(method = "getRainGradient", at = @At("HEAD"), cancellable = true)
     public void getRainGradient(float delta, CallbackInfoReturnable<Float> cir) {
-        if (this.isClient() && FaeUtilClient.getPlayerDream() == 1) {
+        if (this.isClient() && FaeUtilClient.getPlayerDream() == DreamState.ASLEEP) {
         	cir.setReturnValue(0F);
         }
     }
 
     @Inject(method = "getThunderGradient", at = @At("HEAD"), cancellable = true)
     public void getThunderGradient(float delta, CallbackInfoReturnable<Float> cir) {
-        if (this.isClient() && FaeUtilClient.getPlayerDream() == 1) {
+        if (this.isClient() && FaeUtilClient.getPlayerDream() == DreamState.ASLEEP) {
         	cir.setReturnValue(0F);
         }
     }

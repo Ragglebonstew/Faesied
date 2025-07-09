@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtilClient;
+import com.raggle.util.DreamState;
 
 import me.jellysquid.mods.sodium.client.world.WorldSlice;
 import net.fabricmc.api.EnvType;
@@ -22,7 +23,7 @@ public class WorldSliceMixin {
 
 	@Inject(at = @At("HEAD"), method = "getBlockState(III)Lnet/minecraft/block/BlockState;", cancellable = true)
 	private void getBlockState(int a, int b, int c, CallbackInfoReturnable<BlockState> cir){
-		if(FaeUtilClient.getPlayerDream() == 1 && FaeUtilClient.isDreamAir(new BlockPos(a,b,c))){
+		if(FaeUtilClient.getPlayerDream() == DreamState.ASLEEP && FaeUtilClient.isDreamAir(new BlockPos(a,b,c))){
 			cir.setReturnValue(Blocks.AIR.getDefaultState());
 		}
 	}

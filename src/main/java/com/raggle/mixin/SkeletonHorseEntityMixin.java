@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import com.raggle.FaeUtil;
 import com.raggle.api.DreamHorse;
 import com.raggle.entity.ai.goal.CrossRiverGoal;
+import com.raggle.util.DreamState;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.mob.SkeletonHorseEntity;
@@ -20,7 +21,7 @@ public abstract class SkeletonHorseEntityMixin extends AbstractHorseEntity imple
 	
 	protected SkeletonHorseEntityMixin(EntityType<? extends AbstractHorseEntity> entityType, World world) {
 		super(entityType, world);
-		FaeUtil.setDream(this, (byte) 2);
+		FaeUtil.setDream(this, DreamState.DUAL);
 	}
 
 

@@ -19,7 +19,7 @@ public class PlayerEntityMixin {
 	public void dropItem(ItemStack stack, boolean throwRandomly, boolean retainOwnership, CallbackInfoReturnable<ItemEntity> cir) {
 		ItemEntity item = cir.getReturnValue();
 		if(item != null) {
-			FaeUtil.setDream(item, FaeUtil.getDream((PlayerEntity)(Object)this));
+			FaeUtil.setDream(item, FaeUtil.getDreamState((PlayerEntity)(Object)this));
 		}
 	}
 

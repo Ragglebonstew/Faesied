@@ -6,6 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtilClient;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -22,14 +23,14 @@ public abstract class WorldRendererMixin {
 	
 	@Inject(method = "hasBlindnessOrDarkness", at = @At("HEAD"), cancellable = true)
 	private void hasBlindnessOrDarkness(Camera camera, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtilClient.getPlayerDream() == 1) {
+		if(FaeUtilClient.getPlayerDream() == DreamState.ASLEEP) {
 			cir.setReturnValue(true);
 		}
 	}
 	
 	@Inject(method = "getLightmapCoordinates(Lnet/minecraft/world/BlockRenderView;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/BlockPos;)I", at = @At("RETURN"), cancellable = true)
 	private static void getLightmapCoordinates(BlockRenderView world, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtilClient.getPlayerDream() == 1) {
+		if(FaeUtilClient.getPlayerDream() == DreamState.ASLEEP) {
 			int blockLight = world.getLightLevel(LightType.BLOCK, pos);
 			blockLight = Math.max(blockLight/2, 0);
 			if(FaeUtilClient.isDreamAir(pos)) {

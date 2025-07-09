@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import com.raggle.FaeUtil;
+import com.raggle.util.DreamState;
 
 import net.minecraft.block.Block;
 import net.minecraft.entity.ItemEntity;
@@ -25,7 +26,7 @@ public class BlockMixin {
 			itemEntity.setToDefaultPickupDelay();
 			world.spawnEntity(itemEntity);
 			if(FaeUtil.isDreamBlock(itemEntity.getBlockPos(), world)) {
-				FaeUtil.setDream(itemEntity, (byte)1);
+				FaeUtil.setDream(itemEntity, DreamState.ASLEEP);
 			}
 			ci.cancel();
 		}

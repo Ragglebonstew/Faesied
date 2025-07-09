@@ -3,6 +3,7 @@ package com.raggle.entity;
 import com.raggle.FaeUtil;
 import com.raggle.api.DreamServerPlayer;
 import com.raggle.registry.FaeItemRegistry;
+import com.raggle.util.DreamState;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.ai.goal.LookAroundGoal;
@@ -27,7 +28,7 @@ public class FaeSkeleton extends StrayEntity {
 		super(entityType, world);
 		this.setPathfindingPenalty(PathNodeType.DOOR_OPEN, -1.0F);
 		
-		FaeUtil.setDream(this, (byte)1);
+		FaeUtil.setDream(this, DreamState.ASLEEP);
 	}
 
 	@Override
@@ -45,7 +46,7 @@ public class FaeSkeleton extends StrayEntity {
 	@Override
 	public void tick() {
 		super.tick();
-		if(FaeUtil.getDream(this.getTarget()) == 0)
+		if(FaeUtil.getDreamState(this.getTarget()) == DreamState.AWAKE)
 			this.setTarget(null);
 	}
 

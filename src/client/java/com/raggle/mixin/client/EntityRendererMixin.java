@@ -7,6 +7,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtil;
 import com.raggle.FaeUtilClient;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -28,13 +29,13 @@ public class EntityRendererMixin<T extends Entity> {
 	
 	@Inject(method = "getSkyLight", at = @At("HEAD"), cancellable = true)
 	private void getSkyLight(T entity, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtilClient.getPlayerDream() == 1)
+		if(FaeUtilClient.getPlayerDream() == DreamState.ASLEEP)
 			cir.setReturnValue(0);
 	}
 
 	@Inject(method = "getBlockLight", at = @At("HEAD"), cancellable = true)
 	private void getBlockLight(T entity, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(FaeUtilClient.getPlayerDream() == 1 && FaeUtilClient.isDreamAir(pos))
+		if(FaeUtilClient.getPlayerDream() == DreamState.ASLEEP && FaeUtilClient.isDreamAir(pos))
 			cir.setReturnValue(4);
 	}
 }

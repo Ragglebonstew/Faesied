@@ -8,6 +8,7 @@ import com.raggle.FaeUtil;
 import com.raggle.block.block_entity.InterloperBlockEntity;
 import com.raggle.networking.FaeMessaging;
 import com.raggle.registry.FaeBlockRegistry;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -168,7 +169,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		Box bounding_box = new Box(pos.getX()-10, pos.getY()-10, pos.getZ()-10, pos.getX()+11, pos.getY()+11, pos.getZ()+11);
 		List<PlayerEntity> players = world.getPlayers(TargetPredicate.createNonAttackable(), null, bounding_box);
 		for(PlayerEntity player : players) {
-			if(FaeUtil.isInterloped(player) && FaeUtil.getDream(player) != 0) {
+			if(FaeUtil.isInterloped(player) && FaeUtil.getDreamState(player) != DreamState.AWAKE) {
 				return true;
 			}
 		}

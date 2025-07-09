@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtilClient;
 import com.raggle.HalfDream;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -31,7 +32,7 @@ public abstract class AbstractSoundInstanceMixin {
     @Inject(method = "getVolume()F", at = @At("HEAD"), cancellable = true)
 	private void getVolume(CallbackInfoReturnable<Float> cir) {
 
-        if(FaeUtilClient.getPlayerDream() != 1)
+        if(FaeUtilClient.getPlayerDream() != DreamState.ASLEEP)
         	return;
         if (category == SoundCategory.WEATHER) {
             cir.setReturnValue(0.0F);

@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtil;
 import com.raggle.FaeUtilClient;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.fabric.impl.client.indigo.renderer.aocalc.AoCalculator;
 import net.minecraft.block.BlockState;
@@ -23,7 +24,7 @@ public class AoCalculatorMixin {
     @Dynamic
     @Inject(method = "getLightmapCoordinates", at = @At(value = "RETURN", ordinal = 0), require = 0, cancellable = true, remap = false)
     private static void getLightmapCoordinates(BlockRenderView world, BlockState state, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-    	if(FaeUtilClient.getPlayerDream() == 1) {
+    	if(FaeUtilClient.getPlayerDream() == DreamState.ASLEEP) {
 			int blockLight = world.getLightLevel(LightType.BLOCK, pos);
 			blockLight = Math.max(blockLight/2, 0);
 			if(FaeUtil.isDreamAir(pos, world)) {

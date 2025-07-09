@@ -3,7 +3,6 @@ package com.raggle.entity.ai.goal;
 import com.raggle.FaeUtil;
 import com.raggle.api.DreamHorse;
 import com.raggle.networking.FaeMessaging;
-
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.Blocks;
@@ -82,13 +81,7 @@ public class CrossRiverGoal extends Goal{
 				&& !this.failed
 				&& horse instanceof DreamHorse dh
 		) {
-			byte player_dream = FaeUtil.getDream(dh.getPlayer());
-			if(player_dream == 0) {
-				FaeUtil.setDream(dh.getPlayer(), (byte) 1);
-			}
-			else if(player_dream == 1) {
-				FaeUtil.setDream(dh.getPlayer(), (byte) 0);
-			}
+			FaeUtil.toggleDream(dh.getPlayer());
 		}
 		else if(horse instanceof DreamHorse dh && dh.getPlayer() instanceof ServerPlayerEntity player) {
 			ServerPlayNetworking.send(player, FaeMessaging.STOP_FOG, PacketByteBufs.empty());

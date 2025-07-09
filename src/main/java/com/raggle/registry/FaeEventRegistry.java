@@ -4,6 +4,7 @@ import org.jetbrains.annotations.Nullable;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.raggle.FaeUtil;
+import com.raggle.util.DreamState;
 
 import dev.onyxstudios.cca.api.v3.entity.PlayerCopyCallback;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -45,10 +46,10 @@ public class FaeEventRegistry {
 				.then(CommandManager.argument("value", IntegerArgumentType.integer())
 						.executes(context -> 
 				{
-					byte dream = (byte)IntegerArgumentType.getInteger(context, "value");
-					if(dream >= 0 && dream <= 2) {
-						FaeUtil.setDream(context.getSource().getPlayer(), dream);
-						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(dream)), false);
+					byte dreamLevel = (byte)IntegerArgumentType.getInteger(context, "value");
+					if(dreamLevel >= 0 && dreamLevel <= 2) {
+						FaeUtil.setDream(context.getSource().getPlayer(), DreamState.fromByte(dreamLevel));
+						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(DreamState.fromByte(dreamLevel))), false);
 					}
 					else {
 						context.getSource().sendError(Text.literal("Value must be between 0 and 2"));
@@ -59,11 +60,11 @@ public class FaeEventRegistry {
 				.then(CommandManager.argument("entity", EntityArgumentType.entity())
 						.executes(context -> 
 				{
-					byte dream = (byte)IntegerArgumentType.getInteger(context, "value");
+					byte dreamLevel = (byte)IntegerArgumentType.getInteger(context, "value");
 					Entity entity = EntityArgumentType.getEntity(context, "entity");
-					if(dream >= 0 && dream <= 2) {
-						FaeUtil.setDream(entity, dream);
-						context.getSource().sendFeedback(() -> Text.literal("Set dream of %s to %s".formatted(entity.getName().getString(), dream)), true);
+					if(dreamLevel >= 0 && dreamLevel <= 2) {
+						FaeUtil.setDream(entity, DreamState.fromByte(dreamLevel));
+						context.getSource().sendFeedback(() -> Text.literal("Set dream of %s to %s".formatted(entity.getName().getString(), DreamState.fromByte(dreamLevel))), true);
 					}
 					else {
 						context.getSource().sendError(Text.literal("Value must be between 0 and 2"));
@@ -104,19 +105,19 @@ public class FaeEventRegistry {
 	}
 	
 	private static void afterRespawn(ServerPlayerEntity copy, ServerPlayerEntity original, boolean wasDeath) {
-		FaeUtil.setDream(copy, FaeUtil.getDream(original));
+		FaeUtil.setDream(copy, FaeUtil.getDreamState(original));
 	}
 	private static boolean beforeBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity){
 		
-		byte player_dream = FaeUtil.getDream(player);
+		DreamState player_dream = FaeUtil.getDreamState(player);
 		
-		if(player_dream == 1) {
+		if(player_dream == DreamState.ASLEEP) {
 			if(!FaeUtil.isDreamBlock(pos, world)) {
 				FaeUtil.setDreamAir(pos, true, world);
 				ItemEntity dream_resin = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN));
 				world.spawnEntity(dream_resin);
 				dream_resin.setPickupDelay(40);
-				FaeUtil.setDream(dream_resin, (byte)1);
+				FaeUtil.setDream(dream_resin, DreamState.ASLEEP);
 				return false;
 			}
 		}
@@ -132,7 +133,7 @@ public class FaeEventRegistry {
 			return ActionResult.PASS;
 		}
 		//trying to figure out if block was placed on another, or replaced it
-		if(FaeUtil.getDream(player) == 1) {
+		if(FaeUtil.getDreamState(player) == DreamState.ASLEEP) {
 			Iterable<ItemStack> stacks = player.getHandItems();
 			for(ItemStack itemStack : stacks) {
 				ItemPlacementContext itemContext = new ItemPlacementContext(world, player, hand, itemStack, hitResult);
@@ -144,7 +145,7 @@ public class FaeEventRegistry {
 				}
 			}
 		}
-		else if(FaeUtil.getDream(player) == 0) {
+		else if(FaeUtil.getDreamState(player) == DreamState.AWAKE) {
 			Iterable<ItemStack> stacks = player.getHandItems();
 			for(ItemStack itemStack : stacks) {
 				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);

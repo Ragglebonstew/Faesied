@@ -9,6 +9,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtil;
 import com.raggle.api.DreamHorse;
+import com.raggle.util.DreamState;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.damage.DamageSource;
@@ -34,7 +35,7 @@ public abstract class EntityMixin {
 	
 	@Inject(method = "isInsideWall", at = @At("HEAD"), cancellable = true)
 	private void isInsideWall(CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtil.getDream((Entity)(Object)this) != 0) {
+		if(FaeUtil.getDreamState((Entity)(Object)this) != DreamState.AWAKE) {
 				cir.setReturnValue(false);
 		}
 	}

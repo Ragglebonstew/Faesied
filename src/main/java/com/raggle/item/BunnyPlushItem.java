@@ -2,6 +2,7 @@ package com.raggle.item;
 
 import com.raggle.FaeUtil;
 import com.raggle.networking.FaeMessaging;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
@@ -28,11 +29,11 @@ public class BunnyPlushItem extends BlockItem {
 				FaeUtil.setInterlope(player, true);
 				player.wakeUp();
 			}
-			else if(player.isSubmergedInWater() && player.getWorld().isNight() && FaeUtil.isInterloped(player) && FaeUtil.getDream(player) == 0) {
+			else if(player.isSubmergedInWater() && player.getWorld().isNight() && FaeUtil.isInterloped(player) && FaeUtil.getDreamState(player) == DreamState.AWAKE) {
 				FaeUtil.setInterlope(player, false);
 				ServerPlayNetworking.send(player, FaeMessaging.FALLING_ASLEEP, PacketByteBufs.empty());
 			}
-			else if(player.isSubmergedInWater() && isSunrise(player) && FaeUtil.getDream(player) == 1) {
+			else if(player.isSubmergedInWater() && isSunrise(player) && FaeUtil.getDreamState(player) == DreamState.ASLEEP) {
 				FaeUtil.setInterlope(player, false);
 				ServerPlayNetworking.send(player, FaeMessaging.FALLING_ASLEEP, PacketByteBufs.empty());
 			}

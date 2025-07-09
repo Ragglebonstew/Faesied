@@ -6,6 +6,7 @@ import com.raggle.api.DreamChunkComponent;
 import com.raggle.api.DreamEntityComponent;
 import com.raggle.api.DreamPlayerComponent;
 import com.raggle.registry.FaeComponentRegistry;
+import com.raggle.util.DreamState;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
 import net.minecraft.entity.Entity;
@@ -20,24 +21,24 @@ import net.minecraft.world.chunk.ProtoChunk;
 
 public class FaeUtil {
 	
-	public static byte getDream(Entity e) {
+	public static DreamState getDreamState(Entity e) {
 		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
 		if(op.isEmpty())
-			return 0;
+			return DreamState.AWAKE;
 		return op.get().getDream();
 	}
-	public static void setDream(Entity e, byte b) {
+	public static void setDream(Entity e, DreamState b) {
 		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
 		if(op.isEmpty())
 			return;
 		op.get().setDream(b);
 	}
 	public static void toggleDream(Entity e) {
-		byte dream = FaeUtil.getDream(e);
-		if(dream == 0)
-			FaeUtil.setDream(e, (byte)1);
-		else if(dream == 1)
-			FaeUtil.setDream(e, (byte)0);
+		DreamState dream = FaeUtil.getDreamState(e);
+		if(dream == DreamState.AWAKE)
+			FaeUtil.setDream(e, DreamState.ASLEEP);
+		else if(dream == DreamState.ASLEEP)
+			FaeUtil.setDream(e, DreamState.AWAKE);
 	}
 	
 	public static boolean setDreamAir(BlockPos pos, boolean append, World world) {
@@ -116,18 +117,18 @@ public class FaeUtil {
 	}
 	
 	public static boolean canInteract(Entity e1, Entity e2) {
-		byte d1 = getDream(e1);
-		byte d2 = getDream(e2);
+		DreamState d1 = getDreamState(e1);
+		DreamState d2 = getDreamState(e2);
 		//if(e1 != null && e2 != null)
 			//Faesied.LOGGER.debug("Checking interaction between "+e1.getEntityName()+" and "+e2.getEntityName());
-		return d1 == 2 || d2 == 2 || d1 == d2;
+		return d1 == DreamState.DUAL || d2 == DreamState.DUAL || d1 == d2;
 	}
 	public static boolean canInteract(Entity entity, BlockPos pos, BlockView world) {
-		byte dream = getDream(entity);
-		if(dream == 1) {
+		DreamState dream = getDreamState(entity);
+		if(dream == DreamState.ASLEEP) {
 			return !isDreamAir(pos, world);
 		}
-		else if(dream == 0) {
+		else if(dream == DreamState.AWAKE) {
 			return !isDreamBlock(pos, world);
 		}
 		return true;

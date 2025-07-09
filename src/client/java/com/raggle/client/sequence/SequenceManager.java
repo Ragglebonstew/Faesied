@@ -1,6 +1,7 @@
 package com.raggle.client.sequence;
 
 import com.raggle.FaeUtil;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -25,7 +26,7 @@ public class SequenceManager {
 				fogEffect = null;
 			}
 		}
-		else if(FaeUtil.getDream(client.player) == 1) {
+		else if(FaeUtil.getDreamState(client.player) == DreamState.ASLEEP) {
 			setFogEffect(FogEffect.DREAM_FOG);
 		}
 			

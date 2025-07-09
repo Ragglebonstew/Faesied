@@ -1,6 +1,9 @@
 package com.raggle;
 
 import org.jetbrains.annotations.Nullable;
+
+import com.raggle.util.DreamState;
+
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.MinecraftClient;
@@ -42,11 +45,11 @@ public class FaeUtilClient {
 			return null;
 		return mc.world;
 	}
-	public static byte getPlayerDream() {
+	public static DreamState getPlayerDream() {
 		ClientPlayerEntity player = getClientPlayer();
 		if(player == null)
-			return 0;
-		return FaeUtil.getDream(getClientPlayer());
+			return DreamState.AWAKE;
+		return FaeUtil.getDreamState(getClientPlayer());
 	}
 	public static boolean canPlayerInteract(BlockPos pos) {
 		return FaeUtil.canInteract(getClientPlayer(), pos, getClientWorld());

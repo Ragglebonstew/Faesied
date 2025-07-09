@@ -2,6 +2,7 @@ package com.raggle.client.sequence;
 
 import com.raggle.FaeUtil;
 import com.raggle.FaeUtilClient;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -16,19 +17,19 @@ public class BridgeFogEffect extends FogEffect {
 
 	private final BlockPos startPos;
 	private final Direction startFacing;
-	private final byte startDream;
+	private final DreamState startDream;
 	private int progress;
 	
-	public BridgeFogEffect(BlockPos startPos, Direction startFacing, byte startDream) {
+	public BridgeFogEffect(BlockPos startPos, Direction startFacing, DreamState startDream) {
 		this.startPos = startPos;
 		this.startFacing = startFacing;
 		this.startDream = startDream;
 		this.progress = 1;
-		this.alpha = this.startDream == 1 ? 1.0F : 0.0F;
+		this.alpha = this.startDream == DreamState.ASLEEP ? 1.0F : 0.0F;
 	}
 	@Override
 	public void tick(MinecraftClient client) {
-		if(FaeUtil.getDream(client.player) != this.startDream) {
+		if(FaeUtil.getDreamState(client.player) != this.startDream) {
 			this.finished = true;
 		}
 		if(this.cancelled) {
@@ -45,7 +46,7 @@ public class BridgeFogEffect extends FogEffect {
 		if(this.cancelled)
 			s = s/this.progress;
 		s = MathHelper.clamp(s, 0, 1);
-		if(this.startDream == 1)
+		if(this.startDream == DreamState.ASLEEP)
 			s = 1 - s;
 		
 		this.alpha = (float)s;

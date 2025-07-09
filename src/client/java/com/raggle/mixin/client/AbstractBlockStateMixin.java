@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtil;
 import com.raggle.FaeUtilClient;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -45,7 +46,7 @@ public abstract class AbstractBlockStateMixin {
 	@Inject(method = "shouldBlockVision", at = @At("HEAD"), cancellable = true)
 	private void shouldBlockVision(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
 		if(FaeUtilClient.getClientPlayer() != null) {
-			if(FaeUtilClient.getPlayerDream() == 1) {
+			if(FaeUtilClient.getPlayerDream() == DreamState.ASLEEP) {
 				if(FaeUtilClient.isDreamAir(pos)) 
 					cir.setReturnValue(false);
 			}
