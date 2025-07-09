@@ -78,7 +78,7 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		
 		
 		
-		BufferRenderer.draw(bufferBuilder.end());
+		BufferRenderer.drawWithGlobalProgram(bufferBuilder.end());
 		RenderSystem.disableBlend();
 	}
 	
