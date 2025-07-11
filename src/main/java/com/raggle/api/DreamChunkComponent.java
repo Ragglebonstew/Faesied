@@ -14,5 +14,9 @@ public interface DreamChunkComponent extends ComponentV3 {
 	public int clear();
 
 	long getRenderPos();
+
+	boolean addPosToQueue(BlockPos pos);
+
+	boolean pushPosFromQueue(BlockPos pos);
 	
 }

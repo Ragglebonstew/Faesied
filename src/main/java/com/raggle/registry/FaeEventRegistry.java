@@ -10,7 +10,6 @@ import dev.onyxstudios.cca.api.v3.entity.PlayerCopyCallback;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -52,7 +51,7 @@ public class FaeEventRegistry {
 						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(DreamState.fromByte(dreamLevel))), false);
 					}
 					else {
-						context.getSource().sendError(Text.literal("Value must be between 0 and 2"));
+						context.getSource().sendError(Text.literal("Value must be 0, 1, or 2"));
 						return -1;
 					}
 					return 1;
@@ -67,7 +66,7 @@ public class FaeEventRegistry {
 						context.getSource().sendFeedback(() -> Text.literal("Set dream of %s to %s".formatted(entity.getName().getString(), DreamState.fromByte(dreamLevel))), true);
 					}
 					else {
-						context.getSource().sendError(Text.literal("Value must be between 0 and 2"));
+						context.getSource().sendError(Text.literal("Value must be 0, 1, or 2"));
 						return -1;
 					}
 					return 1;
@@ -113,16 +112,13 @@ public class FaeEventRegistry {
 		
 		if(player_dream == DreamState.ASLEEP) {
 			if(!FaeUtil.isDreamBlock(pos, world)) {
-				FaeUtil.setDreamAir(pos, true, world);
 				ItemEntity dream_resin = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN));
 				world.spawnEntity(dream_resin);
-				dream_resin.setPickupDelay(40);
+				dream_resin.setToDefaultPickupDelay();
 				FaeUtil.setDream(dream_resin, DreamState.ASLEEP);
+				FaeUtil.setDreamAir(pos, true, world);
 				return false;
 			}
-		}
-		else {
-			FaeUtil.setDreamAir(pos, false, world);
 		}
 		return true;
 	}
@@ -133,54 +129,20 @@ public class FaeEventRegistry {
 			return ActionResult.PASS;
 		}
 		//trying to figure out if block was placed on another, or replaced it
-		if(FaeUtil.getDreamState(player) == DreamState.ASLEEP) {
-			Iterable<ItemStack> stacks = player.getHandItems();
-			for(ItemStack itemStack : stacks) {
-				ItemPlacementContext itemContext = new ItemPlacementContext(world, player, hand, itemStack, hitResult);
-				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
-
-				if(block_hand != Blocks.AIR && block_hand != null && itemContext.canPlace()) {
-					FaeUtil.setDreamBlock(itemContext.getBlockPos(), true, world);
+		Iterable<ItemStack> stacks = player.getHandItems();
+		DreamState dreamState = FaeUtil.getDreamState(player);
+		for(ItemStack itemStack : stacks) {
+			ItemPlacementContext itemContext = new ItemPlacementContext(world, player, hand, itemStack, hitResult);
+			if(itemContext.canPlace()) {
+				if(dreamState == DreamState.ASLEEP) {
+					FaeUtil.queueDreamBlock(itemContext.getBlockPos(), world);
 					break;
 				}
-			}
-		}
-		else if(FaeUtil.getDreamState(player) == DreamState.AWAKE) {
-			Iterable<ItemStack> stacks = player.getHandItems();
-			for(ItemStack itemStack : stacks) {
-				ItemPlacementContext itemContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
-				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
-
-				if(block_hand != Blocks.AIR 
-						&& block_hand != null 
-						&& itemContext.canPlace() 
-						&& FaeUtil.isDreamBlock(itemContext.getBlockPos(), world)) {
+				else if(dreamState == DreamState.AWAKE && FaeUtil.isDreamBlock(itemContext.getBlockPos(), world)) {
 					world.setBlockState(itemContext.getBlockPos(), Blocks.AIR.getDefaultState());
-					FaeUtil.setDreamBlock(itemContext.getBlockPos(), false, world);
 					break;
 				}
 			}
-			
-			
-			
-			/*
-			Iterable<ItemStack> stacks = player.getItemsHand();
-			BlockPos pos = hitResult.getBlockPos();
-			BlockPos pos_offset = pos.offset(hitResult.getSide());
-			BlockState state = world.getBlockState(pos);
-			
-			for(ItemStack itemStack : stacks) {
-				ItemPlacementContext newContext = new ItemPlacementContext(world, null, hand, itemStack, hitResult);
-				if(state.canReplace(newContext)) {
-					FaeUtil.setDreamBlock(pos, true, world);
-				}
-				Block block_hand = Block.getBlockFromItem(itemStack.getItem());
-				if(block_hand != Blocks.AIR && block_hand != null) {
-					FaeUtil.setDreamBlock(pos_offset, true, world);
-					break;
-				}
-			}
-			*/
 		}
 		
 		return ActionResult.PASS;

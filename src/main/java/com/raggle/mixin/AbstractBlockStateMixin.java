@@ -12,13 +12,12 @@ import com.raggle.util.DreamState;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockState;
 import net.minecraft.block.EntityShapeContext;
 import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
@@ -95,10 +94,13 @@ public abstract class AbstractBlockStateMixin {
 		//*/
 	}
 	
-	//is called after items are dropped, allowing ItemScattererMixin to detect its state
-	@Inject(method = "onStacksDropped", at = @At("TAIL"), cancellable = false)
-	public void onStacksDropped(ServerWorld world, BlockPos pos, ItemStack stack, boolean dropExperience, CallbackInfo ci) {
-		FaeUtil.setDreamBlock(pos, false, world);
+	@Inject(method = "onStateReplaced", at = @At("TAIL"), cancellable = false)
+	public void onStateReplaced(World world, BlockPos pos, BlockState state, boolean moved, CallbackInfo ci) {
+		if(!state.isOf(this.getBlock())) {
+			FaeUtil.setDreamBlock(pos, false, world);
+			FaeUtil.setDreamAir(pos, false, world);
+			FaeUtil.pushDreamBlock(pos, world);
+		}
 	}
 	
 	

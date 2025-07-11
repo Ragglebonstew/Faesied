@@ -69,6 +69,38 @@ public class FaeUtil {
 		}
 		return false;
 	}
+	public static boolean queueDreamBlock(BlockPos pos, World world) {
+		if(world != null) {
+			Chunk chunk = world.getChunk(pos);
+			
+			if(chunk == null)
+				return false;
+			else {
+				Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
+				if(op.isEmpty())
+					return false;
+				HalfDream.LOGGER.debug("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to queue");
+				return op.get().addPosToQueue(pos);
+			}
+		}
+		return false;
+	}
+	public static boolean pushDreamBlock(BlockPos pos, World world) {
+		if(world != null) {
+			Chunk chunk = world.getChunk(pos);
+			
+			if(chunk == null)
+				return false;
+			else {
+				Optional<DreamChunkComponent> op = FaeComponentRegistry.DREAM_BLOCKS.maybeGet(chunk);
+				if(op.isEmpty())
+					return false;
+				HalfDream.LOGGER.debug("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to queue");
+				return op.get().pushPosFromQueue(pos);
+			}
+		}
+		return false;
+	}
 
 	public static boolean isDreamAir(BlockPos pos, BlockView world) {
 		return componentContainsPos(pos, world, DREAM_TYPE.AIR);

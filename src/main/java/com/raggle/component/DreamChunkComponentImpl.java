@@ -16,11 +16,13 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 
 	private final Chunk provider;
 	private ArrayList<Long> posList;
+	private ArrayList<Long> posQueue;
 	private long renderPos;
 	
 	public DreamChunkComponentImpl(Chunk chunk) {
 		this.provider = chunk;
 		this.posList = new ArrayList<Long>();
+		this.posQueue = new ArrayList<Long>();
 	}
 
 	@Override
@@ -78,6 +80,23 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 		if(this.posList.remove(pos.asLong())) {
 			this.renderPos = pos.asLong();
 			this.sync();
+			return true;
+		}
+		return false;
+	}
+	@Override
+	public boolean addPosToQueue(BlockPos pos) {
+		if(!posQueue.contains(pos.asLong())) {
+			this.posQueue.add(pos.asLong());
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public boolean pushPosFromQueue(BlockPos pos) {
+		if(this.posQueue.remove(pos.asLong())) {
+			this.addPosToList(pos);
 			return true;
 		}
 		return false;
