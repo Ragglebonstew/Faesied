@@ -7,7 +7,6 @@
 		"AbstractSoundInstanceMixin",
 		"AoCalculatorMixin",
 		"BackgroundRendererMixin",
-		"ChunkRendererRegionAccessor",
 		"ChunkRendererRegionMixin",
 		"ClientPlayerEntityMixin",
 		"EntityRendererMixin",

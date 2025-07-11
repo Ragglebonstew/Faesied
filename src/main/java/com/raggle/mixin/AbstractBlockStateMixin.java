@@ -80,16 +80,8 @@ public abstract class AbstractBlockStateMixin {
 	//handles light passage for dream blocks
 	//@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
 	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
-		if(world instanceof Chunk w && !(w instanceof EmptyChunk || world instanceof ProtoChunk)) {
-			if(FaeUtil.isDreamBlock(pos, world)) {
-				cir.setReturnValue(0);
-			}
-		}
-		//*
-		else if(world instanceof World w) {
-			if(FaeUtil.isDreamBlock(pos, world)) {
-				cir.setReturnValue(0);
-			}
+		if(FaeUtil.isDreamBlock(pos, world)) {
+			cir.setReturnValue(0);
 		}
 		//*/
 	}
