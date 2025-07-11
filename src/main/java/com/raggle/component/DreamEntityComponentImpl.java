@@ -13,7 +13,7 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
 	
 	private final Entity entity;
 	
-	private DreamState dream;
+	private DreamState dreamState;
 
 	private boolean shouldWorldRendererReload;
 	
@@ -25,7 +25,7 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
 	public void applySyncPacket(PacketByteBuf buf) {
 		NbtCompound tag = buf.readNbt();
         if (tag != null) {
-        	if(this.dream == null || tag.getByte("dream") != DreamState.toByte(this.dream)) {
+        	if(this.dreamState == null || tag.getByte("dream") != DreamState.toByte(this.dreamState)) {
                 this.readFromNbt(tag);
                 this.shouldWorldRendererReload = true;
         	}
@@ -34,23 +34,23 @@ public class DreamEntityComponentImpl implements DreamEntityComponent, AutoSynce
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {
-		this.dream = DreamState.fromByte(tag.getByte("dream"));
+		this.dreamState = DreamState.fromByte(tag.getByte("dream"));
 	}
 
 	@Override
 	public void writeToNbt(NbtCompound tag) {
-		if(this.dream != null)
-			tag.putByte("dream", this.dream.asByte());
+		if(this.dreamState != null)
+			tag.putByte("dream", this.dreamState.asByte());
 		else
 			tag.putByte("dream", (byte) 0);
 	}
 	@Override
 	public DreamState getDream() {
-		return this.dream;
+		return this.dreamState;
 	}
 	@Override
-	public void setDream(DreamState b) {
-		this.dream = b;
+	public void setDream(DreamState dreamState) {
+		this.dreamState = dreamState;
 		FaeComponentRegistry.DREAM_ENTITY.sync(this.entity);
 	}
 	@Override

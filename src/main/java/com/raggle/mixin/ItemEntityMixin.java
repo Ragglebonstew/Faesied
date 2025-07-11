@@ -23,8 +23,4 @@ public abstract class ItemEntityMixin {
 			ci.cancel();
 		}
 	}
-	/*@Override
-	public boolean isDream() {
-		return getStack().isIn(FaeTagRegistry.DREAMING_ITEMS);
-	}*/
 }
