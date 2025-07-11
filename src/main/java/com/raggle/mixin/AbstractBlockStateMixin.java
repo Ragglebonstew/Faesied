@@ -94,6 +94,12 @@ public abstract class AbstractBlockStateMixin {
 			FaeUtil.pushDreamBlock(pos, world);
 		}
 	}
+	@Inject(method = "shouldSuffocate", at = @At("HEAD"), cancellable = true)
+	public void shouldSuffocate(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
+		if(FaeUtil.isDreamBlock(pos, world) || FaeUtil.isDreamAir(pos, world)) {
+			cir.setReturnValue(false);
+		}
+	}
 	
 	
 	//Endless light wrangling below (Everything is just to get light to pass through dream blocks)
