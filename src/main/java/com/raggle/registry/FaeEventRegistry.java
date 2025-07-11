@@ -114,7 +114,7 @@ public class FaeEventRegistry {
 			if(!FaeUtil.isDreamBlock(pos, world)) {
 				ItemEntity dream_resin = new ItemEntity(world, pos.getX(), pos.getY(), pos.getZ(), new ItemStack(FaeItemRegistry.DREAM_RESIN));
 				world.spawnEntity(dream_resin);
-				dream_resin.setToDefaultPickupDelay();
+				dream_resin.setToDefaultPickupDelay(); 
 				FaeUtil.setDream(dream_resin, DreamState.ASLEEP);
 				FaeUtil.setDreamAir(pos, true, world);
 				return false;
