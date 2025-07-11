@@ -3,6 +3,7 @@ package com.raggle.item;
 import java.util.Iterator;
 import java.util.Optional;
 
+import com.raggle.FaeUtil;
 import com.raggle.registry.FaeTagRegistry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -53,6 +54,7 @@ public class ResinHorn extends Item {
 				BlockPos pos = serverWorld.locateStructure(FaeTagRegistry.RESIN_HORN_LOCATED, user.getBlockPos(), 160, false);
 				if(pos != null) {
 					user.sendMessage(Text.of("It's coming from "+pos.getX()+", "+pos.getY()+", "+pos.getZ()));
+					FaeUtil.setInterlope(user, true);
 				}
 				else {
 					user.sendMessage(Text.of("No response..."));
