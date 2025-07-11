@@ -12,9 +12,8 @@ import net.minecraft.block.Blocks;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.client.render.chunk.ChunkRendererRegion;
 
-//@ClientOnly
 @Mixin(ChunkRendererRegion.class)
-public abstract class ChunkRenderRegionMixin {
+public abstract class ChunkRendererRegionMixin {
 	
 	//Hides blocks in renderer
 	@Inject(method = "getBlockState", at = @At("HEAD"), cancellable = true)
