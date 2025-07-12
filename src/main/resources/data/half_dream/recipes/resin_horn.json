@@ -1,0 +1,17 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		" R",
+        "R "
+	],
+    "key": {
+    	"R": {
+        	"item": "half_dream:dream_resin"
+        }
+	},
+    "result": {
+    	"item": "half_dream:resin_horn",
+        "count": 1
+    }
+}
+
