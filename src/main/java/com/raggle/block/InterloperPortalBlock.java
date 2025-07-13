@@ -3,13 +3,10 @@ package com.raggle.block;
 import java.util.List;
 
 import org.jetbrains.annotations.Nullable;
-
 import com.raggle.FaeUtil;
 import com.raggle.block.block_entity.InterloperBlockEntity;
 import com.raggle.networking.FaeMessaging;
 import com.raggle.registry.FaeBlockRegistry;
-import com.raggle.util.DreamState;
-
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.fabricmc.fabric.api.object.builder.v1.block.FabricBlockSettings;
@@ -30,12 +27,14 @@ import net.minecraft.fluid.FluidState;
 import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Direction;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
@@ -46,6 +45,8 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 
 	public static final BooleanProperty WATERLOGGED = Properties.WATERLOGGED;
 	public static final BooleanProperty ACTIVE = BooleanProperty.of("active");
+	
+	public static int ACTIVE_TICKS = 400;
 
 	private InterloperPortalBlock(Settings settings) {
 		super(settings);
@@ -150,6 +151,12 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		}
 		return state;
 	}
+	@Override
+	public void scheduledTick(BlockState state, ServerWorld world, BlockPos pos, Random random) {
+		if (state.get(ACTIVE)) {
+			world.setBlockState(pos, state.with(ACTIVE, false));
+		}
+	}
 
 	@Nullable
 	@Override
@@ -157,19 +164,22 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		return !world.isClient && world.getDimension().hasSkyLight() ? checkType(type, FaeBlockRegistry.INTERLOPER_PORTAL_BLOCK_ENTITY, InterloperPortalBlock::tick) : null;
 	}
 	private static void tick(World world, BlockPos pos, BlockState state, InterloperBlockEntity blockEntity) {
-		if (!state.get(ACTIVE) && world.getTime() % 20L == 0L && checkPlayers(world, pos, state)) {
+		
+		if (!state.get(ACTIVE) && world.getTime() % 20L == 0L && checkNerabyInterlopedPlayers(world, pos, state)) {
 			world.setBlockState(pos, state.with(ACTIVE, true));
+			world.scheduleBlockTick(pos, state.getBlock(), ACTIVE_TICKS);
 		}
 		if(world.getTime() % 20L == 0L) {
 			setDreamBlocks(world, pos, !state.get(ACTIVE));
 		}
 	}
 	
-	private static boolean checkPlayers(World world, BlockPos pos, BlockState state) {
-		Box bounding_box = new Box(pos.getX()-10, pos.getY()-10, pos.getZ()-10, pos.getX()+11, pos.getY()+11, pos.getZ()+11);
+	private static boolean checkNerabyInterlopedPlayers(World world, BlockPos pos, BlockState state) {
+		int distance = 10;
+		Box bounding_box = new Box(pos.getX()-distance, pos.getY()-distance, pos.getZ()-distance, pos.getX()+1+distance, pos.getY()+1+distance, pos.getZ()+1+distance);
 		List<PlayerEntity> players = world.getPlayers(TargetPredicate.createNonAttackable(), null, bounding_box);
 		for(PlayerEntity player : players) {
-			if(FaeUtil.isInterloped(player) && FaeUtil.getDreamState(player) != DreamState.AWAKE) {
+			if(FaeUtil.isInterloped(player)) {
 				return true;
 			}
 		}
