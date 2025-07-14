@@ -1,8 +1,11 @@
 package com.raggle.registry;
 
 import org.jetbrains.annotations.Nullable;
+
+import com.mojang.brigadier.CommandDispatcher;
 import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
+import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.raggle.FaeUtil;
 import com.raggle.util.DreamState;
 
@@ -13,6 +16,7 @@ import net.fabricmc.fabric.api.event.player.UseBlockCallback;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.command.CommandRegistryAccess;
 import net.minecraft.command.argument.EntityArgumentType;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ItemEntity;
@@ -20,6 +24,8 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.command.CommandManager;
+import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
+import net.minecraft.server.command.ServerCommandSource;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -38,73 +44,13 @@ public class FaeEventRegistry {
 		PlayerBlockBreakEvents.BEFORE.register(FaeEventRegistry::beforeBlockBreak);
 		UseBlockCallback.EVENT.register(FaeEventRegistry::onBlockUse);
 		
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
-				CommandManager
-				.literal("dreamstate")
-				.requires(source -> source.hasPermissionLevel(2))
-				.then(CommandManager.argument("value", IntegerArgumentType.integer())
-						.executes(context -> 
-				{
-					byte dreamLevel = (byte)IntegerArgumentType.getInteger(context, "value");
-					if(dreamLevel >= 0 && dreamLevel <= 2) {
-						FaeUtil.setDream(context.getSource().getPlayer(), DreamState.fromByte(dreamLevel));
-						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(DreamState.fromByte(dreamLevel))), false);
-					}
-					else {
-						context.getSource().sendError(Text.literal("Value must be 0, 1, or 2"));
-						return -1;
-					}
-					return 1;
-		})
-				.then(CommandManager.argument("entity", EntityArgumentType.entity())
-						.executes(context -> 
-				{
-					byte dreamLevel = (byte)IntegerArgumentType.getInteger(context, "value");
-					Entity entity = EntityArgumentType.getEntity(context, "entity");
-					if(dreamLevel >= 0 && dreamLevel <= 2) {
-						FaeUtil.setDream(entity, DreamState.fromByte(dreamLevel));
-						context.getSource().sendFeedback(() -> Text.literal("Set dream of %s to %s".formatted(entity.getName().getString(), DreamState.fromByte(dreamLevel))), true);
-					}
-					else {
-						context.getSource().sendError(Text.literal("Value must be 0, 1, or 2"));
-						return -1;
-					}
-					return 1;
-		})
-))));
-		
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
-				CommandManager
-				.literal("dreamclear")
-				.requires(source -> source.hasPermissionLevel(2))
-				.executes(context -> 
-				{
-					context.getSource().getServer();
-					Chunk chunk = context.getSource().getPlayer().getWorld().getChunk(context.getSource().getPlayer().getBlockPos());
-					int air_count = FaeComponentRegistry.DREAM_AIR.get(chunk).clear();
-					int block_count = FaeComponentRegistry.DREAM_BLOCKS.get(chunk).clear();
-					
-					context.getSource().sendFeedback(() -> Text.literal("Deleted "+air_count+" dream air and "+block_count+" dream blocks"), false);
-					return 1;
-		})));
-
-		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> dispatcher.register(
-				CommandManager
-				.literal("interlope")
-				.requires(source -> source.hasPermissionLevel(2))
-				.then(CommandManager.argument("value", BoolArgumentType.bool())
-						.executes(context -> 
-				{
-					boolean value = BoolArgumentType.getBool(context, "value");
-					FaeUtil.setInterlope(context.getSource().getPlayer(), value);
-					context.getSource().sendFeedback(() -> Text.literal("Set interlope to %s".formatted(value)), false);
-					
-					return 1;
-		}))));
+		CommandRegistrationCallback.EVENT.register(FaeEventRegistry::dreamstate);
+		CommandRegistrationCallback.EVENT.register(FaeEventRegistry::dreamclear);
+		CommandRegistrationCallback.EVENT.register(FaeEventRegistry::interlope);
 	}
 	
 	private static void afterRespawn(ServerPlayerEntity copy, ServerPlayerEntity original, boolean wasDeath) {
-		FaeUtil.setDream(copy, FaeUtil.getDreamState(original));
+		//FaeUtil.setDream(copy, FaeUtil.getDreamState(original));
 	}
 	private static boolean beforeBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity){
 		
@@ -146,5 +92,75 @@ public class FaeEventRegistry {
 		}
 		
 		return ActionResult.PASS;
+	}
+	
+	private static LiteralCommandNode<ServerCommandSource> dreamstate(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
+		return dispatcher.register(
+				CommandManager
+				.literal("dreamstate")
+				.requires(source -> source.hasPermissionLevel(2))
+				.then(CommandManager.argument("value", IntegerArgumentType.integer())
+						.executes(context -> 
+				{
+					byte dreamLevel = (byte)IntegerArgumentType.getInteger(context, "value");
+					if(dreamLevel >= 0 && dreamLevel <= 2) {
+						FaeUtil.setDream(context.getSource().getPlayer(), DreamState.fromByte(dreamLevel));
+						context.getSource().sendFeedback(() -> Text.literal("Set dream to %s".formatted(DreamState.fromByte(dreamLevel))), false);
+					}
+					else {
+						context.getSource().sendError(Text.literal("Value must be 0, 1, or 2"));
+						return -1;
+					}
+					return 1;
+		})
+				.then(CommandManager.argument("entity", EntityArgumentType.entity())
+						.executes(context -> 
+				{
+					byte dreamLevel = (byte)IntegerArgumentType.getInteger(context, "value");
+					Entity entity = EntityArgumentType.getEntity(context, "entity");
+					if(dreamLevel >= 0 && dreamLevel <= 2) {
+						FaeUtil.setDream(entity, DreamState.fromByte(dreamLevel));
+						context.getSource().sendFeedback(() -> Text.literal("Set dream of %s to %s".formatted(entity.getName().getString(), DreamState.fromByte(dreamLevel))), true);
+					}
+					else {
+						context.getSource().sendError(Text.literal("Value must be 0, 1, or 2"));
+						return -1;
+					}
+					return 1;
+		})
+)));
+	}
+	private static LiteralCommandNode<ServerCommandSource> dreamclear(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
+		return dispatcher.register(
+			CommandManager
+			.literal("dreamclear")
+			.requires(source -> source.hasPermissionLevel(2))
+			.executes(context -> 
+			{
+				context.getSource().getServer();
+				Chunk chunk = context.getSource().getPlayer().getWorld().getChunk(context.getSource().getPlayer().getBlockPos());
+				int air_count = FaeComponentRegistry.DREAM_AIR.get(chunk).clear();
+				int block_count = FaeComponentRegistry.DREAM_BLOCKS.get(chunk).clear();
+				
+				context.getSource().sendFeedback(() -> Text.literal("Deleted "+air_count+" dream air and "+block_count+" dream blocks"), false);
+				return 1;
+			})
+		);
+	}
+	private static LiteralCommandNode<ServerCommandSource> interlope(CommandDispatcher<ServerCommandSource> dispatcher, CommandRegistryAccess registryAccess, RegistrationEnvironment environment) {
+		return dispatcher.register(
+			CommandManager
+			.literal("interlope")
+			.requires(source -> source.hasPermissionLevel(2))
+			.then(CommandManager.argument("value", BoolArgumentType.bool())
+			.executes(context -> 
+			{
+				boolean value = BoolArgumentType.getBool(context, "value");
+				FaeUtil.setInterlope(context.getSource().getPlayer(), value);
+				context.getSource().sendFeedback(() -> Text.literal("Set interlope to %s".formatted(value)), false);
+					
+				return 1;
+		}))
+		);
 	}
 }
