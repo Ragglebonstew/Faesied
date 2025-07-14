@@ -96,8 +96,7 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 	@Override
 	public boolean pushPosFromQueue(BlockPos pos) {
 		if(this.posQueue.remove(pos.asLong())) {
-			this.addPosToList(pos);
-			return true;
+			return this.addPosToList(pos);
 		}
 		return false;
 	}
