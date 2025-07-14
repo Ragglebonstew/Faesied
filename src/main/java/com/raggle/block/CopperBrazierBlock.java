@@ -23,7 +23,7 @@ import net.minecraft.world.World;
 public class CopperBrazierBlock extends Block {
 
 	public CopperBrazierBlock(Settings settings) {
-		super(settings.nonOpaque());
+		super(settings.nonOpaque().noBlockBreakParticles().breakInstantly());
 	}
 	@Override
     public VoxelShape getOutlineShape(BlockState state, BlockView view, BlockPos pos, ShapeContext context) {
