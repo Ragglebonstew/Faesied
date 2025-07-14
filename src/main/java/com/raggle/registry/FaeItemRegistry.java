@@ -17,6 +17,7 @@ public class FaeItemRegistry {
 	public static final DreamResin DREAM_RESIN = new DreamResin();
 	public static final BunnyPlushItem BUNNY_PLUSH = new BunnyPlushItem(FaeBlockRegistry.BUNNY_PLUSH, new FabricItemSettings());
 	public static final ResinHorn RESIN_HORN = new ResinHorn();
+	public static final BlockItem COPPER_BRAZIER = new BlockItem(FaeBlockRegistry.COPPER_BRAZIER, new FabricItemSettings());
 	
 	public static void init() {
 		
@@ -27,6 +28,8 @@ public class FaeItemRegistry {
 		
 		Registry.register(Registries.ITEM, new Identifier(HalfDream.MOD_ID, "bunny_plush"), BUNNY_PLUSH);
 		Registry.register(Registries.ITEM, new Identifier(HalfDream.MOD_ID, "resin_horn"), RESIN_HORN);
+		Registry.register(Registries.ITEM, new Identifier(HalfDream.MOD_ID, "copper_brazier"), COPPER_BRAZIER);
+
 
 	}
 }
