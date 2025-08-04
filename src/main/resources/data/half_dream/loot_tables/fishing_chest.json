@@ -1,0 +1,36 @@
+{
+  "type": "minecraft:fishing",
+  "pools": [
+    {
+      "rolls": 1,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "minecraft:chest",
+          "functions": [
+            {
+              "function": "minecraft:set_contents",
+              "type": "minecraft:chest",
+              "entries": [
+                {
+                  "type": "minecraft:item",
+                  "name": "half_dream:bunny_plush",
+                  "conditions": []
+                }
+              ],
+              "conditions": []
+            }
+          ],
+          "conditions": []
+        }
+      ],
+      "conditions": [
+        {
+          "condition": "minecraft:random_chance",
+          "chance": 0.1
+        }
+      ]
+    }
+  ],
+  "functions": []
+}

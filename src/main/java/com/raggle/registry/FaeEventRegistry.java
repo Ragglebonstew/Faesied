@@ -7,12 +7,14 @@ import com.mojang.brigadier.arguments.BoolArgumentType;
 import com.mojang.brigadier.arguments.IntegerArgumentType;
 import com.mojang.brigadier.tree.LiteralCommandNode;
 import com.raggle.FaeUtil;
+import com.raggle.HalfDream;
 import com.raggle.util.DreamState;
 
 import dev.onyxstudios.cca.api.v3.entity.PlayerCopyCallback;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.event.player.UseBlockCallback;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.entity.BlockEntity;
@@ -23,6 +25,8 @@ import net.minecraft.entity.ItemEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.item.ItemStack;
+import net.minecraft.loot.LootPool;
+import net.minecraft.loot.entry.LootTableEntry;
 import net.minecraft.server.command.CommandManager;
 import net.minecraft.server.command.CommandManager.RegistrationEnvironment;
 import net.minecraft.server.command.ServerCommandSource;
@@ -30,6 +34,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -47,6 +52,17 @@ public class FaeEventRegistry {
 		CommandRegistrationCallback.EVENT.register(FaeEventRegistry::dreamstate);
 		CommandRegistrationCallback.EVENT.register(FaeEventRegistry::dreamclear);
 		CommandRegistrationCallback.EVENT.register(FaeEventRegistry::interlope);
+		
+		LootTableEvents.MODIFY.register((resourceManager, lootManager, id, tableBuilder, source) -> {
+			Identifier fishingID = new Identifier("gameplay/fishing/fish");
+		    if (source.isBuiltin() && fishingID.equals(id)) {
+	            
+		        LootPool.Builder poolBuilder = LootPool.builder()
+	                .with(LootTableEntry.builder(new Identifier(HalfDream.MOD_ID, "fishing_chest")));
+		        
+		        tableBuilder.pool(poolBuilder);
+		    }
+		});
 	}
 	
 	private static void afterRespawn(ServerPlayerEntity copy, ServerPlayerEntity original, boolean wasDeath) {
