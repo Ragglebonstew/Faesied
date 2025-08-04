@@ -3,20 +3,14 @@ package com.raggle.item;
 import java.util.Iterator;
 import java.util.Optional;
 
-import org.joml.Math;
-
 import com.raggle.FaeUtil;
-import com.raggle.block.InterloperPortalBlock;
-import com.raggle.registry.FaeBlockRegistry;
 import com.raggle.registry.FaeTagRegistry;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.minecraft.block.BlockState;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Instrument;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUsageContext;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
 import net.minecraft.registry.Registries;
@@ -30,7 +24,6 @@ import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
@@ -62,7 +55,6 @@ public class ResinHorn extends Item {
 				if(pos != null) {
 					double distance = pos.getSquaredDistance(user.getX(), 0, user.getZ());
 					user.sendMessage(Text.of("It's coming from "+pos.getX()+", "+pos.getY()+", "+pos.getZ()));
-					//FaeUtil.setInterlope(user, true);
 					if(distance < 4*4) {
 						FaeUtil.setInterlope(user, true);
 					}
