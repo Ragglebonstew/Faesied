@@ -22,7 +22,7 @@ public class FaeUtil {
 	
 	public static DreamState getDreamState(Entity e) {
 		Optional<DreamEntityComponent> op = FaeComponentRegistry.DREAM_ENTITY.maybeGet(e);
-		if(op.isEmpty())
+		if(op.isEmpty() || op.get().getDream() == null)
 			return DreamState.AWAKE;
 		return op.get().getDream();
 	}
