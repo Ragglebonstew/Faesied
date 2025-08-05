@@ -1,0 +1,56 @@
+{
+	"schemaVersion": 1,
+	"id": "half_dream",
+	"version": "${version}",
+	"name": "Half Dream",
+	"description": "Enter the dream world on the back of the undead.",
+	"authors": [
+		"Ragglebonstew"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/Ragglebonstew/Faesied"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/half_dream/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"com.raggle.HalfDream"
+		],
+		"client": [
+			"com.raggle.HalfDreamClient"
+		],
+		"cardinal-components": [
+			"com.raggle.registry.FaeComponentRegistry"
+		]
+	},
+	"mixins": [
+		"half_dream.mixins.json",
+		{
+			"config": "half_dream.client.mixins.json",
+			"environment": "client"
+		},
+		{
+			"config": "half_dream.compat.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.20.1",
+		"java": ">=17",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	},
+    "custom": {
+        "cardinal-components": [
+        	"half_dream:dream_air",
+        	"half_dream:dream_blocks",
+       		"half_dream:dream_entity",
+        	"half_dream:dream_player"
+        ]
+    }
+}
