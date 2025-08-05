@@ -8,6 +8,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtil;
+import com.raggle.HalfDream;
 import com.raggle.util.DreamState;
 
 import net.minecraft.block.AbstractBlock;
@@ -18,11 +19,15 @@ import net.minecraft.block.ShapeContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemPlacementContext;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.ChunkPos;
 import net.minecraft.util.shape.VoxelShape;
 import net.minecraft.util.shape.VoxelShapes;
 import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.ChunkStatus;
 
 @Mixin(AbstractBlock.AbstractBlockState.class)
 public abstract class AbstractBlockStateMixin {
@@ -75,8 +80,14 @@ public abstract class AbstractBlockStateMixin {
 	}*/
 
 	//handles light passage for dream blocks
-	//@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
+	@Inject(method = "getOpacity", at = @At("HEAD"), cancellable = true)
 	private void getOpacity(BlockView world, BlockPos pos, CallbackInfoReturnable<Integer> cir) {
+		if(world instanceof ServerWorld sw) {
+			ChunkPos chunkPos = new ChunkPos(pos);
+			Chunk chunk = sw.getChunk(chunkPos.getRegionX(), chunkPos.getRegionZ(), ChunkStatus.EMPTY, false);
+			if(chunk != null)
+				return;
+		}
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(0);
 		}
