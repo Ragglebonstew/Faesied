@@ -13,12 +13,14 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.nbt.NbtElement;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.RegistryKey;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.registry.tag.InstrumentTags;
 import net.minecraft.registry.tag.TagKey;
+import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -29,6 +31,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.UseAction;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 
@@ -50,11 +53,14 @@ public class ResinHorn extends Item {
 			playSound(world, user, instrument);
 			user.getItemCooldownManager().set(this, instrument.useDuration());
 			user.incrementStat(Stats.USED.getOrCreateStat(this));
-			if(world instanceof ServerWorld serverWorld) {
-				BlockPos pos = serverWorld.locateStructure(FaeTagRegistry.RESIN_HORN_LOCATED, user.getBlockPos(), 160, false);
-				if(pos != null) {
-					double distance = pos.getSquaredDistance(user.getX(), 0, user.getZ());
-					user.sendMessage(Text.of("It's coming from "+pos.getX()+", "+pos.getY()+", "+pos.getZ()));
+			if(world instanceof ServerWorld serverWorld && user instanceof ServerPlayerEntity spe) {
+				BlockPos portalPos = serverWorld.locateStructure(FaeTagRegistry.RESIN_HORN_LOCATED, user.getBlockPos(), 160, false);
+				if(portalPos != null) {
+					double distance = portalPos.getSquaredDistance(user.getX(), 0, user.getZ());
+					Vec3d portalDir = portalPos.toCenterPos().subtract(spe.getEyePos()).normalize();
+					Vec3d particlePos = portalDir.multiply(10).add(spe.getEyePos());
+					serverWorld.spawnParticles(spe, ParticleTypes.SONIC_BOOM, false, particlePos.getX(), spe.getEyeY(), particlePos.getZ(), 5, 1, 0, 1, 3);
+					//user.sendMessage(Text.of("It's coming from "+portalPos.getX()+", "+portalPos.getY()+", "+portalPos.getZ()));
 					if(distance < 4*4) {
 						FaeUtil.setInterlope(user, true);
 					}
