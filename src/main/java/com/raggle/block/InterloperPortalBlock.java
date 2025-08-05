@@ -28,6 +28,8 @@ import net.minecraft.fluid.Fluids;
 import net.minecraft.item.ItemPlacementContext;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
+import net.minecraft.sound.SoundCategory;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.Properties;
@@ -168,6 +170,7 @@ public class InterloperPortalBlock extends BlockWithEntity implements Waterlogga
 		if (!state.get(ACTIVE) && world.getTime() % 20L == 0L && checkNerabyInterlopedPlayers(world, pos, state)) {
 			world.setBlockState(pos, state.with(ACTIVE, true));
 			world.scheduleBlockTick(pos, state.getBlock(), ACTIVE_TICKS);
+			world.playSound(null, pos, SoundEvents.ENTITY_WITHER_DEATH, SoundCategory.BLOCKS);
 		}
 		if(world.getTime() % 20L == 0L) {
 			setDreamBlocks(world, pos, !state.get(ACTIVE));
