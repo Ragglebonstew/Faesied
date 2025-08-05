@@ -4,9 +4,14 @@ import java.util.Iterator;
 import java.util.Optional;
 
 import com.raggle.FaeUtil;
+import com.raggle.networking.FaeMessaging;
 import com.raggle.registry.FaeTagRegistry;
+import com.raggle.util.DreamState;
 
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
+import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Instrument;
 import net.minecraft.item.Item;
@@ -24,6 +29,7 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.sound.SoundEvents;
 import net.minecraft.stat.Stats;
 import net.minecraft.text.Text;
 import net.minecraft.util.Hand;
@@ -38,6 +44,8 @@ import net.minecraft.world.event.GameEvent;
 public class ResinHorn extends Item {
 
 	private final TagKey<Instrument> instrumentTag;
+	private int portalResponseTimer;
+	private BlockPos portalResponsePos;
 	
 	public ResinHorn() {
 		super(new FabricItemSettings().fireproof());
@@ -57,16 +65,21 @@ public class ResinHorn extends Item {
 				BlockPos portalPos = serverWorld.locateStructure(FaeTagRegistry.RESIN_HORN_LOCATED, user.getBlockPos(), 160, false);
 				if(portalPos != null) {
 					double distance = portalPos.getSquaredDistance(user.getX(), 0, user.getZ());
-					Vec3d portalDir = portalPos.toCenterPos().subtract(spe.getEyePos()).normalize();
-					Vec3d particlePos = portalDir.multiply(10).add(spe.getEyePos());
-					serverWorld.spawnParticles(spe, ParticleTypes.SONIC_BOOM, false, particlePos.getX(), spe.getEyeY(), particlePos.getZ(), 5, 1, 0, 1, 3);
-					//user.sendMessage(Text.of("It's coming from "+portalPos.getX()+", "+portalPos.getY()+", "+portalPos.getZ()));
 					if(distance < 4*4) {
 						FaeUtil.setInterlope(user, true);
 					}
+					else {
+						double particleOffset = 20;
+						Vec3d portalDir = portalPos.toCenterPos().subtract(spe.getEyePos()).normalize();
+						Vec3d particlePos = portalDir.multiply(particleOffset).add(spe.getEyePos());
+						
+						this.portalResponsePos = BlockPos.ofFloored(particlePos.getX(), spe.getEyeY(), particlePos.getZ());
+						this.portalResponseTimer = 100;
+						//user.sendMessage(Text.of("It's coming from "+portalPos.getX()+", "+portalPos.getY()+", "+portalPos.getZ()));
+					}
 				}
 				else {
-					user.sendMessage(Text.of("No response..."));
+					//user.sendMessage(Text.of("No response..."));
 				}
 			}
 			return TypedActionResult.consume(itemStack);
@@ -74,6 +87,18 @@ public class ResinHorn extends Item {
 			return TypedActionResult.fail(itemStack);
 		}
 	}
+	@Override
+	public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected) {
+		if(world instanceof ServerWorld serverWorld && entity instanceof ServerPlayerEntity spe) {
+			if(this.portalResponseTimer == 0 && this.portalResponsePos != null) {
+				serverWorld.spawnParticles(spe, ParticleTypes.SONIC_BOOM, false, this.portalResponsePos.getX(), this.portalResponsePos.getY(), this.portalResponsePos.getZ(), 1, 1, 0, 1, 3);
+				serverWorld.playSound(null, BlockPos.ofFloored(this.portalResponsePos.getX(), this.portalResponsePos.getY(), this.portalResponsePos.getZ()), SoundEvents.ENTITY_WITHER_AMBIENT, SoundCategory.RECORDS);
+				this.portalResponsePos = null;
+			}
+			this.portalResponseTimer = Math.max(this.portalResponseTimer - 1, 0);
+		}
+	}
+	
 	@Override
 	public UseAction getUseAction(ItemStack stack) {
 		return UseAction.TOOT_HORN;
