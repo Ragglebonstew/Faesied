@@ -8,7 +8,6 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 import com.raggle.FaeUtil;
-import com.raggle.HalfDream;
 import com.raggle.util.DreamState;
 
 import net.minecraft.block.AbstractBlock;
@@ -91,7 +90,6 @@ public abstract class AbstractBlockStateMixin {
 		if(FaeUtil.isDreamBlock(pos, world)) {
 			cir.setReturnValue(0);
 		}
-		//*/
 	}
 	
 	@Inject(method = "onStateReplaced", at = @At("TAIL"), cancellable = false)
@@ -108,38 +106,4 @@ public abstract class AbstractBlockStateMixin {
 			cir.setReturnValue(false);
 		}
 	}
-	
-	
-	//Endless light wrangling below (Everything is just to get light to pass through dream blocks)
-	
-	//This method completely also bricks world generation apparently
-	/*
-	@Inject(method = "getCullingFace", at = @At("HEAD"), cancellable = true)
-	private void getCullingFace(BlockView world, BlockPos pos, Direction direction, CallbackInfoReturnable<VoxelShape> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(VoxelShapes.empty());
-		}
-	}*/
-	/*
-	@Inject(method = "isTranslucent", at = @At("HEAD"), cancellable = true)
-	private void isTranslucent(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(true);
-		}
-	}*/
-	/*
-	@Inject(method = "getAmbientOcclusionLightLevel", at = @At("HEAD"), cancellable = true)
-	private void getAmbientOcclusionLightLevel(BlockView world, BlockPos pos, CallbackInfoReturnable<Float> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(1.0F);
-		}
-	}*/
-	/*
-	@Inject(method = "isSolidBlock", at = @At("HEAD"), cancellable = true)
-	private void isSolidBlock(BlockView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir) {
-		if(FaeUtil.isDreamBlock(pos, world)) {
-			cir.setReturnValue(false);
-		}
-	}
-	*/
 }
