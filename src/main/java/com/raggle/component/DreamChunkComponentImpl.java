@@ -2,8 +2,10 @@ package com.raggle.component;
 
 import java.util.ArrayList;
 
+import com.ibm.icu.text.RelativeDateTimeFormatter.Direction;
 import com.raggle.api.DreamChunkComponent;
 import com.raggle.registry.FaeComponentRegistry;
+import com.raggle.util.DreamArea;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.nbt.NbtCompound;
@@ -16,12 +18,14 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 
 	private final Chunk provider;
 	private ArrayList<Long> posList;
+	private ArrayList<DreamArea> areaList;
 	private ArrayList<Long> posQueue;
 	private long renderPos;
 	
 	public DreamChunkComponentImpl(Chunk chunk) {
 		this.provider = chunk;
 		this.posList = new ArrayList<Long>();
+		this.areaList = new ArrayList<DreamArea>();
 		this.posQueue = new ArrayList<Long>();
 	}
 
