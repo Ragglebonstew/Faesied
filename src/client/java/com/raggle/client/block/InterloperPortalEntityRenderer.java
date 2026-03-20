@@ -40,12 +40,10 @@ public class InterloperPortalEntityRenderer<T extends InterloperBlockEntity> imp
 		
 		World world = entity.getWorld();
 		ClientPlayerEntity player = FaeUtilClient.getClientPlayer();
-		double sdistance = player.squaredDistanceTo(entity.getPos().getX(),entity.getPos().getY(), entity.getPos().getZ());
+        assert player != null;
+        double sdistance = player.squaredDistanceTo(entity.getPos().getX(),entity.getPos().getY(), entity.getPos().getZ());
 		
-		if(world == null 
-				|| player == null
-				|| !entity.getCachedState().get(InterloperPortalBlock.ACTIVE)
-				|| sdistance > range
+		if(world == null || !entity.getCachedState().get(InterloperPortalBlock.ACTIVE) || sdistance > range
 		) {
 			return;
 		}
