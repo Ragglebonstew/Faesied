@@ -56,12 +56,14 @@ public class FaeUtil {
 		DreamChunkComponent dreamChunk = getDreamChunkComponent(pos, world, key);
 		if(dreamChunk != null) {
 			if(append) {
-				HalfDream.LOGGER.debug("Adding "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
-				return dreamChunk.addPosToList(pos);
+                HalfDream.LOGGER.debug("Adding {}, {}, {} to {}", pos.getX(), pos.getY(), pos.getZ(), key);
+				dreamChunk.addPosToList(pos);
+				return true;
 			}
 			else {
-				HalfDream.LOGGER.debug("Removing "+pos.getX()+", "+pos.getY()+", "+pos.getZ()+" to "+key);
-				return dreamChunk.removePosFromList(pos);
+                HalfDream.LOGGER.debug("Removing {}, {}, {} to {}", pos.getX(), pos.getY(), pos.getZ(), key);
+				dreamChunk.removePosFromList(pos);
+				return true;
 			}	
 		}
 		return false;
@@ -73,7 +75,7 @@ public class FaeUtil {
 		}
 		return false;
 	}
-	private static @Nullable DreamChunkComponent getDreamChunkComponent(BlockPos pos, @Nullable BlockView world, ComponentKey<DreamChunkComponent> key) {
+	public static @Nullable DreamChunkComponent getDreamChunkComponent(BlockPos pos, @Nullable BlockView world, ComponentKey<DreamChunkComponent> key) {
 		Chunk chunk = null;
 		
 		if(world instanceof World w) {
@@ -83,16 +85,13 @@ public class FaeUtil {
 			chunk = c;
 		}
 		Optional<DreamChunkComponent> op = key.maybeGet(chunk);
-		if(op.isEmpty())
-			return null;
-		return op.get();
-	}
-	public static boolean queueDreamBlock(BlockPos pos, World world) {
+        return op.orElse(null);
+    }
+	public static void queueDreamBlock(BlockPos pos, World world) {
 		DreamChunkComponent dreamChunk = getDreamChunkComponent(pos, world, FaeComponentRegistry.DREAM_BLOCKS);
 		if(dreamChunk != null) {
-			return dreamChunk.addPosToQueue(pos);
+			dreamChunk.addPosToQueue(pos);
 		}
-		return false;
 	}
 	public static boolean pushDreamBlock(BlockPos pos, World world) {
 		DreamChunkComponent dreamChunk = getDreamChunkComponent(pos, world, FaeComponentRegistry.DREAM_BLOCKS);
