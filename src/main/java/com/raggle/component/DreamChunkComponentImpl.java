@@ -1,11 +1,12 @@
 package com.raggle.component;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.BitSet;
 
-import com.ibm.icu.text.RelativeDateTimeFormatter.Direction;
+import com.raggle.HalfDream;
 import com.raggle.api.DreamChunkComponent;
 import com.raggle.registry.FaeComponentRegistry;
-import com.raggle.util.DreamArea;
 
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
 import net.minecraft.nbt.NbtCompound;
@@ -17,33 +18,34 @@ import net.minecraft.world.chunk.Chunk;
 public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedComponent {
 
 	private final Chunk provider;
-	private ArrayList<Long> posList;
-	private ArrayList<DreamArea> areaList;
-	private ArrayList<Long> posQueue;
+	private final BitSet[] cubeList;
+	private final ArrayList<Long> posQueue;
 	private long renderPos;
 	
 	public DreamChunkComponentImpl(Chunk chunk) {
 		this.provider = chunk;
-		this.posList = new ArrayList<Long>();
-		this.areaList = new ArrayList<DreamArea>();
-		this.posQueue = new ArrayList<Long>();
+		this.cubeList = new BitSet[chunk.getHeight() >> 4];
+		this.posQueue = new ArrayList<>();
 	}
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {
-		this.posList.clear();
-		for(long entry : tag.getLongArray("dreampos")) {
-			this.addPosToList(BlockPos.fromLong(entry));
+		for (int i = 0; i < this.cubeList.length; i++) { // loop through subchunks of this chunk
+			byte[] blocks = tag.getByteArray("dream-cube-"+i);
+			BitSet set = BitSet.valueOf(blocks);
+			if (!set.isEmpty()) this.cubeList[i] = set;
+			else this.cubeList[i] = null;
 		}
 	}
 
 	@Override
 	public void writeToNbt(NbtCompound tag) {
-		long[] posList = new long[this.posList.size()];
-		for(int i = 0; i < posList.length; i++) {
-			posList[i] = this.posList.get(i);
+		for (int i = 0; i < this.cubeList.length; i++) { // loop through subchunks of this chunk
+			BitSet set = this.cubeList[i];
+			if(set == null) continue;
+			if (set.isEmpty()) tag.putByteArray("dream-cube-"+i, new byte[0]);
+			else tag.putByteArray("dream-cube-"+i, set.toByteArray());
 		}
-		tag.putLongArray("dreampos", posList);
 	}
 	@Override
 	public void writeSyncPacket(PacketByteBuf buf, ServerPlayerEntity recipient) {
@@ -65,28 +67,33 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 
 	@Override
 	public boolean contains(BlockPos pos) {
-		return !this.posList.isEmpty() && posList.contains(pos.asLong());
+
+		int i = this.getSectionIndex(pos);
+		if (i < 0) {
+			// HalfDream.LOGGER.error("pos is {}, and bottom y is {}, and i is {}", pos.getY(), this.provider.getBottomY(), i);
+			return false;
+		}
+		BitSet set = this.cubeList[i];
+		return set != null && set.get(this.getSectionPos(pos));
+
 	}
 
 	@Override
-	public boolean addPosToList(BlockPos pos) {
-		if(!posList.contains(pos.asLong())) {
-			this.posList.add(pos.asLong());
-			this.renderPos = pos.asLong();
-			this.sync();
-			return true;
-		}
-		return false;
+	public void addPosToList(BlockPos pos) {
+
+		int i = this.getSectionIndex(pos);
+		if (this.cubeList[i] == null) this.cubeList[i] = new BitSet(16*16*16);
+		this.cubeList[i].set(this.getSectionPos(pos));
 	}
 
 	@Override
-	public boolean removePosFromList(BlockPos pos) {
-		if(this.posList.remove(pos.asLong())) {
-			this.renderPos = pos.asLong();
-			this.sync();
-			return true;
-		}
-		return false;
+	public void removePosFromList(BlockPos pos) {
+
+		int i = this.getSectionIndex(pos);
+		if (i >= 0 && this.cubeList[i] != null) this.cubeList[i].clear(this.getSectionPos(pos));
+
+		this.renderPos = pos.asLong();
+		this.sync();
 	}
 	@Override
 	public boolean addPosToQueue(BlockPos pos) {
@@ -100,15 +107,17 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 	@Override
 	public boolean pushPosFromQueue(BlockPos pos) {
 		if(this.posQueue.remove(pos.asLong())) {
-			return this.addPosToList(pos);
+			this.addPosToList(pos);
 		}
-		return false;
+		return true;
 	}
 	
 	@Override
 	public int clear() {
-		int count = this.posList.size();
-		this.posList.clear();
+		int count = Arrays.stream(this.cubeList).mapToInt(set -> set == null ? 0 : set.cardinality()).sum();
+		for (BitSet set: this.cubeList) {
+			if (set != null) set.clear();
+		}
 		this.sync();
 		return count;
 	}
@@ -122,5 +131,14 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 	private void sync() {
 		FaeComponentRegistry.DREAM_AIR.sync(provider);
 		FaeComponentRegistry.DREAM_BLOCKS.sync(provider);
+	}
+	private int getSectionIndex(BlockPos pos) {
+		return (pos.getY() - this.provider.getBottomY()) >> 4;
+	}
+	private int getSectionPos(BlockPos pos) {
+		int x = (pos.getX() & 15);
+		int y = (pos.getY() & 15) << 4;
+		int z = (pos.getZ() & 15) << 8;
+		return x+y+z;
 	}
 }
