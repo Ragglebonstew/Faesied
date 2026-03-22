@@ -5,18 +5,18 @@ import net.minecraft.util.math.BlockPos;
 
 public interface DreamChunkComponent extends ComponentV3 {
 	
-	public boolean contains(BlockPos pos);
+	boolean contains(BlockPos pos);
 
-	public boolean addPosToList(BlockPos pos);
+	void addPosToList(BlockPos pos);
 	
-	public boolean removePosFromList(BlockPos pos);
+	void removePosFromList(BlockPos pos);
 	
-	public int clear();
+	int clear();
 
 	long getRenderPos();
 
 	boolean addPosToQueue(BlockPos pos);
 
 	boolean pushPosFromQueue(BlockPos pos);
-	
+
 }
