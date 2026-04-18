@@ -18,30 +18,30 @@ import net.minecraft.world.chunk.Chunk;
 public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedComponent {
 
 	private final Chunk provider;
-	private final BitSet[] cubeList;
+	private final BitSet[] sectionList;
 	private final ArrayList<Long> posQueue;
 	private long renderPos;
 	
 	public DreamChunkComponentImpl(Chunk chunk) {
 		this.provider = chunk;
-		this.cubeList = new BitSet[chunk.getHeight() >> 4];
+		this.sectionList = new BitSet[chunk.getHeight() >> 4];
 		this.posQueue = new ArrayList<>();
 	}
 
 	@Override
 	public void readFromNbt(NbtCompound tag) {
-		for (int i = 0; i < this.cubeList.length; i++) { // loop through subchunks of this chunk
+		for (int i = 0; i < this.sectionList.length; i++) { // loop through subchunks of this chunk
 			byte[] blocks = tag.getByteArray("dream-cube-"+i);
 			BitSet set = BitSet.valueOf(blocks);
-			if (!set.isEmpty()) this.cubeList[i] = set;
-			else this.cubeList[i] = null;
+			if (!set.isEmpty()) this.sectionList[i] = set;
+			else this.sectionList[i] = null;
 		}
 	}
 
 	@Override
 	public void writeToNbt(NbtCompound tag) {
-		for (int i = 0; i < this.cubeList.length; i++) { // loop through subchunks of this chunk
-			BitSet set = this.cubeList[i];
+		for (int i = 0; i < this.sectionList.length; i++) { // loop through subchunks of this chunk
+			BitSet set = this.sectionList[i];
 			if(set == null) continue;
 			if (set.isEmpty()) tag.putByteArray("dream-cube-"+i, new byte[0]);
 			else tag.putByteArray("dream-cube-"+i, set.toByteArray());
@@ -73,7 +73,7 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 			// HalfDream.LOGGER.error("pos is {}, and bottom y is {}, and i is {}", pos.getY(), this.provider.getBottomY(), i);
 			return false;
 		}
-		BitSet set = this.cubeList[i];
+		BitSet set = this.sectionList[i];
 		return set != null && set.get(this.getSectionPos(pos));
 
 	}
@@ -82,15 +82,15 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 	public void addPosToList(BlockPos pos) {
 
 		int i = this.getSectionIndex(pos);
-		if (this.cubeList[i] == null) this.cubeList[i] = new BitSet(16*16*16);
-		this.cubeList[i].set(this.getSectionPos(pos));
+		if (this.sectionList[i] == null) this.sectionList[i] = new BitSet(16*16*16);
+		this.sectionList[i].set(this.getSectionPos(pos));
 	}
 
 	@Override
 	public void removePosFromList(BlockPos pos) {
 
 		int i = this.getSectionIndex(pos);
-		if (i >= 0 && this.cubeList[i] != null) this.cubeList[i].clear(this.getSectionPos(pos));
+		if (i >= 0 && this.sectionList[i] != null) this.sectionList[i].clear(this.getSectionPos(pos));
 
 		this.renderPos = pos.asLong();
 		this.sync();
@@ -114,8 +114,8 @@ public class DreamChunkComponentImpl implements DreamChunkComponent, AutoSyncedC
 	
 	@Override
 	public int clear() {
-		int count = Arrays.stream(this.cubeList).mapToInt(set -> set == null ? 0 : set.cardinality()).sum();
-		for (BitSet set: this.cubeList) {
+		int count = Arrays.stream(this.sectionList).mapToInt(set -> set == null ? 0 : set.cardinality()).sum();
+		for (BitSet set: this.sectionList) {
 			if (set != null) set.clear();
 		}
 		this.sync();

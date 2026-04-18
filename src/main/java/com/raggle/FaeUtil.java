@@ -93,12 +93,11 @@ public class FaeUtil {
 			dreamChunk.addPosToQueue(pos);
 		}
 	}
-	public static boolean pushDreamBlock(BlockPos pos, World world) {
+	public static void pushDreamBlock(BlockPos pos, World world) {
 		DreamChunkComponent dreamChunk = getDreamChunkComponent(pos, world, FaeComponentRegistry.DREAM_BLOCKS);
 		if(dreamChunk != null) {
-			return dreamChunk.pushPosFromQueue(pos);
+			dreamChunk.pushPosFromQueue(pos);
 		}
-		return false;
 	}
 	
 	public static boolean canInteract(Entity e1, Entity e2) {
